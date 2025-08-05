@@ -1,0 +1,53 @@
+import { 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  signOut as firebaseSignOut,
+  User,
+  UserCredential,
+  updateProfile
+} from 'firebase/auth';
+import { auth } from './config';
+
+export const signUp = async (email: string, password: string, displayName?: string): Promise<UserCredential> => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    
+    if (displayName && userCredential.user) {
+      await updateProfile(userCredential.user, {
+        displayName: displayName
+      });
+    }
+    
+    return userCredential;
+  } catch (error: any) {
+    console.error('Sign up error:', error);
+    throw new Error(error.message || 'Failed to create account');
+  }
+};
+
+export const signIn = async (email: string, password: string): Promise<UserCredential> => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    return userCredential;
+  } catch (error: any) {
+    console.error('Sign in error:', error);
+    throw new Error(error.message || 'Failed to sign in');
+  }
+};
+
+export const signOut = async (): Promise<void> => {
+  try {
+    await firebaseSignOut(auth);
+  } catch (error: any) {
+    console.error('Sign out error:', error);
+    throw new Error(error.message || 'Failed to sign out');
+  }
+};
+
+export const getCurrentUser = (): User | null => {
+  return auth.currentUser;
+};
+
+export const isAuthenticated = (): boolean => {
+  return !!auth.currentUser;
+};
