@@ -1,15 +1,18 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const amiga = localFont({
+  src: "../assets/fonts/amiga4ever.woff2",
+  variable: "--font-amiga",
+  display: "swap",
+  preload: true,
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const dystopian = localFont({
+  src: "../assets/fonts/Sddystopian.otf",
+  variable: "--font-dystopian",
+  preload: true,
 });
 
 export const metadata: Metadata = {
@@ -24,9 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${amiga.variable} ${dystopian.variable} antialiased`}>
         {children}
       </body>
     </html>
