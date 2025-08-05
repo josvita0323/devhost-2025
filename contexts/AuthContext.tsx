@@ -9,6 +9,7 @@ interface AuthContextType {
     loading: boolean;
     signUp: (email: string, password: string, displayName?: string) => Promise<void>;
     signIn: (email: string, password: string) => Promise<void>;
+    signInWithGoogle: () => Promise<void>;
     signOut: () => Promise<void>;
 }
 
@@ -45,6 +46,11 @@ export const AuthProvider = ({ children }: { children: ReactNode; }) => {
         await firebaseSignIn(email, password);
     };
 
+    const signInWithGoogle = async () => {
+        const { signInWithGoogle: firebaseSignInWithGoogle } = await import('@/firebase/auth');
+        await firebaseSignInWithGoogle();
+    };
+
     const signOut = async () => {
         const { signOut: firebaseSignOut } = await import('@/firebase/auth');
         await firebaseSignOut();
@@ -55,6 +61,7 @@ export const AuthProvider = ({ children }: { children: ReactNode; }) => {
         loading,
         signUp,
         signIn,
+        signInWithGoogle,
         signOut,
     };
 
