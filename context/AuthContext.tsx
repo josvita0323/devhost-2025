@@ -7,8 +7,6 @@ import { auth } from '@/firebase/config';
 interface AuthContextType {
     user: User | null;
     loading: boolean;
-    signUp: (email: string, password: string, displayName?: string) => Promise<void>;
-    signIn: (email: string, password: string) => Promise<void>;
     signInWithGoogle: () => Promise<void>;
     signOut: () => Promise<void>;
 }
@@ -23,7 +21,7 @@ export const useAuth = () => {
     return context;
 };
 
-export const AuthProvider = ({ children }: { children: ReactNode; }) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -36,19 +34,10 @@ export const AuthProvider = ({ children }: { children: ReactNode; }) => {
         return unsubscribe;
     }, []);
 
-    const signUp = async (email: string, password: string, displayName?: string) => {
-        const { signUp: firebaseSignUp } = await import('@/firebase/auth');
-        await firebaseSignUp(email, password, displayName);
-    };
-
-    const signIn = async (email: string, password: string) => {
-        const { signIn: firebaseSignIn } = await import('@/firebase/auth');
-        await firebaseSignIn(email, password);
-    };
-
     const signInWithGoogle = async () => {
         const { signInWithGoogle: firebaseSignInWithGoogle } = await import('@/firebase/auth');
-        await firebaseSignInWithGoogle();
+        const cred = await firebaseSignInWithGoogle();
+        // add api call to create user in Firestore
     };
 
     const signOut = async () => {
@@ -59,8 +48,6 @@ export const AuthProvider = ({ children }: { children: ReactNode; }) => {
     const value: AuthContextType = {
         user,
         loading,
-        signUp,
-        signIn,
         signInWithGoogle,
         signOut,
     };
