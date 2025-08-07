@@ -44,8 +44,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (user) {
             setProfileLoading(true);
             user.getIdToken().then((token) => {
-                // First, try to create user (idempotent - won't duplicate)
-                fetch('/api/create-user', {
+                fetch('/api/v1/user/create', {
                     method: 'POST',
                     headers: { 
                         'Content-Type': 'application/json', 
@@ -54,7 +53,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 })
                 .then(() => {
                     // Then fetch the profile (user definitely exists now)
-                    return fetch('/api/user/profile', {
+                    return fetch('/api/v1/user/profile', {
                         headers: { Authorization: `Bearer ${token}` },
                     });
                 })
