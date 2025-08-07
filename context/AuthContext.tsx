@@ -37,7 +37,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const signInWithGoogle = async () => {
         const { signInWithGoogle: firebaseSignInWithGoogle } = await import('@/firebase/auth');
         const cred = await firebaseSignInWithGoogle();
-        // add api call to create user in Firestore
+        const user = cred.user;
+        const idToken = await user.getIdToken(); //to verify the authentcity of the user
+
+        try {
+            // Call secure API route to create user in Firestore (server-side)
+            await fetch('/api/create-user', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
+            });
+        } catch (error) {
+            console.error('Failed to create user in Firestore:', error);
+        }
     };
 
     const signOut = async () => {
