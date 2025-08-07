@@ -9,6 +9,9 @@ interface AuthContextType {
     loading: boolean;
     signInWithGoogle: () => Promise<void>;
     signOut: () => Promise<void>;
+    profile: any; //change this to proper type later
+    profileLoading: boolean;
+    setProfile: (profile: any) => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -24,6 +27,8 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
+    const [profile, setProfile] = useState(null);
+    const [profileLoading, setProfileLoading] = useState(true);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -33,6 +38,37 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         return unsubscribe;
     }, []);
+
+    //to cache the user profile data (fetches the data only once from the db when user is authenticated)
+    useEffect(() => {
+        if (user) {
+            setProfileLoading(true);
+            user.getIdToken().then((token) => {
+                fetch('/api/user/profile', {
+                    headers: { Authorization: `Bearer ${token}` },
+                })
+                    .then((res) => {
+                        if (!res.ok) {
+                            throw new Error('Failed to fetch profile');
+                        }
+                        return res.json();
+                    })
+                    .then((data) => {
+                        setProfile(data);
+                        setProfileLoading(false);
+                    })
+                    .catch((error) => {
+                        console.error('Error fetching profile:', error);
+                        setProfile(null);
+                        setProfileLoading(false);
+                    });
+            });
+        } else {
+            setProfile(null);
+            setProfileLoading(false);
+        }
+    }, [user]);
+
 
     const signInWithGoogle = async () => {
         const { signInWithGoogle: firebaseSignInWithGoogle } = await import('@/firebase/auth');
@@ -61,6 +97,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         loading,
         signInWithGoogle,
         signOut,
+        profile,
+        profileLoading,
+        setProfile,
     };
 
     return (
