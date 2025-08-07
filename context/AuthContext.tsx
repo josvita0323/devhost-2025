@@ -44,24 +44,35 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (user) {
             setProfileLoading(true);
             user.getIdToken().then((token) => {
-                fetch('/api/user/profile', {
-                    headers: { Authorization: `Bearer ${token}` },
+                // First, try to create user (idempotent - won't duplicate)
+                fetch('/api/create-user', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json', 
+                        Authorization: `Bearer ${token}` 
+                    },
                 })
-                    .then((res) => {
-                        if (!res.ok) {
-                            throw new Error('Failed to fetch profile');
-                        }
-                        return res.json();
-                    })
-                    .then((data) => {
-                        setProfile(data);
-                        setProfileLoading(false);
-                    })
-                    .catch((error) => {
-                        console.error('Error fetching profile:', error);
-                        setProfile(null);
-                        setProfileLoading(false);
+                .then(() => {
+                    // Then fetch the profile (user definitely exists now)
+                    return fetch('/api/user/profile', {
+                        headers: { Authorization: `Bearer ${token}` },
                     });
+                })
+                .then((res) => {
+                    if (!res.ok) {
+                        throw new Error(`Failed to fetch profile: ${res.status}`);
+                    }
+                    return res.json();
+                })
+                .then((data) => {
+                    setProfile(data);
+                    setProfileLoading(false);
+                })
+                .catch((error) => {
+                    console.error('Error fetching profile:', error);
+                    setProfile(null);
+                    setProfileLoading(false);
+                });
             });
         } else {
             setProfile(null);
@@ -72,19 +83,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const signInWithGoogle = async () => {
         const { signInWithGoogle: firebaseSignInWithGoogle } = await import('@/firebase/auth');
-        const cred = await firebaseSignInWithGoogle();
-        const user = cred.user;
-        const idToken = await user.getIdToken(); //to verify the authentcity of the user
-
-        try {
-            // Call secure API route to create user in Firestore (server-side)
-            await fetch('/api/create-user', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
-            });
-        } catch (error) {
-            console.error('Failed to create user in Firestore:', error);
-        }
+        await firebaseSignInWithGoogle();
+        // Profile creation and fetching will be handled by the useEffect above
     };
 
     const signOut = async () => {
