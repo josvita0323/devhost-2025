@@ -1,5 +1,6 @@
 import Hero from "@/components/Hero";
 import Timeline from "@/components/Timeline";
+import AboutDevhost from "@/components/AboutDevhost";
 import { Flame, MicVocal } from "lucide-react";
 
 export default function Home() {
@@ -27,6 +28,8 @@ export default function Home() {
     <div>
       <Hero />
       <Timeline startHour={8} endHour={18} markers={markers} />
+      <div className="h-screen">Hello</div>
+      <AboutDevhost/>
       <div className="h-screen">Hello</div>
     </div>
   );
