@@ -43,6 +43,7 @@
   --radius-xl: calc(var(--radius) + 4px);
   --font-amiga: var(--font-amiga);
   --font-dystopian: var(--font-dystopian);
+  --animate-spotlight: spotlight 2s ease 0.75s 1 forwards;
 }
 
 :root {
@@ -120,5 +121,16 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@keyframes spotlight {
+  0% {
+    opacity: 0;
+    transform: translate(-72%, -62%) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -40%) scale(1);
   }
 }
