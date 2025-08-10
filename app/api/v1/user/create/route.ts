@@ -16,7 +16,6 @@ export async function POST(req: NextRequest) {
       await userRef.set({
         name,
         email,
-        phone,
         createdAt: new Date().toISOString(),
         branch: '',
         college: '',
