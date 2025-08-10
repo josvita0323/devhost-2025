@@ -5,6 +5,14 @@ import { useAuth } from '@/context/AuthContext';
 import { useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -21,6 +29,7 @@ export default function ProfilePage() {
 
   const [isSaving, setIsSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     if (!loading && !user) {
@@ -53,6 +62,12 @@ export default function ProfilePage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!user) return;
+
+    if (!form.name || !form.email || !form.phone || !form.college || !form.branch || !form.year) {
+      setError('All fields are required.');
+      return;
+    }
+    setError('');
 
     setIsSaving(true);
     setSaved(false);
@@ -98,16 +113,15 @@ export default function ProfilePage() {
         <div className="bg-white rounded-lg shadow p-8">
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-2xl font-bold text-gray-900">Profile</h1>
-            <button
+            <Button
               onClick={handleLogout}
-              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition-colors"
+              className="bg-red-500 hover:bg-red-700 text-white font-medium px-4 py-2 rounded-md cursor-pointer"
             >
               Logout
-            </button>
+            </Button>
           </div>
 
           <form className="space-y-6 text-gray-900" onSubmit={handleSubmit}>
-            {/* Name & Email side by side */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <Label htmlFor="name" className="mb-2 block">Name</Label>
@@ -135,7 +149,6 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            {/* Phone & College side by side */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="phone" className="mb-2 block">Phone</Label>
@@ -146,6 +159,7 @@ export default function ProfilePage() {
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
                   placeholder="Phone number"
                   className="text-gray-900 placeholder:text-gray-500 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
                 />
               </div>
               <div>
@@ -157,11 +171,11 @@ export default function ProfilePage() {
                   onChange={(e) => setForm({ ...form, college: e.target.value })}
                   placeholder="Your college name"
                   className="text-gray-900 placeholder:text-gray-500 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
                 />
               </div>
             </div>
 
-            {/* Branch & Year side by side */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="branch" className="mb-2 block">Branch</Label>
@@ -172,31 +186,37 @@ export default function ProfilePage() {
                   onChange={(e) => setForm({ ...form, branch: e.target.value })}
                   placeholder="Branch"
                   className="text-gray-900 placeholder:text-gray-500 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
                 />
               </div>
               <div>
-                <Label htmlFor="year" className="mb-1 block">Year</Label>
-                <select
-                  id="year"
-                  value={form.year}
-                  onChange={(e) => setForm({ ...form, year: Number(e.target.value) })}
-                  className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder:text-gray-500"
+                <Label htmlFor="year" className="mb-2 block">Year</Label>
+                <Select
+                  value={String(form.year)}
+                  onValueChange={(value) => setForm({ ...form, year: Number(value) })}
                 >
-                  <option value={1}>1st Year</option>
-                  <option value={2}>2nd Year</option>
-                  <option value={3}>3rd Year</option>
-                  <option value={4}>4th Year</option>
-                </select>
+                  <SelectTrigger className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <SelectValue placeholder="Select Year" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="1">1st Year</SelectItem>
+                    <SelectItem value="2">2nd Year</SelectItem>
+                    <SelectItem value="3">3rd Year</SelectItem>
+                    <SelectItem value="4">4th Year</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 
-            <button
+            {error && <p className="text-red-500 text-sm">{error}</p>}
+
+            <Button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-md transition-colors disabled:opacity-50"
+              className="bg-black hover:bg-black/70 text-white px-6 py-2 rounded-md transition-colors disabled:opacity-50 cursor-pointer"
               disabled={isSaving || saved}
             >
               {isSaving ? 'Saving...' : saved ? 'Saved!' : 'Save'}
-            </button>
+            </Button>
           </form>
         </div>
       </div>
