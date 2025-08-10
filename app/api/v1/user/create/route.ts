@@ -1,4 +1,4 @@
-import { adminAuth, adminDb } from '@/firebase/admin';
+import { adminDb } from '@/firebase/admin';
 import { verifyToken } from '@/lib/verify-token';
 import { NextRequest, NextResponse } from 'next/server';
 
