@@ -1,63 +1,114 @@
 "use client";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useMotionValueEvent, useScroll } from "motion/react";
+import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
-type StickyScrollProps = {
+export const StickyScroll = ({
+  content,
+  contentClassName,
+}: {
   content: {
-    title: React.ReactNode;
-    description: React.ReactNode;
-    content: React.ReactNode;
+    title: string;
+    description: React.ReactNode; 
+    content?: React.ReactNode;
   }[];
-};
+  contentClassName?: string;
+}) => {
+  const [activeCard, setActiveCard] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
 
-export function StickyScroll({ content }: StickyScrollProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const { scrollYProgress } = useScroll({
+    container: ref,
+    offset: ["start start", "end start"],
+  });
+
+  const cardLength = content.length;
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    const cardsBreakpoints = content.map((_, index) => index / cardLength);
+    let closestBreakpointIndex = 0;
+    let minDistance = Infinity;
+    cardsBreakpoints.forEach((breakpoint, index) => {
+      const distance = Math.abs(latest - breakpoint);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestBreakpointIndex = index;
+      }
+    });
+    setActiveCard(closestBreakpointIndex);
+  });
+
+  const backgroundColors = [
+    "#0f172a", 
+    "#000000", 
+    "#171717", 
+  ];
+
+  const linearGradients = [
+    "linear-gradient(to bottom right, #06b6d4, #10b981)", 
+    "linear-gradient(to bottom right, #ec4899, #6366f1)", //temporary
+    "linear-gradient(to bottom right, #f97316, #eab308)", 
+  ];
+
+  const [backgroundGradient, setBackgroundGradient] = useState(
+    linearGradients[0]
+  );
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (!containerRef.current) return;
-      const { top, height } = containerRef.current.getBoundingClientRect();
-      const scrollPosition = window.innerHeight / 2 - top;
-      const sectionHeight = height / content.length;
-
-      let index = Math.floor(scrollPosition / sectionHeight);
-      index = Math.max(0, Math.min(index, content.length - 1));
-      setActiveIndex(index);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [content.length]);
+    setBackgroundGradient(linearGradients[activeCard % linearGradients.length]);
+  }, [activeCard]);
 
   return (
-    <div
-      ref={containerRef}
-      className="relative w-full flex flex-col md:flex-row scroll-smooth"
-      style={{ scrollBehavior: "smooth" }}
-    >
-      <div className="sticky top-20 h-[80vh] flex flex-col justify-center p-8 max-w-xl">
-        <h2 className="text-3xl font-bold">{content[activeIndex].title}</h2>
-        <p className="mt-4 text-lg text-muted-foreground">
-          {content[activeIndex].description}
-        </p>
-      </div>
+    <>
+      <motion.div
+        animate={{
+          backgroundColor:
+            backgroundColors[activeCard % backgroundColors.length],
+        }}
+        className="relative flex h-[30rem] justify-center space-x-10 overflow-y-auto rounded-md p-10"
+        ref={ref}
+      >
+        <div className="relative flex flex-col items-start px-4">
+          <div className="max-w-2xl">
+            {content.map((item, index) => (
+              <div key={item.title + index} className="my-20">
+                <motion.h2
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: activeCard === index ? 1 : 0.3 }}
+                  transition={{ ease: "easeInOut", duration: 0.5 }}
+                  className="text-2xl font-bold text-slate-100"
+                >
+                  {item.title}
+                </motion.h2>
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: activeCard === index ? 1 : 0.3 }}
+                  transition={{ ease: "easeInOut", duration: 0.5 }}
+                  className="text-lg mt-4 max-w-sm text-slate-300"
+                >
+                  {item.description}
+                </motion.p>
 
-      <div className="ml-auto w-full max-w-xl">
-        {content.map((item, i) => (
-          <div
-            key={i}
-            className={cn(
-              "min-h-[70vh] flex items-center justify-center my-20 transition-all duration-700 ease-in-out",
-              i === activeIndex
-                ? "opacity-100 pointer-events-auto translate-y-0"
-                : "opacity-30 pointer-events-none -translate-y-10"
-            )}
-          >
-            {item.content}
+                <div className="mt-4 block lg:hidden relative w-full max-w-xs aspect-square">
+                  {item.content}
+                </div>
+              </div>
+            ))}
+            <div className="h-40" />
           </div>
-        ))}
-      </div>
-    </div>
+        </div>
+
+        <div
+          style={{ background: backgroundGradient }}
+          className={cn(
+            "sticky top-10 hidden h-60 w-80 overflow-hidden rounded-md bg-white lg:block",
+            contentClassName
+          )}
+        >
+          {content[activeCard]?.content ?? null}
+        </div>
+      </motion.div>
+    </>
   );
-}
+};
