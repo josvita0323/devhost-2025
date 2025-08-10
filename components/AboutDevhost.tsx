@@ -90,7 +90,7 @@ export default function AboutDevhost() {
         <div>
           <h1
             ref={titleRef}
-            className="select-none text-3xl md:text-5xl font-bold pb-4"
+            className="select-none text-3xl md:text-5xl font-bold pb-4 font-dystopian"
           >
             {devhostData.title}
           </h1>
