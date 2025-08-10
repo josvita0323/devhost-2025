@@ -10,12 +10,13 @@ export async function POST(req: NextRequest) {
     const { uid } = decoded;
 
     const profileData = await req.json();
-    const { name, email, college, branch, bio } = profileData;
+    const { name, email, phone, college, branch, bio } = profileData;
 
     const userRef = adminDb.collection('users').doc(uid);
     await userRef.update({
       name,
       email,
+      phone,
       college,
       branch,
       bio,

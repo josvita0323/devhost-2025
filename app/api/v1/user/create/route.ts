@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
     const decoded = await verifyToken(req);
     if (!decoded) return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
 
-    const { uid, email, name } = decoded;
+    const { uid, email, name, phone } = decoded;
 
     const userRef = adminDb.collection('users').doc(uid);
     const userSnap = await userRef.get();
@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
       await userRef.set({
         name,
         email,
+        phone,
         createdAt: new Date().toISOString(),
         bio: '',
         branch: '',
