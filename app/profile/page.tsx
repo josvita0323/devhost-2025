@@ -17,9 +17,6 @@ export default function ProfilePage() {
     college: '',
     branch: '',
     year: 1,
-    bio: '',
-    github: '',
-    linkedin: ''
   });
 
   const [isSaving, setIsSaving] = useState(false);
@@ -39,10 +36,7 @@ export default function ProfilePage() {
         phone: profile.phone || '',
         college: profile.college || '',
         year: profile.year || 1,
-        branch: profile.branch || '',
-        bio: profile.bio || '',
-        github: profile.github || '',
-        linkedin: profile.linkedin || ''
+        branch: profile.branch || ''
       });
     }
   }, [profile]);
@@ -181,7 +175,7 @@ export default function ProfilePage() {
                 />
               </div>
               <div>
-                <Label htmlFor="year" className="mb-2 block">Year</Label>
+                <Label htmlFor="year" className="mb-1 block">Year</Label>
                 <select
                   id="year"
                   value={form.year}

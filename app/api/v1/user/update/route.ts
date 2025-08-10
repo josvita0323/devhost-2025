@@ -19,7 +19,6 @@ export async function POST(req: NextRequest) {
       phone,
       college,
       branch,
-      bio,
       updatedAt: new Date().toISOString(),
     });
 

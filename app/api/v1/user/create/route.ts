@@ -18,7 +18,6 @@ export async function POST(req: NextRequest) {
         email,
         phone,
         createdAt: new Date().toISOString(),
-        bio: '',
         branch: '',
         college: '',
         team_id: ''
