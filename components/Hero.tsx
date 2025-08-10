@@ -32,7 +32,7 @@ export default function Hero() {
           />
         </motion.div>
       </div>
-      <div className="relative h-screen bg-gradient-to-b from-zinc-950 via-zinc-950/95 via-70% to-black">
+      <div className="relative h-screen bg-gradient-to-b from-zinc-950 via-zinc-950/95 via-40% to-black">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{
@@ -50,7 +50,7 @@ export default function Hero() {
           />
         </motion.div>
 
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/95 via-black/70 to-transparent" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/95 via-black/80 to-transparent" />
       </div>
     </Fragment>
   );
