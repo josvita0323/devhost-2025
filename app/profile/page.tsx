@@ -29,6 +29,7 @@ export default function ProfilePage() {
 
   const [isSaving, setIsSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -87,6 +88,7 @@ export default function ProfilePage() {
         const data = await res.json();
         setProfile(data.user);
         setSaved(true);
+        setIsDirty(false);
       }
     } catch (error) {
       console.error('Error updating profile:', error);
@@ -129,7 +131,11 @@ export default function ProfilePage() {
                   id="name"
                   type="text"
                   value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  onChange={(e) => {
+  setForm({ ...form, name: e.target.value });
+  setIsDirty(true);
+}}
+
                   placeholder="Enter your name"
                   className="text-gray-900 placeholder:text-gray-500 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
@@ -141,7 +147,10 @@ export default function ProfilePage() {
                   id="email"
                   type="email"
                   value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+onChange={(e) => {
+  setForm({ ...form, name: e.target.value });
+  setIsDirty(true);
+}}
                   placeholder="Enter your email"
                   className="text-gray-900 placeholder:text-gray-500 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
@@ -156,7 +165,10 @@ export default function ProfilePage() {
                   id="phone"
                   type="tel"
                   value={form.phone}
-                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
+onChange={(e) => {
+  setForm({ ...form, name: e.target.value });
+  setIsDirty(true);
+}}
                   placeholder="Phone number"
                   className="text-gray-900 placeholder:text-gray-500 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
@@ -168,7 +180,10 @@ export default function ProfilePage() {
                   id="college"
                   type="text"
                   value={form.college}
-                  onChange={(e) => setForm({ ...form, college: e.target.value })}
+onChange={(e) => {
+  setForm({ ...form, name: e.target.value });
+  setIsDirty(true);
+}}
                   placeholder="Your college name"
                   className="text-gray-900 placeholder:text-gray-500 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
@@ -183,7 +198,10 @@ export default function ProfilePage() {
                   id="branch"
                   type="text"
                   value={form.branch}
-                  onChange={(e) => setForm({ ...form, branch: e.target.value })}
+onChange={(e) => {
+  setForm({ ...form, name: e.target.value });
+  setIsDirty(true);
+}}
                   placeholder="Branch"
                   className="text-gray-900 placeholder:text-gray-500 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
@@ -193,7 +211,10 @@ export default function ProfilePage() {
                 <Label htmlFor="year" className="mb-2 block">Year</Label>
                 <Select
                   value={String(form.year)}
-                  onValueChange={(value) => setForm({ ...form, year: Number(value) })}
+                  onValueChange={(value) => {
+                    setForm({ ...form, year: Number(value) });
+                    setIsDirty(true);
+                  }}
                 >
                   <SelectTrigger className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <SelectValue placeholder="Select Year" />
@@ -213,7 +234,7 @@ export default function ProfilePage() {
             <Button
               type="submit"
               className="bg-black hover:bg-black/70 text-white px-6 py-2 rounded-md transition-colors disabled:opacity-50 cursor-pointer"
-              disabled={isSaving || saved}
+              disabled={isSaving || saved || !isDirty}
             >
               {isSaving ? 'Saving...' : saved ? 'Saved!' : 'Save'}
             </Button>
