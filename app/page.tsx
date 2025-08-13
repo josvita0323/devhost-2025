@@ -2,6 +2,7 @@ import Hero from "@/components/Hero";
 import Timeline from "@/components/Timeline";
 import AboutDevhost from "@/components/AboutDevhost";
 import { Flame, MicVocal } from "lucide-react";
+import Counter from "@/components/Counter";
 
 export default function Home() {
   const markers = [
@@ -27,6 +28,7 @@ export default function Home() {
   return (
     <div>
       <Hero />
+      <Counter />
       <Timeline startHour={8} endHour={18} markers={markers} />
       <div className="h-screen">Hello</div>
       <AboutDevhost/>
