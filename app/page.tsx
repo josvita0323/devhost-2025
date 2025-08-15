@@ -1,7 +1,10 @@
 import Hero from "@/components/Hero";
 import AboutDevhost from "@/components/AboutDevhost";
-import { Events } from "@/components/Events";
+
 import TimelineSection from "@/components/TimeLine";
+
+import Events from "@/components/Events";
+{/*import { CommonEvents } from "@/components/CommonEvents";*/}
 
 export default function Home() {
   return (
@@ -9,7 +12,8 @@ export default function Home() {
       <Hero />
       <AboutDevhost />
       <TimelineSection />
-      <Events />
+      <Events /> 
+    {/*  <CommonEvents /> */}
     </div>
   );
 }
