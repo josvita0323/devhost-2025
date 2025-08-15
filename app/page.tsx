@@ -1,18 +1,25 @@
 "use client"
 import Hero from "@/components/Hero";
 import AboutDevhost from "@/components/AboutDevhost";
-import { Events } from "@/components/Events";
+import Counter from "@/components/Counter";
 import TimelineSection from "@/components/TimeLine";
+
 import AboutHackathon from "@/components/AboutHackathon";
+
+import Events from "@/components/Events";
+{/*import { CommonEvents } from "@/components/CommonEvents";*/}
+
 
 export default function Home() {
   return (
     <div>
       <Hero />
+      <Counter />
       <AboutDevhost />
       <AboutHackathon/>
       <TimelineSection />
-      <Events />
+      <Events /> 
+    {/*  <CommonEvents /> */}
     </div>
   );
 }
