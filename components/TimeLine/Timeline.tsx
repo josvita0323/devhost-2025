@@ -10,22 +10,28 @@ import {
 import Image from "next/image";
 
 type Marker = {
-  time: string; // "HH:MM"
+  time: string;
   icon: React.ReactNode;
   title: string;
-  description: string;
+  description?: string;
+  speaker?: string;
+  role?: string;
+  displayTime: string;
+  venue: string;
 };
 
 type TimelineSectionProps = {
   startHour: number;
   endHour: number;
   markers: Marker[];
+  image: string;
 };
 
-export default function TimelineSection({
+export default function Timeline({
   startHour,
   endHour,
   markers,
+  image,
 }: TimelineSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -73,30 +79,63 @@ export default function TimelineSection({
     <div ref={containerRef} className="h-[900vh] overflow-clip">
       <div className="sticky top-0 h-screen">
         {/* Content Section */}
-        {/* <div className="pointer-events-none absolute flex h-full w-full justify-center">
+        <div className="pointer-events-none absolute flex h-full w-full justify-center">
           {activeTime && (
-            <div className="flex max-w-5xl flex-col-reverse gap-6 p-4 text-center sm:flex-row sm:gap-12 sm:text-left">
+            <motion.div
+              className="absolute bottom-0 flex h-[60vh] w-screen max-w-5xl flex-col items-center gap-4 pt-4 md:flex-row md:items-start md:justify-around md:pt-12"
+              initial={{ opacity: 0, y: 5 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.2 }}
+            >
               {markersGroupedByTime[activeTime]?.map((marker, idx) => (
-                <div
-                  key={idx}
-                  className="rounded-xl bg-black/70 p-4 text-white shadow-md backdrop-blur-md sm:w-64"
-                >
-                  <h3 className="font-dystopian text-5xl font-bold uppercase">
+                <div key={idx} className="w-full max-w-sm p-4 md:p-6">
+                  {/* Title */}
+                  <h3 className="font-dystopian text-3xl font-bold uppercase md:text-5xl">
                     {marker.title}
                   </h3>
-                  <p className="mt-1 text-sm">{marker.description}</p>
+
+                  {/* Time & Venue */}
+                  <div className="text-muted-foreground mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs md:text-sm">
+                    <span className="text-primary font-medium">
+                      {marker.displayTime}
+                    </span>
+                    {marker.venue && (
+                      <span className="text-secondary">{marker.venue}</span>
+                    )}
+                  </div>
+
+                  {/* Description */}
+                  {marker.description && (
+                    <p className="mt-2 text-xs leading-snug md:text-sm">
+                      {marker.description}
+                    </p>
+                  )}
+
+                  {/* Speaker Info */}
+                  {marker.speaker && (
+                    <div className="border-border mt-2 border-t">
+                      <p className="text-primary text-sm font-semibold">
+                        {marker.speaker}
+                      </p>
+                      {marker.role && (
+                        <p className="text-secondary text-xs">{marker.role}</p>
+                      )}
+                    </div>
+                  )}
                 </div>
               ))}
-            </div>
+            </motion.div>
           )}
-        </div> */}
+        </div>
         <Image
-          src={"/timeline/day1.svg"}
-          alt="Day1"
-          className="absolute top-1/4 left-1/4 max-h-[100px] w-[50vw] -translate-y-1/2 object-contain"
+          src={image}
+          alt="Day"
+          className="absolute top-1/8 left-1/2 w-[140px] -translate-x-1/2 -translate-y-1/2 object-contain md:w-[240px]"
           width={400}
           height={300}
         />
+
         <motion.div
           style={{
             x,
@@ -107,7 +146,7 @@ export default function TimelineSection({
           <div className="relative h-full w-full">
             {/* Timeline Line */}
             <motion.div
-              className="bg-primary absolute top-1/2 z-10 h-0.5 origin-left sm:h-1"
+              className="bg-primary absolute top-1/3 z-10 h-0.5 origin-left sm:h-1"
               style={{
                 scaleX,
                 transformOrigin: "left",
@@ -118,7 +157,7 @@ export default function TimelineSection({
 
             {/* Timeline Line Outline*/}
             <div
-              className="absolute top-1/2 h-1 origin-left bg-[#1a1a1a]"
+              className="absolute top-1/3 h-1 origin-left bg-[#1a1a1a]"
               style={{
                 transformOrigin: "left",
                 left: `calc(50vw)`,
@@ -147,7 +186,7 @@ export default function TimelineSection({
               return (
                 <div
                   key={index}
-                  className="absolute top-1/2 flex flex-col items-center"
+                  className="absolute top-1/3 flex flex-col items-center"
                   style={{ left }}
                 >
                   <motion.div
@@ -195,8 +234,7 @@ export default function TimelineSection({
 
                 useMotionValueEvent(scrollYProgress, "change", (value) => {
                   const inRange =
-                    value >= progressPoint - 0.01 &&
-                    value <= progressPoint + 0.01;
+                    value >= progressPoint && value <= progressPoint + 0.02;
 
                   if (inRange) {
                     if (!timeoutRef.current) {
@@ -215,7 +253,7 @@ export default function TimelineSection({
                 return (
                   <motion.div
                     key={i}
-                    className="absolute top-1/2 flex flex-col items-center"
+                    className="absolute top-1/3 flex flex-col items-center"
                     style={{ left }}
                   >
                     {/* Stack multiple icons */}
