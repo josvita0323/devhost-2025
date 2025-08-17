@@ -1,22 +1,35 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 
-export default function SignupPage() {
+export default function SigninPage() {
     const router = useRouter();
-    const { signInWithGoogle } = useAuth();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const { signInWithGoogle, user, loading } = useAuth();
     const [error, setError] = useState('');
+    useEffect(() => {
+        if (!loading && user) {
+            router.push('/profile');
+        }
+    }, [user, loading, router]);
 
-    const handleGoogleSignup = async () => {
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-50">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+                    <p className="mt-4 text-gray-600">Loading...</p>
+                </div>
+            </div>
+        );
+    }
+    
+    const handleGoogleLogin = async () => {
         setError('');
         try {
             await signInWithGoogle();
             router.push('/profile');
-        } catch (err: any) {
+        } catch (err: any) { //change any to appropriate error type later
             setError(err.message);
         }
     };
@@ -25,7 +38,7 @@ export default function SignupPage() {
         <div className="min-h-screen flex items-center justify-center bg-gray-50">
             <button
                 type="button"
-                onClick={handleGoogleSignup}
+                onClick={handleGoogleLogin}
                 className="w-100 cursor-pointer bg-white text-black py-2.5 rounded-md border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors font-medium flex items-center justify-center gap-2"
             >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
