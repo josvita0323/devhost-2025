@@ -43,6 +43,8 @@
   --radius-xl: calc(var(--radius) + 4px);
   --font-amiga: var(--font-amiga);
   --font-dystopian: var(--font-dystopian);
+  --font-orbitron: var(--font-orbitron);
+  --font-delagothic: var(--font-delagothic);
   --animate-spotlight: spotlight 2s ease 0.75s 1 forwards;
 }
 
