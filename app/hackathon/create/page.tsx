@@ -60,7 +60,7 @@ export default function HackathonCreateTeam() {
     useEffect(() => {
         if (create) {
             const timer = setTimeout(() => {
-                router.push('/profile/hackathon');
+                router.push('/hackathon/dashboard');
             }, 1000);
             return () => clearTimeout(timer);
         }

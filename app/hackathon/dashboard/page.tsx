@@ -5,8 +5,9 @@ import Link from "next/link";
 import {useAuth} from "@/context/AuthContext";
 import {useEffect, useState} from "react";
 import {Label} from "@/components/ui/label";
+import router from "next/router";
 
-export default function HackathonPage() {
+export default function HackathonDashboardPage() {
     const { user, loading, profile, setProfile, team, teamLoading, setTeam } = useAuth();
     const [isFormLoading, setIsFormLoading] = useState(false);
     const [isLeaving, setIsLeaving] = useState(false);
@@ -66,8 +67,7 @@ export default function HackathonPage() {
             const timer = setTimeout(() => {
                 setLeave(false);
                 setLeaveTimer(null);
-                // Refresh the page to show updated state instead of router.push
-                window.location.reload();
+                router.push('/hackathon/dashboard');
             }, 2000);
 
             setLeaveTimer(timer);
@@ -114,8 +114,7 @@ export default function HackathonPage() {
             const timer = setTimeout(() => {
                 setLeave(false);
                 setLeaveTimer(null);
-                // Refresh the page to show updated state instead of router.push
-                window.location.reload();
+                router.push('/hackathon/dashboard');
             }, 2000);
 
             setLeaveTimer(timer);
@@ -181,8 +180,7 @@ export default function HackathonPage() {
             const timer = setTimeout(() => {
                 setLeave(false);
                 setLeaveTimer(null);
-                // Refresh the page to show updated state instead of router.push
-                window.location.reload();
+                router.push('/hackathon/dashboard');
             }, 2000);
 
             setLeaveTimer(timer);
@@ -197,15 +195,6 @@ export default function HackathonPage() {
             }
         };
     }, [leaveTimer]);
-
-    const displayButtons = () => {
-        return (
-            <div className="flex items-center justify-between mb-6 bg-white rounded-lg shadow p-8 gap-5">
-                <Button className="bg-black hover:bg-black/70 text-white" asChild><Link href="/profile/hackathon/join">Join a Team</Link></Button>
-                <Button className="bg-black hover:bg-black/70 text-white" asChild><Link href="/profile/hackathon/create">Create a Team</Link></Button>
-            </div>
-        );
-    }
 
     const displayTeamLeader = () => {
         return (
@@ -278,7 +267,7 @@ export default function HackathonPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-50">
-        {form.team_id !== "" ? (form.team_id === user?.uid ? displayTeamLeader() : displayTeamMember()) : displayButtons()}
+        {form.team_id !== "" ? (form.team_id === user?.uid ? displayTeamLeader() : displayTeamMember()) : <div className="text-gray-500">No Team Created</div>}
     </div>
   );
 }
