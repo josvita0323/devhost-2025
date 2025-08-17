@@ -1,15 +1,15 @@
 "use client";
 
-import {useEffect, useState} from "react";
-import {useAuth} from "@/context/AuthContext";
-import {Button} from "@/components/ui/button";
-import {Label} from "@/components/ui/label";
-import {Input} from "@/components/ui/input";
-import {useRouter} from "next/navigation";
+import { useEffect, useState } from "react";
+import { useAuth } from "@/context/AuthContext";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 
 export default function HackathonCreateTeam() {
     const router = useRouter();
-    const { user, loading, signOut, profile, profileLoading, setProfile, team, teamLoading, setTeam } = useAuth();
+    const { user, loading, signOut, profile, profileLoading, setProfile, team, teamLoading, setTeam, refreshProfileAndTeam } = useAuth();
     const [form, setForm] = useState({
         team_name: '',
     });
@@ -45,23 +45,7 @@ export default function HackathonCreateTeam() {
             });
 
             if (res.ok) {
-                    const idToken = await user.getIdToken();
-                    const profileRes = await fetch('/api/v1/user/profile', {
-                        headers: { Authorization: `Bearer ${idToken}` },
-                    });
-                    if (profileRes.ok) {
-                        const profileData = await profileRes.json();
-                        setProfile(profileData);
-                        if (profileData.team_id) {
-                            const teamRes = await fetch(`/api/v1/team/get?team_id=${encodeURIComponent(profileData.team_id)}`, {
-                                headers: { Authorization: `Bearer ${idToken}` },
-                            });
-                            if (teamRes.ok) {
-                                const teamData = await teamRes.json();
-                                setTeam(teamData);
-                            }
-                        }
-                    }
+                await refreshProfileAndTeam();
                 setCreated(true);
                 setIsDirty(false);
             }
@@ -82,39 +66,39 @@ export default function HackathonCreateTeam() {
         }
     }, [create, router]);
 
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-50">
-        <div className="bg-white rounded-lg shadow p-8">
-            <form className="flex flex-col justify-center items-center space-y-6 text-gray-900" onSubmit={handleSubmit}>
-                <div className="gap-6">
-                    <div>
-                        <Label htmlFor="team_name" className="mb-2">Team Name</Label>
-                        <Input
-                            id="team_name"
-                            type="text"
-                            value={form.team_name}
-                            onChange={(e) => {
-                                setForm({ ...form, team_name: e.target.value });
-                                setIsDirty(true);
-                            }}
+    return (
+        <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-50">
+            <div className="bg-white rounded-lg shadow p-8">
+                <form className="flex flex-col justify-center items-center space-y-6 text-gray-900" onSubmit={handleSubmit}>
+                    <div className="gap-6">
+                        <div>
+                            <Label htmlFor="team_name" className="mb-2">Team Name</Label>
+                            <Input
+                                id="team_name"
+                                type="text"
+                                value={form.team_name}
+                                onChange={(e) => {
+                                    setForm({ ...form, team_name: e.target.value });
+                                    setIsDirty(true);
+                                }}
 
-                            placeholder="Enter a team name"
-                            className="text-gray-900 placeholder:text-gray-500 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            required
-                        />
+                                placeholder="Enter a team name"
+                                className="text-gray-900 placeholder:text-gray-500 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                required
+                            />
+                        </div>
                     </div>
-                </div>
-                {error && <p className="text-red-500 text-sm">{error}</p>}
+                    {error && <p className="text-red-500 text-sm">{error}</p>}
 
-                <Button
-                    type="submit"
-                    className="bg-black hover:bg-black/70 text-white px-6 py-2 rounded-md transition-colors disabled:opacity-50 cursor-pointer"
-                    disabled={isCreating || create || !isDirty}
-                >
-                    {isCreating ? 'Creating...' : create ? 'Created!': 'Create'}
-                </Button>
-            </form>
+                    <Button
+                        type="submit"
+                        className="bg-black hover:bg-black/70 text-white px-6 py-2 rounded-md transition-colors disabled:opacity-50 cursor-pointer"
+                        disabled={isCreating || create || !isDirty}
+                    >
+                        {isCreating ? 'Creating...' : create ? 'Created!' : 'Create'}
+                    </Button>
+                </form>
+            </div>
         </div>
-    </div>
-  );
+    );
 }
