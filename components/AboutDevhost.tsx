@@ -1,152 +1,149 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { Download } from "lucide-react";
 import { HoverBorderGradient } from "@/components/old/hover-border-gradient";
-import Image from "next/image";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { FloatingLeavesBackground } from "@/components/ui/FloatingLeavesBackground";
-
-gsap.registerPlugin(ScrollTrigger);
+import { motion } from "framer-motion";
 
 export default function AboutDevhost() {
-  const titleRef = useRef(null);
-  const captionRef = useRef(null);
-  const aboutRef = useRef(null);
-  const logoRef = useRef(null);
-  const containerRef = useRef(null);
+  interface DevhostData {
+    title: string;
+    caption: string;
+    about: string;
+    logoSrc: string;
+  }
 
-  const devhostData = {
+  const devhostData: DevhostData = {
     title: "About Devhost",
     caption: "Expertise Redefined, Experience Reimagined.",
     about:
-      "Devhost, the flagship event is a remarkable tech convergence by Sahyadri Open Source Community (SOSC), is set to be an exhilarating experience with an exciting mix of technical and non-technical events. It seeks to equip participants with knowledge and skills, while encouraging curiosity and fostering innovation...",
-    logoSrc: "/logo.svg",
+      "Devhost, the flagship event is a remarkable tech convergence by Sahyadri Open Source Community (SOSC), is set to be an exhilarating experience with an exciting mix of technical and non-technical events. It seeks to equip participants with knowledge and skills, while encouraging curiosity and fostering innovation. With a variety of tech and non-tech battles and events featuring dev talks and workshops led by industry experts, it creates opportunities for both personal development and self-exploration. Join the 22-hour live hack event to bring your ideas to fruition, with challenges designed for every level of experience.",
+    logoSrc: "temp.jpg",
   };
 
-  useEffect(() => {
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: containerRef.current,
-      start: "top 80%",
-      toggleActions: "play none none none",
-    },
-  });
-
-  tl.from(titleRef.current, { y: 40, opacity: 0, duration: 0.6 })
-    .from(captionRef.current, { y: 30, opacity: 0, duration: 0.6 }, "-=0.3")
-    .from(aboutRef.current, { y: 30, opacity: 0, duration: 0.6 }, "-=0.4")
-    .from(logoRef.current, {
-      opacity: 0,
-      scale: 0.4,
-      rotate: -120,
-      x: -300,
-      y: -100,
-      duration: 1.4,
-      ease: "power3.out",
-      onComplete: () => {
-        // Floating (bobbing)
-        gsap.to(logoRef.current, {
-          y: "-=10",
-          duration: 2,
-          repeat: -1,
-          yoyo: true,
-          ease: "power1.inOut",
-        });
-
-        // Glow Pulse
-        gsap.to(logoRef.current, {
-          boxShadow: "0 0 20px #00ff37ff",
-          duration: 1.5,
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut",
-        });
-
-        // Slow subtle rotation
-        gsap.to(logoRef.current, {
-          rotation: 2,
-          duration: 6,
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut",
-        });
-      },
-    });
-}, []);
-
-
   return (
-    <div
-      ref={containerRef}
-      className="relative flex justify-center pb-20 px-4 md:px-8 items-center w-full bg-[#0c0c0c] text-white overflow-hidden"
+    <section
+      className="relative my-section min-h-screen bg-black text-[var(--neon-green)] overflow-hidden"
+      style={
+        {
+          "--neon-green": "#a3ff12",
+          "--neon-green-glow": "rgba(163, 255, 18, 0.3)",
+          "--neon-green-dim": "rgba(163, 255, 18, 0.1)",
+          "--neon-green-bright": "rgba(163, 255, 18, 0.8)",
+        } as React.CSSProperties
+      }
     >
-      {/* Floating Leaves Background Component */}
-      <FloatingLeavesBackground />
+      {/* Background elements */}
+      <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,var(--neon-green)_1px,transparent_1px)] [background-size:40px_40px] animate-pulse" />
+      <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-[var(--neon-green)] rounded-full animate-pulse opacity-30" />
+      <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-[var(--neon-green)] rounded-full animate-pulse opacity-20" style={{ animationDelay: "1s" }} />
 
-      <div className="relative z-10 max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-        {/* Left Content */}
-        <div>
-          <h1
-            ref={titleRef}
-            className="select-none text-3xl md:text-5xl font-bold pb-4 font-dystopian"
-          >
-            {devhostData.title}
-          </h1>
-          <h2
-            ref={captionRef}
-            className="text-primary text-base md:text-lg font-semibold mb-4 tracking-widest uppercase"
-          >
-            {devhostData.caption}
-          </h2>
-          <p
-            ref={aboutRef}
-            className="text-sm md:text-lg tracking-wider text-gray-300 leading-relaxed"
-          >
-            {devhostData.about}
-          </p>
+      <motion.div
+        initial={{ opacity: 0, y: 50, scale: 0.95 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 1, ease: "easeOut" }}
+        viewport={{ once: true }}
+        className="relative z-10 flex justify-center pb-10 items-center w-full"
+      >
+        <div className="max-w-7xl mb-20 w-full">
+          <div className="relative group">
+            <HoverBorderGradient
+              containerClassName="rounded-xl group relative overflow-visible"
+              className="bg-black/80 backdrop-blur-lg border border-[var(--neon-green-dim)] w-full h-full shadow-[0_0_20px_var(--neon-green-glow)]"
+            >
+              <div className="pt-10 pb-10 px-5 md:px-10">
+                {/* Title with dotted laser scan */}
+                <div className="relative pb-8">
+                  <motion.h1
+                    initial={{ opacity: 0, y: -40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.7, ease: "easeOut" }}
+                    viewport={{ once: true }}
+                    className="font-dystopian text-center text-4xl font-bold text-white uppercase md:text-6xl mb-2"
+                  >
+                    {devhostData.title}
+                  </motion.h1>
+                  
+                  {/* Laser scan line */}
+                  <div className="absolute bottom-0 left-0 w-full h-[2px] overflow-hidden">
+                    <div 
+                      className="absolute top-0 left-0 h-full w-[30%] bg-[var(--neon-green)] opacity-0 group-hover:opacity-50 transition-opacity duration-300"
+                      style={{
+                        animation: 'laser-scan 3s linear infinite',
+                        boxShadow: '0 0 8px var(--neon-green)'
+                      }}
+                    />
+                  </div>
+                </div>
 
-          {/* Download Buttons */}
-          <div className="flex flex-col md:flex-row md:items-center gap-4 mt-8">
-            <a href="/brochure/Event Rulebook - Devhost.pdf" download>
-              <HoverBorderGradient
-                containerClassName="rounded-full"
-                className="bg-background px-6 py-3 group flex items-center space-x-2 hover:scale-105 transition-transform"
-              >
-                <Download size={20} className="text-neon-green" />
-                <span className="text-neon-green text-sm md:text-base">
-                  Event Rulebook
-                </span>
-              </HoverBorderGradient>
-            </a>
+                <motion.h2
+                  initial={{ opacity: 0, x: -60 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+                  viewport={{ once: true }}
+                  className="font-mono text-center text-lg tracking-wider text-[var(--neon-green-bright)] mb-8"
+                >
+                  &gt; {devhostData.caption}
+                </motion.h2>
 
-            <a href="/brochure/General Brochure Devhost.pdf" download>
-              <HoverBorderGradient
-                containerClassName="rounded-full"
-                className="bg-background px-6 py-3 group flex items-center space-x-2 hover:scale-105 transition-transform"
-              >
-                <Download size={20} className="text-neon-green" />
-                <span className="text-neon-green text-sm md:text-base">
-                  DevHost Brochure
-                </span>
-              </HoverBorderGradient>
-            </a>
+                <motion.p
+                  initial={{ opacity: 0, y: 60 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.9, delay: 0.3, ease: "easeOut" }}
+                  viewport={{ once: true }}
+                  className="text-md md:text-lg tracking-wider mb-8 text-left text-gray-200 leading-relaxed"
+                >
+                  {devhostData.about}
+                </motion.p>
+
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.8, delay: 0.4, ease: "backOut" }}
+                  viewport={{ once: true }}
+                  className="flex flex-col md:flex-row md:items-center gap-4 mt-8 justify-center"
+                >
+                  <a href="/brochure/Event Rulebook - Devhost.pdf" download>
+                    <HoverBorderGradient
+                      containerClassName="rounded-full"
+                      className="bg-black/70 border border-[var(--neon-green-dim)] shadow-[0_0_10px_var(--neon-green-glow)] hover:shadow-[0_0_20px_var(--neon-green)] w-full md:w-auto px-6 md:px-8 py-3 md:py-4 group flex items-center justify-center space-x-2 transition-all duration-300"
+                    >
+                      <Download size={20} className="text-[var(--neon-green)]" />
+                      <span className="text-[var(--neon-green)] text-sm md:text-base font-mono tracking-wider">
+                        Event Rulebook
+                      </span>
+                    </HoverBorderGradient>
+                  </a>
+
+                  <a href="/brochure/General Brochure Devhost.pdf" download>
+                    <HoverBorderGradient
+                      containerClassName="rounded-full"
+                      className="bg-black/70 border border-[var(--neon-green-dim)] shadow-[0_0_10px_var(--neon-green-glow)] hover:shadow-[0_0_20px_var(--neon-green)] w-full md:w-auto px-6 md:px-8 py-3 md:py-4 group flex items-center justify-center space-x-2 transition-all duration-300"
+                    >
+                      <Download size={20} className="text-[var(--neon-green)]" />
+                      <span className="text-[var(--neon-green)] text-sm md:text-base font-mono tracking-wider">
+                        DevHost Brochure
+                      </span>
+                    </HoverBorderGradient>
+                  </a>
+                </motion.div>
+              </div>
+            </HoverBorderGradient>
           </div>
         </div>
+      </motion.div>
 
-        {/* Right Logo */}
-        <div className="flex justify-center md:justify-end">
-          <Image
-            ref={logoRef}
-            src={devhostData.logoSrc}
-            alt="Devhost Logo"
-            width={280}
-            height={280}
-            className="rounded-xl shadow-lg max-w-[300px] md:max-w-[400px]"
-          />
-        </div>
-      </div>
-    </div>
+      {/* Animation style */}
+      <style jsx>{`
+        @keyframes laser-scan {
+          0% {
+            transform: translateX(-100%);
+          }
+          100% {
+            transform: translateX(400%);
+          }
+        }
+      `}</style>
+    </section>
   );
 }
