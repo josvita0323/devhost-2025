@@ -47,9 +47,13 @@ export default function HackathonJoinTeam() {
             if (res.ok) {
                 setJoined(true);
                 setIsDirty(false);
+            } else {
+                const errorData = await res.json();
+                setError('Invalid or non-existent team ID. Please check and try again.');
             }
         } catch (error) {
             console.error('Error joining team:', error);
+            setError('An error occurred while joining the team.');
         } finally {
             setIsJoining(false);
             setTimeout(() => setJoined(false), 2000);

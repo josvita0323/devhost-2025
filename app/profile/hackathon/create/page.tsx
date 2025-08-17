@@ -45,6 +45,23 @@ export default function HackathonCreateTeam() {
             });
 
             if (res.ok) {
+                    const idToken = await user.getIdToken();
+                    const profileRes = await fetch('/api/v1/user/profile', {
+                        headers: { Authorization: `Bearer ${idToken}` },
+                    });
+                    if (profileRes.ok) {
+                        const profileData = await profileRes.json();
+                        setProfile(profileData);
+                        if (profileData.team_id) {
+                            const teamRes = await fetch(`/api/v1/team/get?team_id=${encodeURIComponent(profileData.team_id)}`, {
+                                headers: { Authorization: `Bearer ${idToken}` },
+                            });
+                            if (teamRes.ok) {
+                                const teamData = await teamRes.json();
+                                setTeam(teamData);
+                            }
+                        }
+                    }
                 setCreated(true);
                 setIsDirty(false);
             }
@@ -59,7 +76,7 @@ export default function HackathonCreateTeam() {
     useEffect(() => {
         if (create) {
             const timer = setTimeout(() => {
-                router.push('/profile');
+                router.push('/profile/hackathon');
             }, 1000);
             return () => clearTimeout(timer);
         }
