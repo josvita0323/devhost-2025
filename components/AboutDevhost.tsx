@@ -34,7 +34,7 @@ export default function AboutDevhost() {
       }
     >
       {/* Background elements */}
-      <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,var(--neon-green)_1px,transparent_1px)] [background-size:40px_40px] animate-pulse" />
+       <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,var(--neon-green)_1px,transparent_1px)] [background-size:40px_40px] animate-pulse" /> 
       <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-[var(--neon-green)] rounded-full animate-pulse opacity-30" />
       <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-[var(--neon-green)] rounded-full animate-pulse opacity-20" style={{ animationDelay: "1s" }} />
 
@@ -43,23 +43,23 @@ export default function AboutDevhost() {
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 1, ease: "easeOut" }}
         viewport={{ once: true }}
-        className="relative z-10 flex justify-center pb-10 items-center w-full"
+        className="relative z-10 flex justify-center pb-10 items-center w-full px-4 py-10"
       >
-        <div className="max-w-7xl mb-20 w-full">
+        <div className="max-w-7xl w-full">
           <div className="relative group">
             <HoverBorderGradient
               containerClassName="rounded-xl group relative overflow-visible"
-              className="bg-black/80 backdrop-blur-lg border border-[var(--neon-green-dim)] w-full h-full shadow-[0_0_20px_var(--neon-green-glow)]"
+              className="bg-black/90 backdrop-blur-sm border border-[var(--neon-green-dim)] w-full h-full shadow-[0_0_20px_var(--neon-green-glow)]"
             >
-              <div className="pt-10 pb-10 px-5 md:px-10">
-                {/* Title with dotted laser scan */}
-                <div className="relative pb-8">
+              <div className="pt-8 pb-8 px-5 md:px-10 md:pt-10 md:pb-10 ">
+                {/* Title with laser scan */}
+                <div className="relative pb-6 md:pb-8">
                   <motion.h1
                     initial={{ opacity: 0, y: -40 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7, ease: "easeOut" }}
                     viewport={{ once: true }}
-                    className="font-dystopian text-center text-4xl font-bold text-white uppercase md:text-6xl mb-2"
+                    className="font-orbitron text-center text-4xl font-bold text-white uppercase md:text-6xl mb-2"
                   >
                     {devhostData.title}
                   </motion.h1>
@@ -81,7 +81,7 @@ export default function AboutDevhost() {
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
                   viewport={{ once: true }}
-                  className="font-mono text-center text-lg tracking-wider text-[var(--neon-green-bright)] mb-8"
+                  className="font-delagothic text-center text-lg tracking-wider text-[var(--neon-green-bright)] mb-8"
                 >
                   &gt; {devhostData.caption}
                 </motion.h2>
@@ -91,7 +91,7 @@ export default function AboutDevhost() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.9, delay: 0.3, ease: "easeOut" }}
                   viewport={{ once: true }}
-                  className="text-md md:text-lg tracking-wider mb-8 text-left text-gray-200 leading-relaxed"
+                  className="font-delagothic text-md md:text-lg tracking-wider mb-8 text-left text-gray-200 leading-relaxed"
                 >
                   {devhostData.about}
                 </motion.p>
