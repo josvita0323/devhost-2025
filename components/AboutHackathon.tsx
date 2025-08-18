@@ -201,20 +201,14 @@ export default function Home() {
     <div ref={containerRef} className="min-h-[180vh] bg-black text-white overflow-hidden">
       <div className="h-screen flex flex-col items-center justify-center relative">
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="flex items-end justify-center">
+          <div className="flex items-end justify-center font-orbitron">
             <div
               ref={hacRef}
               className="text-[12vw] md:text-[8vw] font-black tracking-tight leading-none select-none text-white opacity-0"
             >
-              HAC
+              DEV
             </div>
 
-            <div
-              ref={leftBracketRef}
-              className="text-[12vw] md:text-[8vw] font-black tracking-tight leading-none select-none text-white opacity-0"
-            >
-              (
-            </div>
 
             <div className="relative flex items-end justify-center">
               <div ref={imageRef} className="w-24 h-16 opacity-1">
@@ -265,22 +259,17 @@ export default function Home() {
                 ref={kRef}
                 className="text-[12vw] md:text-[8vw] font-black tracking-tight leading-none select-none text-[#a3ff12] opacity-0 absolute"
               >
-                K
+                H
               </div>
             </div>
 
-            <div
-              ref={rightBracketRef}
-              className="text-[12vw] md:text-[8vw] font-black tracking-tight leading-none select-none text-white opacity-0"
-            >
-              )
-            </div>
+
 
             <div
               ref={athonRef}
               className="text-[12vw] md:text-[8vw] font-black tracking-tight leading-none select-none text-white opacity-0"
             >
-              ATHON
+              ACK
             </div>
           </div>
         </div>
