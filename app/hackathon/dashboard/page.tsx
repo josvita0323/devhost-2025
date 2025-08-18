@@ -341,6 +341,7 @@ export default function HackathonDashboardPage() {
             const timer = setTimeout(() => {
                 setSuccessStates(prev => ({ ...prev, left: false }));
                 setLeaveTimer(null);
+                window.location.reload();
                 router.push('/hackathon/dashboard');
             }, 2000);
 
@@ -471,9 +472,9 @@ export default function HackathonDashboardPage() {
     };
 
     const displayTeamLeader = () => {
-        const joinLink = `${form.team_id}`;
+        const joinLink = `${profile?.email || ''}`;
         
-        const copyJoinLink = () => {
+        const copyTeamLeaderEmail = () => {
             navigator.clipboard.writeText(joinLink);
             setCopied(true);
             // Reset the copied state after 2 seconds
@@ -496,18 +497,18 @@ export default function HackathonDashboardPage() {
                     </div>
                 </div>
 
-                {/* Copy Join Link - Only show if not finalized */}
+                {/* Copy Team Leader Email - Only show if not finalized */}
                 {!form.finalized && (
                     <div className="mb-4">
                         <button 
-                            onClick={copyJoinLink}
+                            onClick={copyTeamLeaderEmail}
                             className={`w-full px-4 py-2 rounded-lg transition-colors ${
                                 copied 
                                     ? 'bg-green-500 hover:bg-green-600' 
                                     : 'bg-blue-500 hover:bg-blue-600'
                             } text-white`}
                         >
-                            {copied ? 'Copied!' : 'Copy Team ID'}
+                            {copied ? 'Copied!' : 'Copy Team Leader Email'}
                         </button>
                     </div>
                 )}
@@ -601,7 +602,7 @@ export default function HackathonDashboardPage() {
 
                 {/* Team Info */}
                 <div className="mt-4 text-xs text-gray-500 text-center">
-                    Team ID: {form.team_id}
+                    Team Leader Email: {profile?.email || 'Not available'}
                 </div>
                 
                 {/* Drive Link Modal - Only show if not finalized */}
