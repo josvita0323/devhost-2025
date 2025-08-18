@@ -1,12 +1,7 @@
 "use client";
 import Script from "next/script";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "../firebase/config";
-
-{/**Note: Add this in events button to make payment */}
 
 export default function PaymentButton({ amount = 100 }: { amount?: number }) {
-  // amount in paise. default ₹500.00 -> 50000
   const startPayment = async () => {
     // Create order on server
     const createRes = await fetch("/api/create-order", {
@@ -25,24 +20,19 @@ export default function PaymentButton({ amount = 100 }: { amount?: number }) {
       description: "Ticket",
       order_id: order.id,
       handler: async function (response: any) {
-        // Send to server to verify signature
+        // Verify on server
         const verifyRes = await fetch("/api/verify-payment", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(response),
+          body: JSON.stringify({
+            ...response,
+            amount: order.amount, // send amount too
+          }),
         });
 
         const verify = await verifyRes.json();
         if (verify.ok) {
-          // Persist record to Firestore (quick hackathon approach)
-          await setDoc(doc(db, "payments", response.razorpay_payment_id), {
-            orderId: response.razorpay_order_id,
-            paymentId: response.razorpay_payment_id,
-            status: "paid",
-            amount: order.amount,
-            createdAt: new Date().toISOString(),
-          });
-          alert("Payment verified and saved. Payment ID: " + response.razorpay_payment_id);
+          alert("Payment verified and stored in Firestore. Payment ID: " + response.razorpay_payment_id);
         } else {
           alert("Verification failed: " + (verify.error || "unknown"));
         }
@@ -66,5 +56,3 @@ export default function PaymentButton({ amount = 100 }: { amount?: number }) {
     </>
   );
 }
-
-
