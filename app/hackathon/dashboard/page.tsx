@@ -182,7 +182,7 @@ export default function HackathonDashboardPage() {
             const timer = setTimeout(() => {
                 setSuccessStates(prev => ({ ...prev, deleted: false }));
                 setLeaveTimer(null);
-                router.push('/hackathon/dashboard');
+                router.replace('/hackathon/dashboard');
             }, 2000);
 
             setLeaveTimer(timer);
@@ -233,8 +233,7 @@ export default function HackathonDashboardPage() {
             const timer = setTimeout(() => {
                 setSuccessStates(prev => ({ ...prev, finalized: false }));
                 setLeaveTimer(null);
-                // Optionally redirect or refresh
-                // router.push('/hackathon/dashboard');
+                router.replace('/hackathon/dashboard');
             }, 2000);
 
             setLeaveTimer(timer);
@@ -301,7 +300,7 @@ export default function HackathonDashboardPage() {
             const timer = setTimeout(() => {
                 setSuccessStates(prev => ({ ...prev, left: false }));
                 setLeaveTimer(null);
-                router.push('/hackathon/dashboard');
+                router.replace('/hackathon/dashboard');
             }, 2000);
 
             setLeaveTimer(timer);

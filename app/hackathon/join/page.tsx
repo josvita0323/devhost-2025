@@ -57,14 +57,14 @@ export default function HackathonJoinTeam() {
         } finally {
             setIsJoining(false);
             setTimeout(() => setJoined(false), 2000);
-            router.push('/hackathon/dashboard');
+            router.replace('/hackathon/dashboard');
         }
     };
 
     useEffect(() => {
         if (join) {
             const timer = setTimeout(() => {
-                router.push('/hackathon/dashboard');
+                router.replace('/hackathon/dashboard');
             }, 1000);
             return () => clearTimeout(timer);
         }
