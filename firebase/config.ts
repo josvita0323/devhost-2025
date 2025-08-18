@@ -1,4 +1,3 @@
-"use client";
 import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
 // import { getAnalytics } from 'firebase/analytics';
 import { getAuth, Auth } from 'firebase/auth';
