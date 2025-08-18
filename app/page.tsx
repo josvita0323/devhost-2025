@@ -11,8 +11,6 @@ import Image from "next/image";
 import FAQ from "@/components/Faq";
 import Footer from "@/components/Footer";
 export default function Home() {
-  console.log(process.env.FIREBASE_PROJECT_ID)
-  console.log(process.env.FIREBASE_PRIVATE_KEY)
   return (
     <div>
       <div className="max-w-7xl px-5 mx-auto">
