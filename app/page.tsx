@@ -1,4 +1,3 @@
-"use client"
 import Hero from "@/components/Hero";
 import AboutDevhost from "@/components/AboutDevhost";
 import Counter from "@/components/Counter";
@@ -8,8 +7,9 @@ import AboutHackathon from "@/components/AboutHackathon";
 
 import Events from "@/components/Events";
 import Footer from "@/components/Footer";
-{/*import { CommonEvents } from "@/components/CommonEvents";*/}
-
+{
+  /*import { CommonEvents } from "@/components/CommonEvents";*/
+}
 
 export default function Home() {
   return (
@@ -18,11 +18,26 @@ export default function Home() {
       <Hero />
       <Counter />
       <AboutDevhost />
-      <AboutHackathon/>
+      <AboutHackathon />
       <TimelineSection />
       <Events /> 
       <Footer/>
     {/*  <CommonEvents /> */}
+      {/* <Events />
+      {/*  <CommonEvents /> 
+
+      <div className="pointer-events-none fixed inset-0 -z-10 opacity-5">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `
+            linear-gradient(#a3ff12 1px, transparent 1px),
+            linear-gradient(90deg, #a3ff12 1px, transparent 1px)
+          `,
+            backgroundSize: "40px 40px",
+          }}
+        ></div>
+      </div> */}
     </div>
   );
 }
