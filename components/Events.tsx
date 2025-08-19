@@ -100,7 +100,7 @@ function EventCard({ event, index }: EventCardProps) {
   return (
     <div ref={cardRef} className="relative group w-full max-w-3xl">
       <div
-        className="relative bg-[#1a1a1a] border-2 border-[#a3ff12] overflow-hidden"
+        className="relative bg-[#0d0c0c] border-2 border-[#a3ff12] overflow-hidden"
         style={{
           clipPath:
             "polygon(0 0, calc(100% - 60px) 0, 100% 60px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px))",
