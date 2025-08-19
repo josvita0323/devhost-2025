@@ -1,457 +1,445 @@
 "use client"
 
-import type React from "react"
-
 import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { Clock, User, Users } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
 import Image from "next/image"
 
+// Register GSAP plugins
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger)
+}
+
+interface Event {
+  id: number
+  title: string
+  category: string
+  description: string
+  date: string
+  time: string
+  organizer: string
+  contact: string
+  image: string
+}
+
+interface EventCardProps {
+  event: Event
+  index: number
+}
+
+function EventCard({ event, index }: EventCardProps) {
+  const cardRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: cardRef.current,
+          start: "top 80%",
+          end: "bottom 20%",
+          toggleActions: "play none none reverse",
+        },
+      })
+
+      tl.fromTo(
+        cardRef.current,
+        {
+          y: 20,
+          opacity: 0,
+          scale: 0.98,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.4,
+          ease: "power2.out",
+          delay: index * 0.1,
+        },
+      )
+
+      const handleMouseEnter = () => {
+        gsap.to(cardRef.current, {
+          scale: 1.02,
+          y: -2,
+          duration: 0.3,
+          ease: "power2.out",
+        })
+      }
+
+      const handleMouseLeave = () => {
+        gsap.to(cardRef.current, {
+          scale: 1,
+          y: 0,
+          duration: 0.3,
+          ease: "power2.out",
+        })
+      }
+
+      const cardElement = cardRef.current
+      if (cardElement) {
+        cardElement.addEventListener("mouseenter", handleMouseEnter)
+        cardElement.addEventListener("mouseleave", handleMouseLeave)
+
+        return () => {
+          cardElement.removeEventListener("mouseenter", handleMouseEnter)
+          cardElement.removeEventListener("mouseleave", handleMouseLeave)
+        }
+      }
+    }, cardRef)
+
+    return () => ctx.revert()
+  }, [index])
+
+  const handleRegister = () => {
+    window.open("https://google.com", "_blank")
+  }
+
+  return (
+    <div ref={cardRef} className="relative group w-full max-w-3xl">
+      <div
+        className="relative bg-[#1a1a1a] border-2 border-[#a3ff12] overflow-hidden"
+        style={{
+          clipPath:
+            "polygon(0 0, calc(100% - 60px) 0, 100% 60px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px))",
+          width: "100%",
+          height: "400px",
+        }}
+      >
+        <div className="absolute top-0 left-0 w-24 h-2 bg-[#a3ff12]"></div>
+        <div className="absolute top-0 left-0 w-2 h-24 bg-[#a3ff12]"></div>
+        <div className="absolute top-0 right-16 w-16 h-2 bg-[#a3ff12]"></div>
+        <div className="absolute top-16 right-0 w-2 h-16 bg-[#a3ff12]"></div>
+        <div className="absolute bottom-0 right-0 w-24 h-2 bg-[#a3ff12]"></div>
+        <div className="absolute bottom-0 right-0 w-2 h-24 bg-[#a3ff12]"></div>
+
+        <div className="flex h-full p-6">
+          <div className="relative overflow-hidden flex items-center justify-center" style={{ width: "340px" }}>
+            <div
+              className="relative bg-gray-900 overflow-hidden"
+              style={{
+                width: "320px",
+                height: "320px",
+              }}
+            >
+              <Image
+                src={event.image || "/placeholder.svg?height=1200&width=1200&query=cyberpunk gaming tournament"}
+                alt={event.title}
+                width={1200}
+                height={1200}
+                className="w-full h-full object-cover"
+                sizes="320px"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/20"></div>
+              <div className="absolute top-3 right-3 bg-[#a3ff12]/20 border border-[#a3ff12] px-2 py-1 text-[#a3ff12] text-xs font-mono">
+                {event.date}
+              </div>
+              <div className="absolute top-3 left-3 text-[#a3ff12] font-bold text-lg">
+                #{event.id.toString().padStart(2, "0")}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex-1 pl-6 flex flex-col justify-between">
+            {/* Header */}
+            <div className="space-y-3 flex-shrink-0">
+              <h3 className="text-white text-lg font-orbitron leading-tight text-left">{event.title}</h3>
+              <Badge
+                variant="outline"
+                className="bg-[#a3ff12]/20 border-[#a3ff12] text-[#a3ff12] hover:bg-[#a3ff12]/30 text-xs px-3 py-1 w-fit rounded-full"
+              >
+                {event.category}
+              </Badge>
+            </div>
+
+            <div className="flex-1 my-4 overflow-hidden">
+              <div
+                className="h-full overflow-y-auto pr-2 space-y-3"
+                style={{
+                  scrollbarWidth: "thin",
+                  scrollbarColor: "#a3ff12 transparent",
+                }}
+                onWheel={(e) => {
+                  e.currentTarget.scrollTop += e.deltaY * 0.5
+                }}
+              >
+                <div>
+                  <p className="text-gray-300 text-sm leading-relaxed mb-3 text-justify hyphens-auto tracking-tight break-words">
+                    {event.description}
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-gray-400">
+                    <Clock className="w-3 h-3 text-[#a3ff12] flex-shrink-0" />
+                    <span className="text-xs">
+                      <span className="text-[#a3ff12] font-semibold">Time:</span> {event.time}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-400">
+                    <User className="w-3 h-3 text-[#a3ff12] flex-shrink-0" />
+                    <span className="text-xs">
+                      <span className="text-[#a3ff12] font-semibold">Organizer:</span> {event.organizer}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-400">
+                    <Users className="w-3 h-3 text-[#a3ff12] flex-shrink-0" />
+                    <span className="text-xs">
+                      <span className="text-[#a3ff12] font-semibold">Contact:</span> {event.contact}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex-shrink-0 pt-2">
+              <button
+                onClick={handleRegister}
+                className="relative w-full h-8 group overflow-hidden font-delagothic"
+                style={{
+                  clipPath: "polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))",
+                  backgroundColor: "#a3ff12",
+                }}
+              >
+                <div className="absolute inset-0 bg-[#8fd610] opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                <span className="relative z-10 text-black font-bold text-xs tracking-wide flex items-center justify-center h-full">
+                  REGISTER
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 const events = [
   {
     id: 1,
-    name: "BGMI - Loot & Lead",
-    tagline: "Battle Royale Supremacy",
+    title: "R00TQuest",
+    category: "Cybersecurity Challenge",
     description:
-      "Dominate the battlegrounds in this intense BGMI tournament. Strategic gameplay meets fast-paced action in the ultimate survival challenge.",
-    image: "/sosc_logo.svg",
-    date: "6th Nov",
-    time: "10:30am - 1:30pm",
-    organizer: "someone",
-    phone: "9876543210",
+      "A thrilling Capture the Flag competition testing participants on cybersecurity, problem-solving, and hacking skills.",
+    date: "6 Nov",
+    time: "10:00 AM",
+    organizer: "Koshin",
+    contact: "98765 43210",
+    image: "/ctf-event.png",
   },
   {
     id: 2,
-    name: "How I Met My Investor",
-    tagline: "Pitch Perfect Moments",
+    title: "How I Met My Investor",
+    category: "Startup Pitch",
     description:
-      "Bring your ideas to life and compete for roles in the future of technology and entrepreneurship. Connect with investors and showcase innovation.",
-    image: "/sosc_logo.svg",
-    date: "7th Nov",
-    time: "2:00pm - 5:00pm",
-    organizer: "someone else",
-    phone: "8904315769",
+      "Showcase your startup idea to investors in this pitch event. Convince, impress, and secure the spotlight.",
+    date: "6 Nov",
+    time: "02:00 PM",
+    organizer: "Varsha",
+    contact: "8765432109",
+    image: "/tech-pitch.png",
   },
   {
     id: 3,
-    name: "O(n)slaught",
-    tagline: "Code Your Way to Victory",
+    title: "Oh My Grid!",
+    category: "Frontend Design",
     description:
-      "Competitive coding at its finest. Solve complex algorithms and data structures challenges in this high-intensity programming competition.",
-    image: "/sosc_logo.svg",
-    date: "7th Nov",
-    time: "9:00am - 12:00pm",
-    organizer: "someone special",
-    phone: "9123456789",
+      "A design challenge where creativity meets CSS grid mastery. Style your way to victory with clean layouts.",
+    date: "7 Nov",
+    time: "11:00 AM",
+    organizer: "Manvitha",
+    contact: "7654321098",
+    image: "/css-grid.png",
   },
   {
     id: 4,
-    name: "Oh My Grid!",
-    tagline: "CSS Mastery Challenge",
+    title: "O(n)Slought",
+    category: "Competitive Programming",
     description:
-      "Showcase your CSS skills in this creative web design competition. Build stunning layouts and responsive designs using modern CSS techniques.",
-    image: "/sosc_logo.svg",
-    date: "6th Nov",
-    time: "1:00pm - 4:00pm",
-    organizer: "someone imp",
-    phone: "8765432109",
+      "Tackle algorithmic puzzles and coding challenges in this ultimate competitive programming contest.",
+    date: "6 Nov",
+    time: "03:00 PM",
+    organizer: "Sthuthi Poojary",
+    contact: "6543210987",
+    image: "/competitive-programming.png",
   },
   {
     id: 5,
-    name: "CTF - Capture The Flag",
-    tagline: "Cybersecurity Warfare",
+    title: "Tech-Tac-Toe",
+    category: "Logic & Fun",
     description:
-      "Test your hacking skills and cybersecurity knowledge. Solve challenges, find vulnerabilities, and capture flags in this digital battleground.",
-    image: "/sosc_logo.svg",
-    date: "7th Nov",
-    time: "10:00am - 4:00pm",
-    organizer: "someone famous",
-    phone: "5432109876",
+      "A technical twist on tic-tac-toe where coding knowledge meets classic strategy gameplay.",
+    date: "8 Nov",
+    time: "01:00 PM",
+    organizer: "Hitha",
+    contact: "5432109876",
+    image: "/tech-tac-toe.png",
   },
   {
     id: 6,
-    name: "Tech Tac Toe",
-    tagline: "Strategic Fun Unleashed",
+    title: "Loot & Lead",
+    category: "Battle Royale",
     description:
-      "A fun twist on the classic game with technology challenges. Test your strategic thinking and tech knowledge in this engaging competition.",
-    image: "/sosc_logo.svg",
-    date: "8th Nov",
-    time: "3:30pm - 6:30pm",
-    organizer: "not me",
-    phone: "7654321098",
+      "Dominate the battlegrounds in this intense BGMI tournament. Strategic gameplay meets fast-paced action.",
+    date: "7 Nov",
+    time: "06:00 PM",
+    organizer: "Yishith",
+    contact: "4321098765",
+    image: "/bgmi-tournament.png",
+  },
+  {
+    id: 7,
+    title: "Speed Typing",
+    category: "Typing Challenge",
+    description:
+      "Test your speed and accuracy in this high-pressure typing competition. The fastest fingers win.",
+    date: "All 3 days",
+    time: "11:30 AM",
+    organizer: "TBA",
+    contact: "3210987654",
+    image: "/speed-typing.png",
+  },
+  {
+    id: 8,
+    title: "Rubik's Cube",
+    category: "Puzzle Solving",
+    description:
+      "A test of speed and logic — solve the Rubik's cube in record time to claim the top spot.",
+    date: "All 3 days",
+    time: "12:00 PM",
+    organizer: "TBA",
+    contact: "2109876543",
+    image: "/rubiks-cube.png",
   },
 ]
 
-export default function EventsSection() {
+export default function Events() {
   const sectionRef = useRef<HTMLElement>(null)
-  const headerRef = useRef<HTMLDivElement>(null)
-  const eventsRef = useRef<HTMLDivElement>(null)
+  const titleRef = useRef<HTMLHeadingElement>(null)
+  const subtitleRef = useRef<HTMLParagraphElement>(null)
+  const counterRef = useRef<HTMLDivElement>(null)
+  const cardsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const headerTl = gsap.timeline({
+      const mainTimeline = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top 80%",
-          end: "top 20%",
+          end: "bottom 20%",
           toggleActions: "play none none reverse",
         },
       })
 
-      headerTl
-        .from(".cyber-title", {
-          opacity: 0,
-          scale: 0.5,
-          rotationX: 90,
-          transformOrigin: "center center",
-          duration: 1.2,
-          ease: "back.out(1.7)",
-        })
-        .from(
-          ".cyber-subtitle",
+      mainTimeline
+        .fromTo(
+          titleRef.current,
           {
+            y: 30,
             opacity: 0,
-            y: 50,
-            rotationY: 45,
-            duration: 1,
+            scale: 0.95,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.5,
             ease: "power3.out",
           },
-          "-=0.6",
         )
-        .from(
-          ".header-accent",
+        .fromTo(
+          subtitleRef.current,
           {
-            scaleX: 0,
-            rotation: 180,
-            duration: 1.2,
-            ease: "elastic.out(1, 0.3)",
+            y: 20,
+            opacity: 0,
           },
-          "-=0.4",
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.4,
+            ease: "power2.out",
+          },
+          "-=0.3",
+        )
+        .fromTo(
+          counterRef.current,
+          {
+            y: 15,
+            opacity: 0,
+            scale: 0.95,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.4,
+            ease: "back.out(1.7)",
+          },
+          "-=0.3",
         )
 
-      gsap.set(".event-item", {
-        opacity: 0,
-        x: -200,
-        rotationY: -45,
-        scale: 0.8,
-      })
-
-      events.forEach((_, index) => {
-        const isEven = index % 2 === 0
-
-        ScrollTrigger.create({
-          trigger: `.event-item-${index}`,
-          start: "top 85%",
-          end: "bottom 15%",
-          onEnter: () => {
-            gsap.to(`.event-item-${index}`, {
-              opacity: 1,
-              x: 0,
-              rotationY: 0,
-              scale: 1,
-              duration: 1.2,
-              ease: "power3.out",
-              delay: index * 0.1,
-            })
-
-            gsap.from(`.event-item-${index} .event-image`, {
-              opacity: 0,
-              scale: 0.9,
-              duration: 1,
-              ease: "power2.out",
-              delay: 0.3,
-            })
-
-            gsap.from(`.event-item-${index} .event-title`, {
-              opacity: 0,
-              y: 30,
-              skewX: isEven ? 15 : -15,
-              duration: 0.8,
-              ease: "power2.out",
-              delay: 0.5,
-            })
-
-            gsap.from(`.event-item-${index} .event-description`, {
-              opacity: 0,
-              x: isEven ? 50 : -50,
-              duration: 1,
-              ease: "power2.out",
-              delay: 0.7,
-            })
-
-            gsap.from(`.event-item-${index} .event-details`, {
-              opacity: 0,
-              y: 20,
-              scale: 0.9,
-              duration: 0.8,
-              ease: "power2.out",
-              delay: 0.9,
-            })
-          },
-          onLeave: () => {
-            gsap.to(`.event-item-${index}`, {
-              opacity: 0.3,
-              scale: 0.95,
-              duration: 0.5,
-            })
-          },
-          onEnterBack: () => {
-            gsap.to(`.event-item-${index}`, {
-              opacity: 1,
-              scale: 1,
-              duration: 0.5,
-            })
-          },
-        })
-
-        gsap.to(`.timeline-dot-${index}`, {
-          y: -20,
-          duration: 2,
-          ease: "sine.inOut",
-          repeat: -1,
-          yoyo: true,
-          delay: index * 0.2,
-        })
-      })
-
-      ScrollTrigger.create({
-        trigger: ".stats-section",
-        start: "top 80%",
-        onEnter: () => {
-          gsap.from(".stat-item", {
-            opacity: 0,
-            y: 50,
-            rotationX: 90,
-            duration: 1,
-            stagger: 0.2,
-            ease: "back.out(1.7)",
-          })
-
-          gsap.from(".stat-number", {
-            textContent: 0,
-            duration: 2,
-            ease: "power2.out",
-            snap: { textContent: 1 },
-            stagger: 0.3,
-          })
+      gsap.fromTo(
+        cardsRef.current,
+        {
+          y: 30,
+          opacity: 0,
         },
-      })
-
-      gsap.to(".scan-line", {
-        y: "100vh",
-        duration: 3,
-        ease: "none",
-        repeat: -1,
-      })
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.5,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: cardsRef.current,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+        },
+      )
     }, sectionRef)
 
     return () => ctx.revert()
   }, [])
 
   return (
-    <section
-      ref={sectionRef}
-      className="min-h-screen bg-black relative overflow-hidden"
-      role="main"
-      aria-label="Cyberpunk Events Section"
-      style={
-        {
-          "--neon-green": "#a3ff12",
-          "--neon-green-glow": "rgba(163, 255, 18, 0.3)",
-          "--neon-green-dim": "rgba(163, 255, 18, 0.1)",
-          "--neon-green-bright": "rgba(163, 255, 18, 0.8)",
-        } as React.CSSProperties
-      }
-    >
-      <div className="absolute inset-0" aria-hidden="true">
-        <div className="absolute inset-0 " />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(163,255,18,0.03),transparent_70%)]" />
-        <div className="scan-line absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-[#a3ff12] to-transparent opacity-60" />
-        <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-[#a3ff12] rounded-full animate-pulse opacity-30" />
-        <div
-          className="absolute top-3/4 right-1/4 w-1 h-1 bg-[#a3ff12] rounded-full animate-pulse opacity-20"
-          style={{ animationDelay: "1s" }}
-        />
-        <div
-          className="absolute top-1/2 left-3/4 w-1 h-1 bg-[#a3ff12] rounded-full animate-pulse opacity-25"
-          style={{ animationDelay: "2s" }}
-        />
+    <section ref={sectionRef} className="relative min-h-screen bg-black py-24 overflow-hidden">
+      <div className="absolute inset-0 opacity-15">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(163,255,18,0.15)_1px,transparent_1px),linear-gradient(90deg,rgba(163,255,18,0.15)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-[#a3ff12]/5 via-transparent to-[#a3ff12]/10"></div>
       </div>
 
-      <div ref={headerRef} className="relative pt-20 pb-16 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center relative">
-            <div className="cyber-title relative inline-block">
-              <h1 className="mt-24 mb-12 pb-4 text-center text-3xl text-white md:text-5xl max-w-4xl mx-auto leading-tight font-dystopian">
-                 DevHost Events
-              </h1>
-            </div>
-
-            <div className="cyber-subtitle mt-6">
-              <p className="text-[#a3ff12]/80 text-lg md:text-xl font-mono opacity-80">
-                &gt; Build, Compete, and Leave Your Mark
-              </p>
-              <div className="flex justify-center items-center mt-3 space-x-2" aria-hidden="true">
-                <div className="w-2 h-2 bg-[#a3ff12] rounded-full animate-ping" />
-                <span className="text-white text-sm font-mono">6 EVENTS AVAILABLE</span>
-                <div className="w-2 h-2 bg-[#a3ff12] rounded-full animate-ping" style={{ animationDelay: "0.5s" }} />
-              </div>
-            </div>
-
-            <div
-              className="header-accent mt-8 mx-auto w-64 h-0.5 bg-gradient-to-r from-transparent via-[#a3ff12] to-transparent relative"
-              aria-hidden="true"
-            >
-              <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-[#a3ff12] rounded-full animate-pulse opacity-20" />
-            </div>
+      <div className="container mx-auto px-6 relative z-10 max-w-7xl">
+        <div className="text-center mb-24">
+          <div className="relative inline-block">
+            <h1 ref={titleRef} className="text-5xl md:text-7xl font-orbitron mb-8 perspective-1000 relative z-10">
+              <span className="text-white">DEVHOST </span>
+              <span className="text-[#a3ff12] drop-shadow-[0_0_20px_rgba(163,255,18,0.5)]">EVENTS</span>
+            </h1>
           </div>
+
+          <p ref={subtitleRef} className="text-[#a3ff12] text-xl md:text-2xl mb-12 font-default mt-8">
+            &gt; Build, Compete, and Leave Your Mark
+          </p>
+
+          <div ref={counterRef} className="flex items-center justify-center gap-4 mb-20 font-default">
+            <div className="w-3 h-3 bg-[#a3ff12] shadow-[0_0_10px_rgba(163,255,18,0.8)] animate-pulse"></div>
+            <span className="text-white font-bold text-xl tracking-wider">9 EVENTS AVAILABLE</span>
+          </div>
+
+          <div className="w-32 h-1 bg-[#a3ff12] mx-auto shadow-[0_0_10px_rgba(163,255,18,0.6)]"></div>
+        </div>
+
+        <div ref={cardsRef} className="grid grid-cols-1 font-default lg:grid-cols-2 gap-12 justify-items-center">
+          {events.map((event, index) => (
+            <EventCard key={event.id} event={event} index={index} />
+          ))}
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 pb-20">
-        <div ref={eventsRef} className="relative">
-          <div
-            className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#a3ff12] via-[#a3ff12]/50 to-transparent shadow-[0_0_10px_rgba(163,255,18,0.3)]"
-            aria-hidden="true"
-          />
-
-          <div className="space-y-12">
-            {events.map((event, index) => (
-              <article
-                key={event.id}
-                className={`event-item event-item-${index} relative flex items-start space-x-8 group`}
-              >
-                <div className="relative z-10 flex-shrink-0">
-                  <div
-                    className={`timeline-dot-${index} w-4 h-4 bg-[#a3ff12] rounded-full border-4 border-black group-hover:scale-125 transition-transform duration-300 shadow-[0_0_15px_rgba(163,255,18,0.5)]`}
-                  />
-                  <div className="absolute inset-0 bg-[#a3ff12] rounded-full animate-ping opacity-20" />
-                </div>
-
-                <div className="flex-1 bg-gradient-to-br from-gray-900/40 to-gray-900/20 backdrop-blur-sm border border-gray-800 hover:border-[#a3ff12]/50 hover:shadow-[0_0_30px_rgba(163,255,18,0.1)] transition-all duration-500 p-6 relative overflow-hidden rounded-lg">
-                 
-                  {/* Event header */}
-                  <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
-                    <div className="flex items-center space-x-4 mb-2 md:mb-0">
-                      <span className="text-[#a3ff12] font-mono text-lg font-bold bg-[#a3ff12]/10 px-2 py-1 rounded border border-[#a3ff12]/30">
-                        #{event.id.toString().padStart(2, "0")}
-                      </span>
-                      <h3 className="event-title text-xl md:text-2xl font-bold text-white group-hover:text-[#a3ff12] transition-colors duration-300">
-                        {event.name}
-                      </h3>
-                    </div>
-
-                    <div className="flex items-center space-x-3">
-                      <time
-                        className="text-[#a3ff12] font-mono text-sm bg-[#a3ff12]/10 px-3 py-1 rounded border border-[#a3ff12]/30"
-                        dateTime={event.date}
-                      >
-                        {event.date}
-                      </time>
-                    </div>
-                  </div>
-
-                  {/*  details  */}
-                  <div className="grid md:grid-cols-3 gap-6">
-                    <div className="md:col-span-1">
-                      <div className="event-image aspect-square relative overflow-hidden border border-gray-700 group-hover:border-[#a3ff12]/30 transition-colors duration-300 rounded-lg shadow-lg">
-                        <Image
-                          src={event.image || "/placeholder.svg"}
-                          alt={`${event.name} event preview`}
-                          fill
-                          className="object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      </div>
-                    </div>
-
-                    {/*  info */}
-                    <div className="md:col-span-2 space-y-4">
-                      <div className="event-tagline">
-                        <span className="text-[#a3ff12] font-mono text-sm tracking-wider bg-[#a3ff12]/5 px-2 py-1 rounded border border-[#a3ff12]/20">
-                          {event.tagline}
-                        </span>
-                      </div>
-
-                      <p className="event-description text-gray-300 leading-relaxed group-hover:text-white transition-colors duration-300">
-                        {event.description}
-                      </p>
-
-                      <div className="event-details space-y-3">
-                        <div className="flex items-center text-sm">
-                          <span className="text-[#a3ff12] mr-3 w-6 h-6 flex items-center justify-center border border-[#a3ff12] rounded text-xs font-mono bg-[#a3ff12]/10">
-                            T
-                          </span>
-                          <div>
-                            <div className="text-xs text-gray-500 font-mono">DATE & TIME</div>
-                            <div className="text-white font-medium">
-                              {event.date} | {event.time}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center text-sm">
-                          <span className="text-[#a3ff12] mr-3 w-6 h-6 flex items-center justify-center border border-[#a3ff12] rounded text-xs font-mono bg-[#a3ff12]/10">
-                            O
-                          </span>
-                          <div>
-                            <div className="text-xs text-gray-500 font-mono">ORGANIZER</div>
-                            <div className="text-white font-medium">{event.organizer}</div>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center text-sm">
-                          <span className="text-[#a3ff12] mr-3 w-6 h-6 flex items-center justify-center border border-[#a3ff12] rounded text-xs font-mono bg-[#a3ff12]/10">
-                            C
-                          </span>
-                          <div>
-                            <div className="text-xs text-gray-500 font-mono">CONTACT</div>
-                            <div className="text-white font-mono font-medium">{event.phone}</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div
-                    className="absolute inset-0 border border-[#a3ff12]/0 group-hover:border-[#a3ff12]/20 transition-colors duration-300 pointer-events-none rounded-lg"
-                    aria-hidden="true"
-                  >
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-[#a3ff12] to-transparent" />
-                      <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-[#a3ff12] to-transparent" />
-                    
-                      <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-[#a3ff12]" />
-                      <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-[#a3ff12]" />
-                      <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-[#a3ff12]" />
-                      <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-[#a3ff12]" />
-                    </div>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-
-        <div className="stats-section mt-16 grid grid-cols-2 md:grid-cols-3 gap-6">
-          <div className="stat-item text-center p-6 border border-gray-800 bg-gradient-to-br from-gray-900/40 to-gray-900/20 backdrop-blur-sm hover:border-[#a3ff12]/30 transition-colors duration-300 rounded-lg">
-            <div className="stat-number text-3xl font-bold text-[#a3ff12] font-mono">6</div>
-            <div className="text-gray-400 text-sm font-mono mt-1">TOTAL EVENTS</div>
-          </div>
-          <div className="stat-item text-center p-6 border border-gray-800 bg-gradient-to-br from-gray-900/40 to-gray-900/20 backdrop-blur-sm hover:border-[#a3ff12]/30 transition-colors duration-300 rounded-lg">
-            <div className="stat-number text-3xl font-bold text-[#a3ff12] font-mono">1200</div>
-            <div className="text-gray-400 text-sm font-mono mt-1">PARTICIPANTS</div>
-          </div>
-          <div className="stat-item text-center p-6 border border-gray-800 bg-gradient-to-br from-gray-900/40 to-gray-900/20 backdrop-blur-sm hover:border-[#a3ff12]/30 transition-colors duration-300 col-span-2 md:col-span-1">
-            <div className="stat-number text-3xl font-bold text-[#a3ff12] font-mono">15</div>
-            <div className="text-gray-400 text-sm font-mono mt-1"> COLLEGES </div>
-          </div>
-        </div>
-      </div>
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#a3ff12]/5 blur-3xl"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#a3ff12]/5 blur-3xl"></div>
     </section>
-  )
+ )
 }

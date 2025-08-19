@@ -7,7 +7,9 @@ import TimelineSection from "@/components/TimeLine";
 import AboutHackathon from "@/components/AboutHackathon";
 
 import Events from "@/components/Events";
-{/*import { CommonEvents } from "@/components/CommonEvents";*/}
+import FAQ from "@/components/Faq";
+import Map from "@/components/Map";
+/* import { CommonEvents } from "@/components/CommonEvents"; */
 
 
 export default function Home() {
@@ -20,7 +22,9 @@ export default function Home() {
       <AboutHackathon/>
       <TimelineSection />
       <Events /> 
-    {/*  <CommonEvents /> */}
+      <FAQ />
+      <Map/>
+    {/*<CommonEvents /> */}
     </div>
   );
 }
