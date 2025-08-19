@@ -7,6 +7,7 @@ import TimelineSection from "@/components/TimeLine";
 import AboutHackathon from "@/components/AboutHackathon";
 
 import Events from "@/components/Events";
+import Footer from "@/components/Footer";
 import FAQ from "@/components/Faq";
 import Map from "@/components/Map";
 /* import { CommonEvents } from "@/components/CommonEvents"; */
@@ -23,6 +24,7 @@ export default function Home() {
       <Events />
       <FAQ />
       <Map />
+      <Footer/>
       {/*<CommonEvents /> */}
 
       <div className="pointer-events-none fixed inset-0 -z-10 opacity-5">
