@@ -1,4 +1,3 @@
-"use client"
 import Hero from "@/components/Hero";
 import AboutDevhost from "@/components/AboutDevhost";
 import Counter from "@/components/Counter";
@@ -19,7 +18,7 @@ export default function Home() {
       <Hero />
       <Counter />
       <AboutDevhost />
-      <AboutHackathon/>
+      <AboutHackathon />
       <TimelineSection />
       <Events /> 
       <FAQ />
