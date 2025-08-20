@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useMemo } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 
@@ -15,6 +15,27 @@ export default function CollegeMap() {
   const mapRef = useRef<HTMLDivElement>(null)
   const particlesRef = useRef<HTMLDivElement>(null)
   const gridRef = useRef<HTMLDivElement>(null)
+
+  // ✅ Generate particle data once to avoid hydration mismatch
+  const smallParticles = useMemo(
+    () =>
+      [...Array(20)].map(() => ({
+        width: Math.random() * 3 + 1,
+        height: Math.random() * 3 + 1,
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+      })),
+    []
+  )
+
+  const largeParticles = useMemo(
+    () =>
+      [...Array(8)].map(() => ({
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+      })),
+    []
+  )
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -31,13 +52,13 @@ export default function CollegeMap() {
         .fromTo(
           titleRef.current,
           { y: 60, opacity: 0, scale: 0.9 },
-          { y: 0, opacity: 1, scale: 1, duration: 1, ease: "power3.out" },
+          { y: 0, opacity: 1, scale: 1, duration: 1, ease: "power3.out" }
         )
         .fromTo(
           mapRef.current,
           { scale: 0.9, opacity: 0, rotationY: 5 },
           { scale: 1, opacity: 1, rotationY: 0, duration: 1.2, ease: "power2.out" },
-          "-=0.6",
+          "-=0.6"
         )
 
       gsap.to(gridRef.current, {
@@ -85,25 +106,25 @@ export default function CollegeMap() {
       </div>
 
       <div ref={particlesRef} className="absolute inset-0 pointer-events-none">
-        {[...Array(20)].map((_, i) => (
+        {smallParticles.map((p, i) => (
           <div
             key={i}
             className="map-particle absolute rounded-full bg-primary shadow-[0_0_8px_theme(colors.primary)]"
             style={{
-              width: `${Math.random() * 3 + 1}px`,
-              height: `${Math.random() * 3 + 1}px`,
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              width: `${p.width}px`,
+              height: `${p.height}px`,
+              left: `${p.left}%`,
+              top: `${p.top}%`,
             }}
           />
         ))}
-        {[...Array(8)].map((_, i) => (
+        {largeParticles.map((p, i) => (
           <div
             key={`large-${i}`}
             className="map-particle absolute w-3 h-3 rounded-full bg-secondary shadow-[0_0_12px_theme(colors.secondary)] opacity-60"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: `${p.left}%`,
+              top: `${p.top}%`,
             }}
           />
         ))}
