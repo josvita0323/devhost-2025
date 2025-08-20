@@ -2,23 +2,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { markers } from "./data";
+import { markers } from "../assets/data/timeline";
 
-// Register ScrollTrigger
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
-}
-
-interface MarkerEvent {
-  id: string;
-  time: string;
-  displayTime: string;
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  speaker?: string;
-  role?: string;
-  venue?: string;
 }
 
 const CyberpunkTimeline: React.FC = () => {
@@ -56,7 +43,7 @@ const CyberpunkTimeline: React.FC = () => {
   if (!mounted) return null;
 
   return (
-    <div ref={containerRef} className="min-h-screen">
+    <div ref={containerRef} className="relative min-h-screen py-48">
       {/* Header */}
       <h1 className="font-orbitron mb-3 text-center text-4xl font-bold sm:text-7xl">
         TIMELINE
@@ -91,12 +78,12 @@ const CyberpunkTimeline: React.FC = () => {
                   }`}
                 >
                   {/* Timeline node */}
-                  <div className="border-primary bg-background absolute  z-10 h-4 w-4 -translate-x-1/2 transform rounded-full border-2 sm:left-1/2">
+                  <div className="border-primary bg-background absolute top-1/2 z-10 h-4 w-4 -translate-x-1/2 -translate-y-1/2 transform rounded-full border-2 sm:left-1/2">
                     <div className="bg-primary absolute top-1/2 left-1/2 h-1 w-1 -translate-x-1/2 -translate-y-1/2 transform rounded-full"></div>
                   </div>
 
                   {/* Content card */}
-                  <div className="w-full sm:ml-8 sm:w-5/12">
+                  <div className="w-full pl-4 sm:w-5/12 sm:pl-0">
                     <div className="border-border bg-background/80 relative border p-4 shadow-lg backdrop-blur-sm sm:p-6">
                       {/* Time badge */}
                       <div
@@ -143,13 +130,6 @@ const CyberpunkTimeline: React.FC = () => {
 
                       {/* Accent neon corner */}
                       <div className="bg-primary clip-path-neon absolute right-0 bottom-0 h-8 w-12"></div>
-
-                      {/* Connecting line (desktop) */}
-                      <div
-                        className={`absolute top-1/2 hidden sm:block ${
-                          isLeft ? "-right-8" : "-left-8"
-                        } bg-primary h-px w-8`}
-                      ></div>
                     </div>
                   </div>
                 </div>
@@ -165,6 +145,9 @@ const CyberpunkTimeline: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <div className="absolute bottom-0 h-48 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" />
+      <div className="absolute top-0 h-48 w-full bg-gradient-to-b from-black/95 via-black/80 to-transparent" />
     </div>
   );
 };
