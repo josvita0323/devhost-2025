@@ -1,37 +1,39 @@
-"use client";
+"use client"
 
-import { useEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { HoverBorderGradient } from "@/components/old/hover-border-gradient";
-import Image from "next/image";
+import { useEffect, useRef, useState } from "react"
+import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+import Image from "next/image"
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger)
 
 export default function Home() {
-  const [isClient, setIsClient] = useState(false);
-  const [showContent, setShowContent] = useState(false);
+  const [isClient, setIsClient] = useState(false)
+  const [showContent, setShowContent] = useState(false)
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const hacRef = useRef<HTMLDivElement>(null);
-  const athonRef = useRef<HTMLDivElement>(null);
-  const kRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
-  const brownCircleRef = useRef<HTMLDivElement>(null);
-  const leftBracketRef = useRef<HTMLDivElement>(null);
-  const rightBracketRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null)
+  const hacRef = useRef<HTMLDivElement>(null)
+  const athonRef = useRef<HTMLDivElement>(null)
+  const kRef = useRef<HTMLDivElement>(null)
+  const imageRef = useRef<HTMLDivElement>(null)
+  const brownCircleRef = useRef<HTMLDivElement>(null)
+  const leftBracketRef = useRef<HTMLDivElement>(null)
+  const rightBracketRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
+  const topTextRef = useRef<HTMLDivElement>(null)
+  const bottomTextRef = useRef<HTMLDivElement>(null)
+  const topDecorRef = useRef<HTMLDivElement>(null)
+  const glitchLinesRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    setIsClient(true);
-  }, []);
+    setIsClient(true)
+  }, [])
 
   useEffect(() => {
-    if (!isClient) return;
+    if (!isClient) return
 
     const ctx = gsap.context(() => {
-      // Base setup
-      gsap.set(imageRef.current, { scale: 4, opacity: 1, zIndex: 30 });
+      gsap.set(imageRef.current, { scale: 4, opacity: 1, zIndex: 30 })
       gsap.set(
         [
           hacRef.current,
@@ -40,20 +42,58 @@ export default function Home() {
           brownCircleRef.current,
           leftBracketRef.current,
           rightBracketRef.current,
+          topDecorRef.current,
+          glitchLinesRef.current,
         ],
         { opacity: 0 },
-      );
-      gsap.set(contentRef.current, { opacity: 0, y: 50 });
-      gsap.set(hacRef.current, { x: -300 });
-      gsap.set(athonRef.current, { x: 300 });
-      gsap.set(kRef.current, { y: 50 });
-      gsap.set(leftBracketRef.current, { x: -50 });
-      gsap.set(rightBracketRef.current, { x: 50 });
+      )
+      gsap.set(contentRef.current, { opacity: 0, y: 50 })
+      gsap.set(topTextRef.current, { opacity: 0, y: -100 })
+      gsap.set(bottomTextRef.current, { opacity: 0, y: 100 })
+      gsap.set(hacRef.current, { x: -300 })
+      gsap.set(athonRef.current, { x: 300 })
+      gsap.set(kRef.current, { y: 50 })
+      gsap.set(leftBracketRef.current, { x: -50 })
+      gsap.set(rightBracketRef.current, { x: 50 })
+      gsap.set(topDecorRef.current, { scale: 0.8 })
+      gsap.set(glitchLinesRef.current, { x: -50 })
 
-      // Grab all images inside the container
-      const images = gsap.utils.toArray<HTMLImageElement>(".hackathon-image");
+      const images = gsap.utils.toArray<HTMLImageElement>(".hackathon-image")
 
-      // Timeline
+      const predefinedPositions = [
+        { x: -200, y: -120, scale: 0.9, rotation: 0 },
+        { x: -100, y: -100, scale: 0.7, rotation: 0 },
+        { x: 0, y: -130, scale: 1.0, rotation: 0 },
+        { x: 100, y: -110, scale: 0.8, rotation: 0 },
+        { x: 200, y: -120, scale: 0.9, rotation: 0 },
+        { x: -240, y: -40, scale: 0.6, rotation: 0 },
+        { x: -120, y: -60, scale: 1.1, rotation: 0 },
+        { x: -60, y: -50, scale: 0.8, rotation: 0 },
+        { x: 60, y: -45, scale: 0.9, rotation: 0 },
+        { x: 120, y: -55, scale: 0.7, rotation: 0 },
+        { x: -160, y: 40, scale: 1.0, rotation: 0 },
+        { x: -80, y: 60, scale: 0.8, rotation: 0 },
+        { x: 80, y: 50, scale: 0.9, rotation: 0 },
+        { x: 160, y: 45, scale: 0.7, rotation: 0 },
+      ]
+
+      images.forEach((img, i) => {
+        const position = predefinedPositions[i % predefinedPositions.length]
+
+        gsap.set(img, {
+          opacity: 1,
+          x: position.x + "%",
+          y: position.y + "%",
+          scale: position.scale,
+          rotation: position.rotation,
+          zIndex: 10 + i,
+          position: "absolute",
+          left: "50%",
+          top: "50%",
+          transform: "translate(-50%, -50%)",
+        })
+      })
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
@@ -62,57 +102,49 @@ export default function Home() {
           scrub: 1,
           pin: true,
         },
-      });
+      })
 
-      // Animate images sequentially
-      images.forEach((img, i) => {
-        tl.set(img, { opacity: 1 });
-        if (i !== images.length - 1) {
-          tl.set(img, { opacity: 0 }, "+=0.1"); // hide after delay except last
-        }
-      });
-
-      // Scale and transition animations
       tl.to(
-        imageRef.current,
-        { scale: 0.4, duration: 2, ease: "power2.out" },
+        images,
+        {
+          x: 0,
+          y: 0,
+          scale: 0.8,
+          rotation: 0,
+          duration: 2,
+          ease: "power2.out",
+          stagger: 0.05,
+        },
         0,
       )
         .to(
-          imageRef.current,
-          { scale: 0.01, opacity: 0, duration: 1.5, ease: "power2.out" },
-          "-=0.5",
-        )
-        .to(
-          hacRef.current,
-          { x: -5, opacity: 1, duration: 1.5, ease: "power2.out" },
-          "-=2",
-        )
-        .to(
-          athonRef.current,
-          { x: 5, opacity: 1, duration: 1.5, ease: "power2.out" },
-          "-=1.7",
-        )
-        .to(
-          leftBracketRef.current,
-          { x: -2, opacity: 1, duration: 1.5, ease: "power2.out" },
-          "-=1.7",
-        )
-        .to(
-          rightBracketRef.current,
-          { x: 2, opacity: 1, duration: 1.5, ease: "power2.out" },
-          "-=1.7",
-        )
-        .to(
-          kRef.current,
-          { y: 0, opacity: 1, duration: 2, ease: "power2.out" },
+          images,
+          {
+            scale: 0.4,
+            duration: 1.5,
+            ease: "power2.out",
+          },
           "-=1",
         )
         .to(
-          brownCircleRef.current,
-          { opacity: 1, duration: 1, ease: "power2.out" },
-          "-=1.5",
+          images,
+          {
+            scale: 0.01,
+            opacity: 0,
+            duration: 1,
+            ease: "power2.out",
+          },
+          "-=0.5",
         )
+
+      tl.to(imageRef.current, { scale: 0.4, duration: 2, ease: "power2.out" }, 0)
+        .to(imageRef.current, { scale: 0.01, opacity: 0, duration: 1.5, ease: "power2.out" }, "-=0.5")
+        .to(hacRef.current, { x: 0, opacity: 1, duration: 1.5, ease: "power2.out" }, "-=1.5")
+        .to(athonRef.current, { x: 0, opacity: 1, duration: 1.5, ease: "power2.out" }, "-=1.7")
+        .to(leftBracketRef.current, { x: -2, opacity: 1, duration: 1.5, ease: "power2.out" }, "-=2.2")
+        .to(rightBracketRef.current, { x: 2, opacity: 1, duration: 1.5, ease: "power2.out" }, "-=2.2")
+        .to(kRef.current, { y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1")
+        .to(brownCircleRef.current, { opacity: 1, duration: 1, ease: "power2.out" }, "-=1.5")
         .to(
           contentRef.current,
           {
@@ -123,21 +155,60 @@ export default function Home() {
             onComplete: () => setShowContent(true),
           },
           "-=1",
-        );
-    }, containerRef);
+        )
+        .to(
+          topTextRef.current,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1.2,
+            ease: "power2.out",
+          },
+          "-=0.5",
+        )
+        .to(
+          bottomTextRef.current,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1.2,
+            ease: "power2.out",
+          },
+          "-=1",
+        )
+        .to(
+          topDecorRef.current,
+          {
+            opacity: 1,
+            scale: 1,
+            duration: 1,
+            ease: "power2.out",
+          },
+          "-=1.5",
+        )
+        .to(
+          glitchLinesRef.current,
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.8,
+            ease: "power2.out",
+          },
+          "-=1.2",
+        )
+    }, containerRef)
 
-    return () => ctx.revert();
-  }, [isClient]);
+    return () => ctx.revert()
+  }, [isClient])
 
   if (!isClient) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-black text-white">
         <div className="text-2xl">Loading...</div>
       </div>
-    );
+    )
   }
 
-  // List of images (easier maintenance)
   const images = [
     { src: "/images/IMG_1.jpg", alt: "Innovation workspace 1" },
     { src: "/images/IMG_3.webp", alt: "Innovation workspace 2" },
@@ -148,45 +219,45 @@ export default function Home() {
     { src: "/images/IMG_7.webp", alt: "Collaborative workspace 7" },
     { src: "/images/IMG_8.webp", alt: "Innovation lab 8" },
     { src: "/images/IMG_9.webp", alt: "Developer workspace 9" },
-    { src: "/images/IMG_10.webp", alt: "Creative studio 10" },
-    { src: "/images/IMG_11.webp", alt: "Tech hub 11" },
-    { src: "/images/IMG_12.webp", alt: "Coding environment 12" },
-    { src: "/images/IMG_13.webp", alt: "Hackathon space 13" },
-    { src: "/images/IMG_14.webp", alt: "Innovation center 14" },
-    { src: "/images/IMG_15.webp", alt: "Development workspace 15" },
-    { src: "/images/IMG_16.webp", alt: "Creative lab 16" },
-    { src: "/images/IMG_17.webp", alt: "Tech workspace 17" },
-    { src: "/images/IMG_18.webp", alt: "Final workspace 18" },
-  ];
+    { src: "/images/IMG_10.webp", alt: "Creative coding space 10" },
+    { src: "/images/IMG_11.webp", alt: "Modern tech hub 11" },
+    { src: "/images/IMG_12.webp", alt: "Innovation center 12" },
+    { src: "/images/IMG_13.webp", alt: "Developer lounge 13" },
+    { src: "/images/IMG_14.webp", alt: "Startup workspace 14" },
+  ]
 
   return (
-    <div
-      ref={containerRef}
-      className="min-h-[180vh] overflow-hidden bg-black text-white"
-    >
+    <div ref={containerRef} className="min-h-[180vh] overflow-hidden bg-black text-white relative">
       <div className="relative flex h-screen flex-col items-center justify-center">
+        <div ref={topTextRef} className="absolute top-8 left-0 right-0 text-center opacity-0">
+          <p className="font-mono text-xs sm:text-sm md:text-lg lg:text-xl xl:text-2xl text-white tracking-wider font-bold px-4 sm:px-6">
+            INNOVATION • COLLABORATION • EXECUTION
+          </p>
+        </div>
+
+
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="font-orbitron flex items-end justify-center">
             <div
               ref={hacRef}
-              className="text-[12vw] leading-none font-black tracking-tight text-white opacity-0 select-none md:text-[8vw]"
+              className="text-[12vw] leading-none font-black tracking-tight text-white opacity-0 select-none md:text-[8vw] -mr-1 md:mr-0"
             >
               DEV
             </div>
 
             <div className="relative flex items-end justify-center">
-              {/* Image Slideshow */}
               <div
                 ref={imageRef}
-                className="relative h-[80px] w-[120px] opacity-1"
+                className="relative h-[40px] w-[60px] opacity-1 sm:h-[50px] sm:w-[75px] md:h-[60px] md:w-[90px]"
               >
                 {images.map((img, i) => (
                   <Image
                     key={i}
-                    src={img.src}
+                    src={img.src || "/placeholder.svg"}
                     alt={img.alt}
-                    fill
-                    className="hackathon-image absolute inset-0 object-cover opacity-0"
+                    width={90}
+                    height={60}
+                    className="hackathon-image absolute inset-0 object-cover opacity-0 shadow-lg w-full h-full"
                   />
                 ))}
               </div>
@@ -201,36 +272,40 @@ export default function Home() {
 
             <div
               ref={athonRef}
-              className="text-[12vw] leading-none font-black tracking-tight text-white opacity-0 select-none md:text-[8vw]"
+              className="text-[12vw] leading-none font-black tracking-tight text-white opacity-0 select-none md:text-[8vw] -ml-1 md:ml-0"
             >
               ACK
             </div>
           </div>
         </div>
 
-        {/* Content */}
-        <div
-          ref={contentRef}
-          className="absolute bottom-20 flex flex-col items-center space-y-6 opacity-0"
-        >
-          <div className="max-w-2xl px-6 text-center">
-            <p className="font-mono text-lg leading-relaxed text-gray-300 md:text-xl">
-              Join us for an intense 20-hour hackathon where innovation meets
-              execution. Build, code, and create the future in one epic weekend
-              of non-stop development.
+        <div ref={contentRef} className="absolute bottom-20 flex flex-col items-center space-y-6 opacity-0">
+          <div className="max-w-4xl px-6 text-center">
+            <p className="font-mono text-base leading-relaxed text-gray-300 sm:text-lg md:text-xl mb-4">
+              Join us for an intense 20-hour hackathon where innovation meets execution. Build, code, and create the
+              future in one epic weekend of non-stop development.
             </p>
           </div>
 
-          <HoverBorderGradient
-            containerClassName="rounded-full"
-            className="group flex w-full items-center justify-center space-x-2 border border-[var(--neon-green-dim)] bg-black/70 px-6 py-3 shadow-[0_0_10px_var(--neon-green-glow)] transition-all duration-300 hover:shadow-[0_0_20px_var(--neon-green)] md:w-auto md:px-8 md:py-4"
-          >
-            <span className="font-mono text-sm tracking-wider text-[var(--neon-green)] md:text-base">
-              Know More About DevHack
-            </span>
-          </HoverBorderGradient>
+          <div className="flex justify-center lg:justify-start mt-2">
+            <button
+              onClick={() => window.open("https://google.com", "_blank")}
+              className="relative w-32 h-10 lg:w-60 lg:h-12 cursor-pointer transition-all duration-300 hover:scale-105"
+            >
+              <Image src="/Group2012.svg" alt="Register" fill className="object-contain" />
+              <span className="absolute inset-0 flex items-center justify-center font-orbitron text-white text-sm lg:text-lg font-bold">
+                To Know More About DevHack
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <div ref={bottomTextRef} className="absolute bottom-8 left-0 right-0 text-center opacity-0">
+          <p className="font-mono text-xs sm:text-sm md:text-lg lg:text-xl xl:text-2xl text-white tracking-wider font-bold px-4 sm:px-6">
+            20 HOURS • UNLIMITED POSSIBILITIES • ONE EPIC WEEKEND
+          </p>
         </div>
       </div>
     </div>
-  );
+  )
 }
