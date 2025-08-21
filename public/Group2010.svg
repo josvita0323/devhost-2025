@@ -10,7 +10,7 @@
 <path d="M30 15L12 34V211H168.8V15H30Z" fill="#847E16"/>
 </mask>
 <g mask="url(#mask0_1091_630)">
-<rect x="8.85425" y="1.78931" width="158.79" height="214.834" fill="white"/>
+<!-- <rect x="8.85425" y="1.78931" width="158.79" height="214.834" fill="white"/> -->
 </g>
 <path d="M359 208V224.567H342.5L359 208Z" fill="#446211"/>
 </svg>
