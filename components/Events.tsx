@@ -163,7 +163,7 @@ export default function Events() {
         </p>
         <p className="mt-6 flex items-center justify-center gap-2 font-bold text-white">
           <span className="h-3 w-3 rounded-sm bg-[#a3ff12] shadow-[0_0_10px_#a3ff12]"></span>
-          <span className="text-xl tracking-wider sm:text-2xl">
+          <span className="text-xl tracking-wider sm:text-2xl font-orbitron">
             {events.length} EVENTS AVAILABLE
           </span>
         </p>
@@ -204,7 +204,7 @@ export default function Events() {
 
               <div className="flex flex-1 flex-col justify-between overflow-hidden py-1 sm:py-7">
                 <div className="flex-1 overflow-y-auto pr-1">
-                  <h2 className="mb-6 text-lg leading-tight font-bold text-[#a3ff12] drop-shadow-[0_0_8px_#a3ff12] lg:text-2xl">
+                  <h2 className="mb-6 text-lg leading-tight font-bold text-[#a3ff12]  lg:text-2xl">
                     {event.title}
                   </h2>
                   <p className="mb-2 text-sm leading-tight text-white/90 italic lg:text-base">

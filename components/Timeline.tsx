@@ -94,7 +94,7 @@ const CyberpunkTimeline: React.FC = () => {
                         } border-border border bg-black px-3 py-1`}
                       >
                         <span className="font-orbitron text-muted-foreground text-xs">
-                          {item.time}
+                          {item.displayTime}
                         </span>
                       </div>
 

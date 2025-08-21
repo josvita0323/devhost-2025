@@ -7,13 +7,12 @@ import { Calendar, Clock, User } from "lucide-react";
 export default function Hero() {
   return (
     <Fragment>
-      <div className="relative flex h-screen w-full items-center justify-center overflow-hidden  text-zinc-300">
-
+      <div className="relative flex h-screen w-full items-center justify-center overflow-hidden text-zinc-300">
         {/* Main Logo */}
         <Logo className="relative z-10 w-full max-w-[250px] sm:max-w-[300px] md:max-w-[400px]" />
 
         {/* Cyberpunk side boot logs (left) */}
-        <div className="font-orbitron absolute top-10 left-10 text-xs sm:text-sm tracking-wider text-zinc-600">
+        <div className="font-orbitron absolute top-10 left-10 text-xs tracking-wider text-zinc-600 sm:text-sm">
           <DecryptText
             text="> INIT SEQUENCE v2.4"
             startDelayMs={200}
@@ -52,7 +51,7 @@ export default function Hero() {
         {/* Floating Dock (Top Right) */}
         <div className="font-orbitron absolute top-10 right-10 z-20 flex gap-4">
           <button
-            className="relative flex cursor-pointer items-center gap-2 bg-primary px-5 py-2 text-xs font-bold tracking-widest text-black uppercase transition"
+            className="bg-primary relative flex cursor-pointer items-center gap-2 px-5 py-2 text-xs font-bold tracking-widest text-black uppercase transition"
             style={{
               clipPath:
                 "polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)",
@@ -63,7 +62,7 @@ export default function Hero() {
         </div>
 
         {/* Scroll Hint */}
-        <div className="font-orbitron absolute right-10 bottom-10 z-10 flex items-center text-primary">
+        <div className="font-orbitron text-primary absolute right-10 bottom-10 z-10 flex items-center">
           <span className="mr-2 text-3xl">[</span>
           <DecryptText
             text="Scroll to Explore"

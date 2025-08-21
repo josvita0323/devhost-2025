@@ -264,14 +264,14 @@ export default function Home() {
       className="relative min-h-screen overflow-hidden bg-black text-white"
     >
       <div className="relative flex h-screen flex-col items-center justify-center">
-        <div
+        {/* <div
           ref={topTextRef}
           className="absolute top-8 right-0 left-0 text-center opacity-0"
         >
           <p className="font-orbitron px-4 text-xs font-bold tracking-wider text-white sm:px-6 sm:text-sm md:text-lg lg:text-xl xl:text-2xl">
             INNOVATION • COLLABORATION • EXECUTION
           </p>
-        </div>
+        </div> */}
 
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="font-orbitron flex items-end justify-center">
@@ -322,16 +322,16 @@ export default function Home() {
         >
           <div className="max-w-4xl px-6 text-center">
             <p className="mb-4 font-mono text-base leading-relaxed text-gray-300 sm:text-lg md:text-xl">
-              Join us for an intense 20-hour hackathon where innovation meets
+              Join us for an intense 36-hour hackathon where innovation meets
               execution. Build, code, and create the future in one epic weekend
               of non-stop development.
             </p>
           </div>
 
-          <div className="mt-2 flex justify-center lg:justify-start">
+          <div className="flex justify-center lg:justify-start">
             <button
               onClick={() => window.open("https://google.com", "_blank")}
-              className="relative h-10 w-32 cursor-pointer transition-all duration-300 hover:scale-105 lg:h-12 lg:w-60"
+              className="relative h-12 w-40 cursor-pointer transition-all duration-300 hover:scale-105 lg:h-12 lg:w-60"
             >
               <Image
                 src="/Group2012.svg"
@@ -339,21 +339,21 @@ export default function Home() {
                 fill
                 className="object-contain"
               />
-              <span className="font-orbitron absolute inset-0 flex items-center justify-center text-sm font-bold text-white lg:text-lg">
+              <span className="font-orbitron absolute inset-0 flex items-center justify-center text-sm font-bold text-white">
                 Know More
               </span>
             </button>
           </div>
         </div>
 
-        <div
+        {/* <div
           ref={bottomTextRef}
           className="absolute right-0 bottom-8 left-0 text-center opacity-0"
         >
           <p className="font-orbitron px-4 text-xs font-bold tracking-wider text-white sm:px-6 sm:text-sm md:text-lg lg:text-xl xl:text-2xl">
             20 HOURS • UNLIMITED POSSIBILITIES • ONE EPIC WEEKEND
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );

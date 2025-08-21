@@ -102,7 +102,7 @@ export default function FAQ() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen overflow-hidden bg-black px-4 py-20 text-white md:px-8"
+      className="relative min-h-screen overflow-hidden px-4 py-20 text-white md:px-8"
     >
       {/* Enhanced cyberpunk grid background */}
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(#a3ff1208_1px,transparent_1px),linear-gradient(90deg,#a3ff1208_1px,transparent_1px)] bg-[size:40px_40px] opacity-30"></div>
@@ -124,13 +124,6 @@ export default function FAQ() {
           <h2 className="font-orbitron relative inline-block text-5xl font-bold md:text-7xl">
             FAQ
           </h2>
-
-          {/* Decorative lines below title */}
-          <div className="mt-6 flex items-center justify-center space-x-4">
-            <div className="h-px w-16 skew-x-12 transform bg-[#a3ff12] shadow-[0_0_10px_#a3ff12]"></div>
-            <div className="h-2 w-2 rotate-45 transform bg-[#a3ff12] shadow-[0_0_10px_#a3ff12]"></div>
-            <div className="h-px w-16 -skew-x-12 transform bg-[#a3ff12] shadow-[0_0_10px_#a3ff12]"></div>
-          </div>
         </div>
 
         {/* Enhanced FAQ Accordion with cyberpunk styling */}
@@ -177,14 +170,6 @@ export default function FAQ() {
               </AccordionItem>
             ))}
           </Accordion>
-        </div>
-
-        {/* Bottom decorative element */}
-        <div className="mt-20 flex justify-center">
-          <div className="relative">
-            <div className="h-px w-64 bg-[#a3ff12] shadow-[0_0_10px_#a3ff12]"></div>
-            <div className="absolute top-1/2 left-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rotate-45 transform bg-[#a3ff12] shadow-[0_0_15px_#a3ff12]"></div>
-          </div>
         </div>
       </div>
     </section>

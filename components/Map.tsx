@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { MapPin } from "lucide-react";
 
 // Register GSAP plugins
 if (typeof window !== "undefined") {
@@ -160,14 +161,13 @@ export default function CollegeMap() {
             <span className="text-foreground drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">
               Campus{" "}
             </span>
-            <span className="text-primary drop-shadow-[0_0_30px_theme(colors.primary)] animate-pulse">
+            <span className="text-primary drop-shadow-[0_0_30px_theme(colors.primary)] drop-shadow-[0_0_15px_#a3ff12]">
               Location
             </span>
           </h1>
           <p className="text-primary drop-shadow-[0_0_15px_theme(colors.primary)] font-mono text-lg md:text-xl">
             Sahyadri College of Engineering and Management
           </p>
-          <div className="bg-primary shadow-[0_0_20px_theme(colors.primary)] mx-auto mt-6 h-1 w-24 rounded-full"></div>
         </div>
 
         {/* Centered Map */}
