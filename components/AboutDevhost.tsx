@@ -102,21 +102,33 @@ export default function AboutDevhost() {
                   className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 mt-6 md:mt-8 justify-center"
                 >
                   <a href="/brochure/Event Rulebook - Devhost.pdf" download className="w-full md:w-auto">
-                    <div className="bg-black/70 border border-[var(--neon-green-glow)] w-full md:w-auto px-4 md:px-8 py-3 md:py-4 group flex items-center justify-center space-x-2 transition-all duration-300 hover:border-[var(--neon-green)] hover:shadow-[0_0_10px_var(--neon-green-bright)] transform hover:scale-105 rounded-md">
-                      <Download size={18} className="text-[var(--neon-green)] md:size-5" />
-                      <span className="text-[var(--neon-green)] text-xs md:text-base font-mono tracking-wider">
+                    <button
+                      className="relative flex cursor-pointer items-center gap-2 bg-primary px-5 py-2 text-xs font-bold tracking-widest text-black uppercase transition"
+                      style={{
+                      clipPath:
+                     "polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)",
+                 }}
+          >
+                      <Download size={18} className=" md:size-5" />
+                      <span className=" text-xs md:text-base font-mono tracking-wider">
                         Event Rulebook
                       </span>
-                    </div>
+                    </button>
                   </a>
 
                   <a href="/brochure/General Brochure Devhost.pdf" download className="w-full md:w-auto">
-                     <div className="bg-black/70 border border-[var(--neon-green-glow)] w-full md:w-auto px-4 md:px-8 py-3 md:py-4 group flex items-center justify-center space-x-2 transition-all duration-300 hover:border-[var(--neon-green)] hover:shadow-[0_0_10px_var(--neon-green-bright)] transform hover:scale-105 rounded-md">
-                      <Download size={18} className="text-[var(--neon-green)] md:size-5" />
-                      <span className="text-[var(--neon-green)] text-xs md:text-base font-mono tracking-wider">
+                    <button
+            className="relative flex cursor-pointer items-center gap-2 bg-primary px-5 py-2 text-xs font-bold tracking-widest text-black uppercase transition"
+            style={{
+              clipPath:
+                "polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)",
+            }}
+          >
+            <Download size={18} className=" md:size-5" />
+                      <span className=" text-xs md:text-base font-mono tracking-wider">
                         DevHost Brochure
                       </span>
-                    </div>
+          </button>
                   </a>
                 </motion.div>
               </div>
