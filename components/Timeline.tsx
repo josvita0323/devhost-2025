@@ -84,30 +84,32 @@ const CyberpunkTimeline: React.FC = () => {
 
                   {/* Content card */}
                   <div className="w-full pl-4 sm:w-5/12 sm:pl-0">
-                    <div className="border-border bg-background/80 relative border p-4 shadow-lg backdrop-blur-sm sm:p-6">
+                    <div className="border-primary before:border-primary/30 relative border-2 bg-black/90 p-4 backdrop-blur-sm before:absolute before:inset-0 before:border-2 before:content-[''] after:absolute after:top-0 after:right-0 after:h-full after:w-1 after:bg-gradient-to-b after:to-transparent after:content-[''] sm:p-6">
                       {/* Time badge */}
                       <div
                         className={`absolute top-0 right-0 sm:transform sm:${
                           isLeft
                             ? "translate-x-2 -translate-y-2"
                             : "-translate-x-2 -translate-y-2"
-                        } border-border border bg-black px-3 py-1`}
+                        } border-primary before:from-primary/20 before:to-primary/40 border-2 bg-black px-3 py-1 before:absolute before:-inset-0.5 before:-z-10`}
                       >
-                        <span className="font-orbitron text-muted-foreground text-xs">
-                          {item.time}
+                        <span className="font-orbitron text-primary relative z-10 text-xs">
+                          {item.displayTime}
                         </span>
                       </div>
 
                       {/* Content */}
                       <div className="mt-3 space-y-2">
                         <div className="flex items-center gap-2">
-                          <span className="text-primary">{item.icon}</span>
-                          <h3 className="font-orbitron text-primary text-lg font-bold tracking-wide">
+                          <span className="text-primary drop-shadow-[0_0_10px_currentColor]">
+                            {item.icon}
+                          </span>
+                          <h3 className="font-orbitron text-primary text-lg font-bold tracking-wide drop-shadow-[0_0_8px_currentColor]">
                             {item.title}
                           </h3>
                         </div>
 
-                        <p className="text-muted-foreground text-sm leading-relaxed">
+                        <p className="text-sm leading-relaxed text-gray-300">
                           {item.description}
                         </p>
 
@@ -117,19 +119,21 @@ const CyberpunkTimeline: React.FC = () => {
                           </p>
                         )}
                         {item.role && (
-                          <p className="text-muted-foreground/70 text-xs">
-                            {item.role}
-                          </p>
+                          <p className="text-xs text-gray-400">{item.role}</p>
                         )}
                         {item.venue && (
-                          <p className="text-muted-foreground/70 font-mono text-xs">
+                          <p className="before:text-primary font-mono text-xs text-gray-400 before:content-['>>_']">
                             VENUE: {item.venue}
                           </p>
                         )}
                       </div>
 
-                      {/* Accent neon corner */}
-                      <div className="bg-primary clip-path-neon absolute right-0 bottom-0 h-8 w-12"></div>
+                      {/* Cyberpunk corner accents */}
+                      <div className="border-primary from-primary/20 absolute right-0 bottom-0 h-8 w-12 border-t-2 border-l-2 bg-gradient-to-tl to-transparent"></div>
+                      <div className="border-primary/50 absolute top-0 left-0 h-4 w-4 border-r-2 border-b-2"></div>
+
+                      {/* Scanning line effect */}
+                      <div className="via-primary absolute top-0 left-0 h-0.5 w-full animate-pulse bg-gradient-to-r from-transparent to-transparent opacity-60"></div>
                     </div>
                   </div>
                 </div>
