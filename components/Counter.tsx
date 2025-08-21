@@ -77,18 +77,44 @@ function CountdownDigit({ value, label, delay = 0 }: { value: number; label: str
 
 
 export default function Counter() {
-  const [timeLeft, setTimeLeft] = useState(getTimeLeft());
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    setTimeLeft(getTimeLeft());
+    
     const timer = setInterval(() => {
       setTimeLeft(getTimeLeft());
     }, 1000);
+    
     return () => clearInterval(timer);
   }, []);
 
   const isComplete = Object.values(timeLeft).every((v) => v === 0);
 
-  if (isComplete) {
+  if (!mounted) {
+    return (
+      <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background px-1 py-6 sm:px-2 sm:py-8 md:px-4 md:py-10 lg:py-12">
+        <div className="flex flex-col items-center w-full px-4 mb-4 sm:mb-6">
+          <h2 className="font-dystopian mb-4 xs:mb-5 sm:mb-6 px-1 text-center text-base xs:text-lg sm:text-4xl md:text-5xl lg:text-6xl text-primary/70 tracking-widest shadow-primary">
+            {EVENT_SUBTITLE}
+          </h2>
+        </div>
+        
+        <div className="mx-auto grid grid-cols-2 gap-2 xs:gap-3 sm:gap-4 md:gap-6 lg:gap-8 px-2 max-w-[280px] xs:max-w-[320px] sm:max-w-[400px] md:max-w-[640px] lg:max-w-4xl lg:grid-cols-4">
+          <CountdownDigit value={0} label={TIME_LABELS.days} delay={0.3} />
+          <CountdownDigit value={0} label={TIME_LABELS.hours} delay={0.5} />
+          <CountdownDigit value={0} label={TIME_LABELS.minutes} delay={0.7} />
+          <CountdownDigit value={0} label={TIME_LABELS.seconds} delay={0.9} />
+        </div>
+        
+        <div className="mt-6 h-[2px] w-32 bg-primary/50 rounded-sm shadow-primary" />
+      </div>
+    );
+  }
+
+  if (isComplete && mounted) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-background text-primary">
         <motion.div 
