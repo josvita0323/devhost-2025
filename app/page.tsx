@@ -2,14 +2,14 @@
 import Hero from "@/components/Hero";
 import AboutDevhost from "@/components/AboutDevhost";
 import Counter from "@/components/Counter";
-import TimelineSection from "@/components/TimeLine";
+import TimelineSection from "@/components/Timeline";
 
 import AboutHackathon from "@/components/AboutHackathon";
 
-import Events from "@/components/Events";
 import Footer from "@/components/Footer";
 import FAQ from "@/components/Faq";
 import Map from "@/components/Map";
+import Events from "@/components/Events";
 /* import { CommonEvents } from "@/components/CommonEvents"; */
 
 export default function Home() {
@@ -24,7 +24,7 @@ export default function Home() {
       <Events />
       <FAQ />
       <Map />
-      <Footer/>
+      <Footer />
       {/*<CommonEvents /> */}
 
       <div className="pointer-events-none fixed inset-0 -z-10 opacity-5">
@@ -32,10 +32,10 @@ export default function Home() {
           className="absolute inset-0"
           style={{
             backgroundImage: `
-            linear-gradient(#FFFF00 2px, transparent 1px),
-            linear-gradient(90deg, #FFFF00 2px, transparent 1px)
-          `,
-            backgroundSize: "100px 100px",
+        linear-gradient(#FFFF00 2px, transparent 1px),
+        linear-gradient(90deg, #FFFF00 2px, transparent 1px)
+      `,
+            backgroundSize: "40px 40px",
           }}
         ></div>
       </div>

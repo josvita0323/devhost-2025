@@ -1,11 +1,16 @@
-"use client"
+"use client";
 
-import { useEffect, useRef } from "react"
-import { gsap } from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger);
 
 const faqData = [
   {
@@ -20,7 +25,8 @@ const faqData = [
   },
   {
     question: "Can I participate as an individual or do I need a team?",
-    answer: "You can participate both as an individual or as part of a team. Teams can have 2-4 members maximum.",
+    answer:
+      "You can participate both as an individual or as part of a team. Teams can have 2-4 members maximum.",
   },
   {
     question: "Can students from different colleges be in the same team?",
@@ -42,47 +48,37 @@ const faqData = [
     answer:
       "Follow our social media channels, join our Discord server, and check your registered email regularly for all updates and announcements.",
   },
-]
+];
+
+const CyberpunkBorder = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="relative">
+      <svg
+        className="absolute inset-0 z-0 h-full w-full"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+      >
+        <polygon
+          points="0,0 95,0 100,5 100,100 5,100 0,95"
+          className="stroke-[var(--border-color, #a3ff1240)] group-hover:stroke-[var(--hover-border-color, #a3ff12)] fill-none stroke-2 transition-all duration-300"
+        />
+      </svg>
+      {children}
+    </div>
+  );
+};
 
 export default function FAQ() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const titleRef = useRef<HTMLHeadingElement>(null)
-  const itemsRef = useRef<HTMLDivElement>(null)
+  const sectionRef = useRef<HTMLElement>(null);
+  const itemsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Title animation
-      if (titleRef.current) {
-        gsap.fromTo(
-          titleRef.current,
-          {
-            opacity: 0,
-            y: 50,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: titleRef.current,
-              start: "top 80%",
-              end: "bottom 20%",
-              toggleActions: "play none none reverse",
-            },
-          },
-        )
-      }
-
-      // FAQ items animation
       if (itemsRef.current) {
-        const items = itemsRef.current.querySelectorAll("[data-faq-item]")
+        const items = itemsRef.current.querySelectorAll("[data-faq-item]");
         gsap.fromTo(
           items,
-          {
-            opacity: 0,
-            x: -50,
-          },
+          { opacity: 0, x: -50 },
           {
             opacity: 1,
             x: 0,
@@ -96,42 +92,101 @@ export default function FAQ() {
               toggleActions: "play none none reverse",
             },
           },
-        )
+        );
       }
-    }, sectionRef)
+    }, sectionRef);
 
-    return () => ctx.revert()
-  }, [])
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section ref={sectionRef} className="min-h-screen bg-black text-white py-20 px-4 md:px-8">
-      <div className="max-w-4xl mx-auto">
-        {/* Title */}
-        <h2 ref={titleRef} className="text-4xl md:text-6xl font-bold text-center font-orbitron mb-16">
-          FAQ
-        </h2>
+    <section
+      ref={sectionRef}
+      className="relative min-h-screen overflow-hidden bg-black px-4 py-20 text-white md:px-8"
+    >
+      {/* Enhanced cyberpunk grid background */}
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(#a3ff1208_1px,transparent_1px),linear-gradient(90deg,#a3ff1208_1px,transparent_1px)] bg-[size:40px_40px] opacity-30"></div>
 
-        {/* FAQ Accordion */}
+      {/* Diagonal scanning lines */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute top-0 left-0 h-full w-full animate-pulse bg-[linear-gradient(45deg,transparent_48%,#a3ff1205_49%,#a3ff1205_51%,transparent_52%)] bg-[size:20px_20px]"></div>
+      </div>
+
+      <div className="relative mx-auto max-w-4xl">
+        {/* Cyberpunk Title with enhanced styling */}
+        <div className="relative mb-16 text-center">
+          {/* Title background effects */}
+          <div className="absolute inset-0 -z-10">
+            <div className="absolute top-1/2 left-0 h-px w-24 origin-left -translate-y-1/2 transform bg-[#a3ff12] shadow-[0_0_10px_#a3ff12] md:w-32"></div>
+            <div className="absolute top-1/2 right-0 h-px w-24 origin-right -translate-y-1/2 transform bg-[#a3ff12] shadow-[0_0_10px_#a3ff12] md:w-32"></div>
+          </div>
+
+          <h2 className="font-orbitron relative inline-block text-5xl font-bold md:text-7xl">
+            FAQ
+          </h2>
+
+          {/* Decorative lines below title */}
+          <div className="mt-6 flex items-center justify-center space-x-4">
+            <div className="h-px w-16 skew-x-12 transform bg-[#a3ff12] shadow-[0_0_10px_#a3ff12]"></div>
+            <div className="h-2 w-2 rotate-45 transform bg-[#a3ff12] shadow-[0_0_10px_#a3ff12]"></div>
+            <div className="h-px w-16 -skew-x-12 transform bg-[#a3ff12] shadow-[0_0_10px_#a3ff12]"></div>
+          </div>
+        </div>
+
+        {/* Enhanced FAQ Accordion with cyberpunk styling */}
         <div ref={itemsRef}>
-          <Accordion type="single" collapsible className="space-y-4">
+          <Accordion type="single" collapsible className="space-y-8">
             {faqData.map((faq, index) => (
               <AccordionItem
                 key={index}
                 value={`item-${index}`}
                 data-faq-item
-                className="border-gray-800 bg-gray-900/30 rounded-lg px-6 hover:bg-gray-900/50 transition-colors duration-300"
+                className="group relative border-0 bg-transparent"
               >
-                <AccordionTrigger className="text-left text-lg md:text-xl font-medium py-6 hover:text-[#a3ff12] transition-colors duration-300">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-gray-300 text-base md:text-lg leading-relaxed pb-6">
-                  {faq.answer}
-                </AccordionContent>
+                <CyberpunkBorder>
+                  <div className="relative bg-black/95 backdrop-blur-sm transition-all duration-300 group-hover:shadow-[0_0_20px_#a3ff1230]">
+                    {/* Side accent bar */}
+                    <div className="absolute top-0 left-0 h-full w-1 origin-top scale-y-0 transform bg-[#a3ff12] shadow-[0_0_10px_#a3ff12] transition-transform duration-300 group-hover:scale-y-100"></div>
+
+                    {/* Content */}
+                    <AccordionTrigger className="relative px-8 py-6 text-left text-base font-medium text-white transition-all duration-300 group-hover:pl-12 group-hover:text-[#a3ff12] md:text-lg">
+                      <span className="relative z-10 font-mono">
+                        {faq.question}
+                      </span>
+                    </AccordionTrigger>
+
+                    <AccordionContent className="relative px-8 pb-6 text-sm leading-relaxed text-gray-300">
+                      {/* More visible divider line */}
+                      <div className="mb-6 h-0.5 w-full bg-gradient-to-r from-[#a3ff12] via-[#a3ff1260] to-[#a3ff12] shadow-[0_0_5px_#a3ff1240]"></div>
+
+                      <div
+                        className="border border-[#a3ff1220] bg-black/50 p-4 font-mono text-sm leading-relaxed text-gray-200"
+                        style={{
+                          clipPath:
+                            "polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)",
+                        }}
+                      >
+                        {faq.answer}
+                      </div>
+                    </AccordionContent>
+
+                    {/* Scan line effect */}
+                    <div className="absolute inset-0 -skew-x-12 transform bg-gradient-to-r from-transparent via-[#a3ff1210] to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
+                  </div>
+                </CyberpunkBorder>
               </AccordionItem>
             ))}
           </Accordion>
         </div>
+
+        {/* Bottom decorative element */}
+        <div className="mt-20 flex justify-center">
+          <div className="relative">
+            <div className="h-px w-64 bg-[#a3ff12] shadow-[0_0_10px_#a3ff12]"></div>
+            <div className="absolute top-1/2 left-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rotate-45 transform bg-[#a3ff12] shadow-[0_0_15px_#a3ff12]"></div>
+          </div>
+        </div>
       </div>
     </section>
-  )
+  );
 }
