@@ -52,7 +52,7 @@ export default function Hero() {
         {/* Floating Dock (Top Right) */}
         <div className="font-orbitron absolute top-10 right-10 z-20 flex gap-4">
           <button
-            className="relative flex cursor-pointer items-center gap-2 bg-[#c3ff49] px-5 py-2 text-xs font-bold tracking-widest text-black uppercase transition"
+            className="relative flex cursor-pointer items-center gap-2 bg-primary px-5 py-2 text-xs font-bold tracking-widest text-black uppercase transition"
             style={{
               clipPath:
                 "polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)",
@@ -63,7 +63,7 @@ export default function Hero() {
         </div>
 
         {/* Scroll Hint */}
-        <div className="font-orbitron absolute right-10 bottom-10 z-10 flex items-center text-[#c3ff49]">
+        <div className="font-orbitron absolute right-10 bottom-10 z-10 flex items-center text-primary">
           <span className="mr-2 text-3xl">[</span>
           <DecryptText
             text="Scroll to Explore"
