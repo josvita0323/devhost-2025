@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-const TARGET_DATE = "2025-08-21T19:20:00";
+const TARGET_DATE = "2025-11-06T00:00:00";
 const EVENT_SUBTITLE = "EVENT STARTS IN";
 const TIME_LABELS = { days: "DAYS", hours: "HOURS", minutes: "MINUTES", seconds: "SECONDS" };
 
