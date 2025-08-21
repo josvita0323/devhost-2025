@@ -57,7 +57,7 @@ const Footer = () => {
                   </defs>
                 </svg>
                 <Link href="/" className="flex items-center pt-5 w-fit">
-                  <span className="self-center hover:text-gray-300 transition-colors duration-200 text-xl font-semibold whitespace-nowrap text-white">
+                  <span className="self-center hover:text-gray-300 transition-colors duration-200 text-xl font-orbitron whitespace-nowrap text-white">
                     Sahyadri Open Source Community
                   </span>
                 </Link>
