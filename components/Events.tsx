@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -16,10 +15,10 @@ const events = [
     tagline: "Battle it out in the ultimate BGMI showdown",
     description:
       "Compete with the best teams in a high stakes BGMI tournament. Strategy, teamwork, and reflexes will decide the champions.",
-    date: "6 Nov",
-    time: "9:00 AM",
+    date: "7 Nov",
+    time: "9:00 AM onwards",
     organizer: "Yishith",
-    contact: "later",
+    contact: "+91 9964057549",
     image: "/demo.jpeg",
   },
   {
@@ -29,9 +28,9 @@ const events = [
     description:
       "Test your cybersecurity skills in a capture-the-flag challenge filled with real-world hacking scenarios.",
     date: "7 Nov",
-    time: "10:00 AM",
+    time: "11:00 - 12:30",
     organizer: "Koshin",
-    contact: "later",
+    contact: "+91 7899715941",
     image: "/demo.jpeg",
   },
   {
@@ -41,9 +40,9 @@ const events = [
     description:
       "A tech pitching event where young entrepreneurs showcase innovative ideas to potential investors.",
     date: "7 Nov",
-    time: "2:00 PM",
+    time: "11:00 - 12:30",
     organizer: "Varsha",
-    contact: "later",
+    contact: "+91 7022709062",
     image: "/demo.jpeg",
   },
   {
@@ -52,22 +51,22 @@ const events = [
     tagline: "Untangle the CSS chaos",
     description:
       "Showcase your front-end magic in a CSS battle where design meets speed and creativity.",
-    date: "6 Nov",
-    time: "11:00 AM",
+    date: "7 Nov",
+    time: "3:00 - 5:00",
     organizer: "Manvitha",
-    contact: "later",
+    contact: "+91 9686515869",
     image: "/demo.jpeg",
   },
   {
     id: 5,
-    title: "O(n)Slought",
+    title: "O(n)Slaught",
     tagline: "Compete. Solve. Dominate.",
     description:
       "Take part in a competitive programming battle designed to push your problem solving limits.",
     date: "7 Nov",
-    time: "9:30 AM",
+    time: "3:00 - 5:00",
     organizer: "Sthuthi",
-    contact: "later",
+    contact: "+91 7795009031",
     image: "/demo.jpeg",
   },
   {
@@ -76,9 +75,9 @@ const events = [
     tagline: "Think fast. Play smarter.",
     description: "Solve, strategize, and strike the winning line",
     date: "8 Nov",
-    time: "11:00 PM",
+    time: "9:00 - 10:30",
     organizer: "Hitha",
-    contact: "later",
+    contact: "+91 9740451519",
     image: "/demo.jpeg",
   },
   {
@@ -88,19 +87,19 @@ const events = [
     description:
       "Compete to showcase your typing speed and accuracy in a thrilling typing challenge.",
     date: "All 3 days",
-    time: "12:00 PM",
+    time: "9:00 AM",
     organizer: "TBA",
     contact: "later",
     image: "/demo.jpeg",
   },
   {
     id: 8,
-    title: "Rubiks Cube",
+    title: "Rubik's Cube",
     tagline: "Twist. Turn. Solve.",
     description:
       "Show your cube-solving speed and algorithms in a high-pressure cubing competition.",
     date: "All 3 days",
-    time: "2:30 PM",
+    time: "9:00 AM",
     organizer: "TBA",
     contact: "later",
     image: "/demo.jpeg",
@@ -109,9 +108,10 @@ const events = [
 
 export default function Events() {
   const headingRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<HTMLDivElement[]>([]);
+  const cardsRef = useRef<Array<HTMLDivElement | null>>([]);
 
   useEffect(() => {
+
     if (headingRef.current) {
       gsap.fromTo(
         headingRef.current,
@@ -129,30 +129,30 @@ export default function Events() {
       );
     }
 
-    if (cardsRef.current.length > 0) {
-      cardsRef.current.forEach((card, i) => {
+    
+    cardsRef.current.forEach((card) => {
+      if (card) {
         gsap.fromTo(
           card,
-          { opacity: 0, y: 80 },
+          { opacity: 0, y: 50 },
           {
             opacity: 1,
             y: 0,
             duration: 1,
-            delay: i * 0.2,
             ease: "power3.out",
             scrollTrigger: {
               trigger: card,
               start: "top 85%",
+              toggleActions: "play none none none", 
             },
           }
         );
-      });
-    }
+      }
+    });
   }, []);
 
   return (
     <div className="min-h-screen bg-black p-4 sm:p-6 lg:p-8 flex flex-col items-center">
-      {/* 🔥 Heading Section with added space */}
       <div ref={headingRef} className="text-center mb-16 mt-20">
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-orbitron font-bold">
           <span className="text-white">DevHost </span>
@@ -177,7 +177,7 @@ export default function Events() {
           <div
             key={event.id}
             ref={(el) => {
-              if (el) cardsRef.current[idx] = el;
+              cardsRef.current[idx] = el ?? null;
             }}
             className="relative w-full mx-auto aspect-[7/5] max-w-[700px] lg:max-w-[700px]"
           >
@@ -189,7 +189,7 @@ export default function Events() {
               priority
             />
 
-            <div className="absolute inset-0 flex flex-row p-[8%] lg:p-[6%] gap-[11%]">
+            <div className="absolute inset-0 flex flex-row p-[8%] lg:p-[9%] gap-[11%]">
               <div className="relative w-[54.2%] lg:w-[51%] lg:h-[95%] h-full -ml-5">
                 <Image
                   src={event.image}
@@ -244,24 +244,21 @@ export default function Events() {
                   </div>
                 </div>
 
-                <div className="flex justify-center lg:justify-start mt-2">
-                  <Link
-                    href="https://google.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                <div className="flex justify-center lg:justify-start mt-9">
+                  <button
+                    onClick={() => (window.location.href = "/register")}
+                    className="relative w-32 h-10 lg:w-60 lg:h-12 cursor-pointer transition-all duration-300 hover:scale-105"
                   >
-                    <div className="relative w-32 h-10 lg:w-60 lg:h-12 cursor-pointer transition-all duration-300 hover:scale-105">
-                      <Image
-                        src="/Group2012.svg"
-                        alt="Register"
-                        fill
-                        className="object-contain"
-                      />
-                      <span className="absolute inset-0 flex items-center justify-center font-orbitron text-white text-sm lg:text-lg font-bold">
-                        Register
-                      </span>
-                    </div>
-                  </Link>
+                    <Image
+                      src="/Group2012.svg"
+                      alt="Register"
+                      fill
+                      className="object-contain"
+                    />
+                    <span className="absolute inset-0 flex items-center justify-center font-orbitron text-white text-sm lg:text-lg font-bold">
+                      Register
+                    </span>
+                  </button>
                 </div>
               </div>
             </div>
