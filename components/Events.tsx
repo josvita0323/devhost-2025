@@ -111,7 +111,6 @@ export default function Events() {
   const cardsRef = useRef<Array<HTMLDivElement | null>>([]);
 
   useEffect(() => {
-
     if (headingRef.current) {
       gsap.fromTo(
         headingRef.current,
@@ -125,11 +124,10 @@ export default function Events() {
             trigger: headingRef.current,
             start: "top 80%",
           },
-        }
+        },
       );
     }
 
-    
     cardsRef.current.forEach((card) => {
       if (card) {
         gsap.fromTo(
@@ -143,59 +141,59 @@ export default function Events() {
             scrollTrigger: {
               trigger: card,
               start: "top 85%",
-              toggleActions: "play none none none", 
+              toggleActions: "play none none none",
             },
-          }
+          },
         );
       }
     });
   }, []);
 
   return (
-    <div className="min-h-screen bg-black p-4 sm:p-6 lg:p-8 flex flex-col items-center">
-      <div ref={headingRef} className="text-center mb-16 mt-20">
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-orbitron font-bold">
+    <div className="flex min-h-screen flex-col items-center bg-black p-4 sm:p-6 lg:p-8">
+      <div ref={headingRef} className="mt-20 mb-16 text-center">
+        <h1 className="font-orbitron text-4xl font-bold sm:text-5xl lg:text-6xl">
           <span className="text-white">DevHost </span>
           <span className="text-[#a3ff12] drop-shadow-[0_0_15px_#a3ff12]">
             Events
           </span>
         </h1>
-        <p className="text-[#a3ff12] font-bold mt-4 text-lg sm:text-xl">
+        <p className="mt-4 text-lg font-bold text-[#a3ff12] sm:text-xl">
           &gt; Build, Compete, and Leave Your Mark
         </p>
-        <p className="text-white font-bold mt-6 flex items-center justify-center gap-2">
-          <span className="w-3 h-3 bg-[#a3ff12] shadow-[0_0_10px_#a3ff12] rounded-sm"></span>
-          <span className="text-xl sm:text-2xl tracking-wider">
+        <p className="mt-6 flex items-center justify-center gap-2 font-bold text-white">
+          <span className="h-3 w-3 rounded-sm bg-[#a3ff12] shadow-[0_0_10px_#a3ff12]"></span>
+          <span className="text-xl tracking-wider sm:text-2xl">
             {events.length} EVENTS AVAILABLE
           </span>
         </p>
-        <div className="mt-4 w-24 h-1 bg-[#a3ff12] mx-auto shadow-[0_0_10px_#a3ff12]" />
+        <div className="mx-auto mt-4 h-1 w-24 bg-[#a3ff12] shadow-[0_0_10px_#a3ff12]" />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full max-w-[1440px]">
+      <div className="grid w-full max-w-[1440px] grid-cols-1 gap-8 lg:grid-cols-2">
         {events.map((event, idx) => (
           <div
             key={event.id}
             ref={(el) => {
               cardsRef.current[idx] = el ?? null;
             }}
-            className="relative w-full mx-auto aspect-[7/5] max-w-[700px] lg:max-w-[700px]"
+            className="relative mx-auto aspect-[7/5] w-full max-w-[700px] lg:max-w-[700px]"
           >
             <Image
               src="/Group2010.svg"
               alt="Card Background"
               fill
-              className="absolute inset-0 object-contain pointer-events-none"
+              className="pointer-events-none absolute inset-0 object-contain"
               priority
             />
 
-            <div className="absolute inset-0 flex flex-row p-[8%] lg:p-[9%] gap-[11%]">
-              <div className="relative w-[54.2%] lg:w-[51%] lg:h-[95%] h-full -ml-5">
+            <div className="absolute inset-0 flex flex-row gap-4 p-[8%] lg:p-[9%]">
+              <div className="relative -ml-5 h-full w-[54.2%] lg:h-[95%] lg:w-[51%]">
                 <Image
                   src={event.image}
                   alt={event.title}
                   fill
-                  className="object-cover rounded-md border-2 border-[#a3ff12] shadow-[0_0_15px_#a3ff12]"
+                  className="rounded-md border-2 border-[#a3ff12] object-cover shadow-[0_0_15px_#a3ff12]"
                   style={{
                     clipPath:
                       "polygon(12% 0, 100% 0, 100% 100%, 0 100%, 0 12%)",
@@ -204,39 +202,39 @@ export default function Events() {
                 />
               </div>
 
-              <div className="flex-1 flex flex-col justify-between py-7 overflow-hidden">
+              <div className="flex flex-1 flex-col justify-between overflow-hidden py-1 sm:py-7">
                 <div className="flex-1 overflow-y-auto pr-1">
-                  <h2 className="text-[#a3ff12] font-bold text-lg lg:text-2xl mb-6 drop-shadow-[0_0_8px_#a3ff12] leading-tight">
+                  <h2 className="mb-6 text-lg leading-tight font-bold text-[#a3ff12] drop-shadow-[0_0_8px_#a3ff12] lg:text-2xl">
                     {event.title}
                   </h2>
-                  <p className="text-white/90 italic mb-2 text-sm lg:text-base leading-tight">
+                  <p className="mb-2 text-sm leading-tight text-white/90 italic lg:text-base">
                     {event.tagline}
                   </p>
-                  <p className="text-white/70 mb-3 text-xs lg:text-sm leading-relaxed flex-1">
+                  <p className="mb-3 flex-1 text-xs leading-relaxed text-white/70 lg:text-sm">
                     {event.description}
                   </p>
 
-                  <div className="text-white/80 text-[10px] lg:text-sm space-y-0.5">
+                  <div className="space-y-0.5 text-[10px] text-white/80 lg:text-sm">
                     <p className="flex flex-wrap">
-                      <span className="text-[#a3ff12] font-semibold mr-1">
+                      <span className="mr-1 font-semibold text-[#a3ff12]">
                         Date:
                       </span>
                       <span>{event.date}</span>
                     </p>
                     <p className="flex flex-wrap">
-                      <span className="text-[#a3ff12] font-semibold mr-1">
+                      <span className="mr-1 font-semibold text-[#a3ff12]">
                         Time:
                       </span>
                       <span>{event.time}</span>
                     </p>
                     <p className="flex flex-wrap">
-                      <span className="text-[#a3ff12] font-semibold mr-1">
+                      <span className="mr-1 font-semibold text-[#a3ff12]">
                         Organizer:
                       </span>
                       <span>{event.organizer}</span>
                     </p>
                     <p className="flex flex-wrap">
-                      <span className="text-[#a3ff12] font-semibold mr-1">
+                      <span className="mr-1 font-semibold text-[#a3ff12]">
                         Contact:
                       </span>
                       <span>{event.contact}</span>
@@ -244,10 +242,10 @@ export default function Events() {
                   </div>
                 </div>
 
-                <div className="flex justify-center lg:justify-start mt-9">
+                <div className="mt-2 sm:mt-9 flex justify-center lg:justify-start">
                   <button
                     onClick={() => (window.location.href = "/register")}
-                    className="relative w-32 h-10 lg:w-60 lg:h-12 cursor-pointer transition-all duration-300 hover:scale-105"
+                    className="relative h-10 w-32 cursor-pointer transition-all duration-300 hover:scale-105 lg:h-12 lg:w-60"
                   >
                     <Image
                       src="/Group2012.svg"
@@ -255,7 +253,7 @@ export default function Events() {
                       fill
                       className="object-contain"
                     />
-                    <span className="absolute inset-0 flex items-center justify-center font-orbitron text-white text-sm lg:text-lg font-bold">
+                    <span className="font-orbitron absolute inset-0 flex items-center justify-center text-sm font-bold text-white lg:text-lg">
                       Register
                     </span>
                   </button>

@@ -13,7 +13,7 @@ export default function Hero() {
         <Logo className="relative z-10 w-full max-w-[250px] sm:max-w-[300px] md:max-w-[400px]" />
 
         {/* Cyberpunk side boot logs (left) */}
-        <div className="font-orbitron absolute top-10 left-10 text-sm tracking-wider text-zinc-600">
+        <div className="font-orbitron absolute top-10 left-10 text-xs sm:text-sm tracking-wider text-zinc-600">
           <DecryptText
             text="> INIT SEQUENCE v2.4"
             startDelayMs={200}
