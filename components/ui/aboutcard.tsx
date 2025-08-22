@@ -77,7 +77,7 @@ const AboutCard = ({ children, className = '', onClick }: AboutCardProps) => {
       
       <div className={`about-card-container ${className}`} onClick={onClick}>
         <div className="svg-background">
-          <svg 
+          {/* <svg 
             width="100%" 
             height="100%" 
             viewBox="0 0 231 102" 
@@ -90,7 +90,7 @@ const AboutCard = ({ children, className = '', onClick }: AboutCardProps) => {
               stroke="#C0FB45" 
               strokeWidth="0.5"
             />
-          </svg> 
+          </svg>  */}
         </div>
         <div className="card-content">
           {children}

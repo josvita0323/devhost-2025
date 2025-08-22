@@ -22,7 +22,7 @@ export default function AboutDevhost() {
 
   return (
     <section
-      className="relative my-section min-h-screen bg-black text-[var(--neon-green)] overflow-hidden"
+      className="my-section relative min-h-screen overflow-hidden bg-black text-[var(--neon-green)]"
       style={
         {
           "--neon-green": "#a3ff12",
@@ -33,22 +33,23 @@ export default function AboutDevhost() {
       }
     >
       {/* Background elements */}
-      <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,var(--neon-green)_1px,transparent_1px)] [background-size:40px_40px] animate-pulse" />
-      <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-[var(--neon-green)] rounded-full animate-pulse opacity-30" />
-      <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-[var(--neon-green)] rounded-full animate-pulse opacity-20" style={{ animationDelay: "1s" }} />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--neon-green)_1px,transparent_1px)] [background-size:40px_40px] opacity-50" />
+
+      <div className="absolute bottom-0 h-48 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" />
+      <div className="absolute top-0 h-48 w-full bg-gradient-to-b from-black/95 via-black/80 to-transparent" />
 
       <motion.div
         initial={{ opacity: 0, y: 50, scale: 0.95 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 1, ease: "easeOut" }}
         viewport={{ once: true }}
-        className="relative z-10 flex justify-center pb-10 items-center w-full px-4 py-10"
+        className="relative z-10 flex w-full items-center justify-center px-4 py-10 pb-10"
       >
-        <div className="max-w-7xl w-full">
-          <div className="relative group">
+        <div className="w-full max-w-7xl">
+          <div className="group relative">
             {/* Use the AboutCard component as a wrapper */}
-            <AboutCard className="w-full h-auto bg-black/70 border-[var(--neon-green-dim)]">
-              <div className="pt-6 pb-6 px-4 md:px-10 md:pt-10 md:pb-10">
+            <AboutCard className="h-auto w-full border-[var(--neon-green-dim)]">
+              <div className="px-4 pt-6 pb-6 md:px-10 md:pt-10 md:pb-10">
                 {/* Title with laser scan */}
                 <div className="relative pb-4 md:pb-8">
                   <motion.h1
@@ -56,19 +57,19 @@ export default function AboutDevhost() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7, ease: "easeOut" }}
                     viewport={{ once: true }}
-                    className="font-orbitron text-center text-3xl font-bold text-white uppercase md:text-6xl mb-2"
+                    className="font-orbitron mb-2 text-center text-3xl font-bold text-white uppercase md:text-6xl"
                   >
                     <br />
                     {devhostData.title}
                   </motion.h1>
-                  
+
                   {/* Laser scan line */}
-                  <div className="absolute bottom-0 left-0 w-full h-[2px] overflow-hidden">
-                    <div 
-                      className="absolute top-0 left-0 h-full w-[30%] bg-[var(--neon-green)] opacity-0 group-hover:opacity-50 transition-opacity duration-300"
+                  <div className="absolute bottom-0 left-0 h-[2px] w-full overflow-hidden">
+                    <div
+                      className="absolute top-0 left-0 h-full w-[30%] bg-[var(--neon-green)] opacity-0 transition-opacity duration-300 group-hover:opacity-50"
                       style={{
-                        animation: 'laser-scan 3s linear infinite',
-                        boxShadow: '0 0 8px var(--neon-green)'
+                        animation: "laser-scan 3s linear infinite",
+                        boxShadow: "0 0 8px var(--neon-green)",
                       }}
                     />
                   </div>
@@ -79,7 +80,7 @@ export default function AboutDevhost() {
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
                   viewport={{ once: true }}
-                  className="font-default text-center text-base tracking-wider text-[var(--neon-green-bright)] mb-6 md:mb-8 md:text-lg"
+                  className="font-default mb-6 text-center text-base tracking-wider text-[var(--neon-green-bright)] md:mb-8 md:text-lg"
                 >
                   &gt; {devhostData.caption}
                 </motion.h2>
@@ -89,7 +90,7 @@ export default function AboutDevhost() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.9, delay: 0.3, ease: "easeOut" }}
                   viewport={{ once: true }}
-                  className="font-default  md:text-lg tracking-wider mb-6 md:mb-8 text-gray-200 leading-relaxed text-center"
+                  className="font-default mb-6 text-justify leading-relaxed tracking-wider text-gray-200 md:mb-8 md:text-lg"
                 >
                   {devhostData.about}
                 </motion.p>
@@ -99,36 +100,36 @@ export default function AboutDevhost() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.8, delay: 0.4, ease: "backOut" }}
                   viewport={{ once: true }}
-                  className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 mt-6 md:mt-8 justify-center"
+                  className="mt-6 flex w-full justify-center gap-3"
                 >
-                  <a href="/brochure/Event Rulebook - Devhost.pdf" download className="w-full md:w-auto">
+                  <a href="/brochure/Event Rulebook - Devhost.pdf" download>
                     <button
-                      className="relative flex cursor-pointer items-center gap-2 bg-primary px-5 py-2 text-xs font-bold tracking-widest text-black uppercase transition"
+                      className="bg-primary relative flex cursor-pointer items-center gap-2 px-5 py-2 text-xs font-bold tracking-widest text-black uppercase transition"
                       style={{
-                      clipPath:
-                     "polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)",
-                 }}
-          >
-                      <Download size={18} className=" md:size-5" />
-                      <span className=" text-xs md:text-base font-mono tracking-wider">
+                        clipPath:
+                          "polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)",
+                      }}
+                    >
+                      <Download size={18} className="md:size-5" />
+                      <span className="font-mono text-xs tracking-wider">
                         Event Rulebook
                       </span>
                     </button>
                   </a>
 
-                  <a href="/brochure/General Brochure Devhost.pdf" download className="w-full md:w-auto">
+                  <a href="/brochure/General Brochure Devhost.pdf" download>
                     <button
-            className="relative flex cursor-pointer items-center gap-2 bg-primary px-5 py-2 text-xs font-bold tracking-widest text-black uppercase transition"
-            style={{
-              clipPath:
-                "polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)",
-            }}
-          >
-            <Download size={18} className=" md:size-5" />
-                      <span className=" text-xs md:text-base font-mono tracking-wider">
+                      className="bg-primary relative flex cursor-pointer items-center gap-2 px-5 py-2 text-xs font-bold tracking-widest text-black uppercase transition"
+                      style={{
+                        clipPath:
+                          "polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)",
+                      }}
+                    >
+                      <Download size={18} className="md:size-5" />
+                      <span className="font-mono text-xs tracking-wider">
                         DevHost Brochure
                       </span>
-          </button>
+                    </button>
                   </a>
                 </motion.div>
               </div>
