@@ -1,9 +1,8 @@
-"use client";
-
 import React from "react";
 import { Download } from "lucide-react";
 import { HoverBorderGradient } from "@/components/old/hover-border-gradient";
 import { motion } from "framer-motion";
+import AboutCard from "./ui/aboutcard";
 
 export default function AboutDevhost() {
   interface DevhostData {
@@ -34,7 +33,7 @@ export default function AboutDevhost() {
       }
     >
       {/* Background elements */}
-       <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,var(--neon-green)_1px,transparent_1px)] [background-size:40px_40px] animate-pulse" /> 
+      <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,var(--neon-green)_1px,transparent_1px)] [background-size:40px_40px] animate-pulse" />
       <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-[var(--neon-green)] rounded-full animate-pulse opacity-30" />
       <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-[var(--neon-green)] rounded-full animate-pulse opacity-20" style={{ animationDelay: "1s" }} />
 
@@ -47,20 +46,19 @@ export default function AboutDevhost() {
       >
         <div className="max-w-7xl w-full">
           <div className="relative group">
-            <HoverBorderGradient
-              containerClassName="rounded-xl group relative overflow-visible"
-              className="bg-black/90 backdrop-blur-sm border border-[var(--neon-green-dim)] w-full h-full shadow-[0_0_20px_var(--neon-green-glow)]"
-            >
-              <div className="pt-8 pb-8 px-5 md:px-10 md:pt-10 md:pb-10 ">
+            {/* Use the AboutCard component as a wrapper */}
+            <AboutCard className="w-full h-auto bg-black/70 border-[var(--neon-green-dim)]">
+              <div className="pt-6 pb-6 px-4 md:px-10 md:pt-10 md:pb-10">
                 {/* Title with laser scan */}
-                <div className="relative pb-6 md:pb-8">
+                <div className="relative pb-4 md:pb-8">
                   <motion.h1
                     initial={{ opacity: 0, y: -40 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7, ease: "easeOut" }}
                     viewport={{ once: true }}
-                    className="font-orbitron text-center text-4xl font-bold text-white uppercase md:text-6xl mb-2"
+                    className="font-orbitron text-center text-3xl font-bold text-white uppercase md:text-6xl mb-2"
                   >
+                    <br />
                     {devhostData.title}
                   </motion.h1>
                   
@@ -81,7 +79,7 @@ export default function AboutDevhost() {
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
                   viewport={{ once: true }}
-                  className="font-delagothic text-center text-lg tracking-wider text-[var(--neon-green-bright)] mb-8"
+                  className="font-default text-center text-base tracking-wider text-[var(--neon-green-bright)] mb-6 md:mb-8 md:text-lg"
                 >
                   &gt; {devhostData.caption}
                 </motion.h2>
@@ -91,7 +89,7 @@ export default function AboutDevhost() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.9, delay: 0.3, ease: "easeOut" }}
                   viewport={{ once: true }}
-                  className="font-delagothic text-md md:text-lg tracking-wider mb-8 text-left text-gray-200 leading-relaxed"
+                  className="font-default  md:text-lg tracking-wider mb-6 md:mb-8 text-gray-200 leading-relaxed text-center"
                 >
                   {devhostData.about}
                 </motion.p>
@@ -101,34 +99,40 @@ export default function AboutDevhost() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.8, delay: 0.4, ease: "backOut" }}
                   viewport={{ once: true }}
-                  className="flex flex-col md:flex-row md:items-center gap-4 mt-8 justify-center"
+                  className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 mt-6 md:mt-8 justify-center"
                 >
-                  <a href="/brochure/Event Rulebook - Devhost.pdf" download>
-                    <HoverBorderGradient
-                      containerClassName="rounded-full"
-                      className="bg-black/70 border border-[var(--neon-green-dim)] shadow-[0_0_10px_var(--neon-green-glow)] hover:shadow-[0_0_20px_var(--neon-green)] w-full md:w-auto px-6 md:px-8 py-3 md:py-4 group flex items-center justify-center space-x-2 transition-all duration-300"
-                    >
-                      <Download size={20} className="text-[var(--neon-green)]" />
-                      <span className="text-[var(--neon-green)] text-sm md:text-base font-mono tracking-wider">
+                  <a href="/brochure/Event Rulebook - Devhost.pdf" download className="w-full md:w-auto">
+                    <button
+                      className="relative flex cursor-pointer items-center gap-2 bg-primary px-5 py-2 text-xs font-bold tracking-widest text-black uppercase transition"
+                      style={{
+                      clipPath:
+                     "polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)",
+                 }}
+          >
+                      <Download size={18} className=" md:size-5" />
+                      <span className=" text-xs md:text-base font-mono tracking-wider">
                         Event Rulebook
                       </span>
-                    </HoverBorderGradient>
+                    </button>
                   </a>
 
-                  <a href="/brochure/General Brochure Devhost.pdf" download>
-                    <HoverBorderGradient
-                      containerClassName="rounded-full"
-                      className="bg-black/70 border border-[var(--neon-green-dim)] shadow-[0_0_10px_var(--neon-green-glow)] hover:shadow-[0_0_20px_var(--neon-green)] w-full md:w-auto px-6 md:px-8 py-3 md:py-4 group flex items-center justify-center space-x-2 transition-all duration-300"
-                    >
-                      <Download size={20} className="text-[var(--neon-green)]" />
-                      <span className="text-[var(--neon-green)] text-sm md:text-base font-mono tracking-wider">
+                  <a href="/brochure/General Brochure Devhost.pdf" download className="w-full md:w-auto">
+                    <button
+            className="relative flex cursor-pointer items-center gap-2 bg-primary px-5 py-2 text-xs font-bold tracking-widest text-black uppercase transition"
+            style={{
+              clipPath:
+                "polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)",
+            }}
+          >
+            <Download size={18} className=" md:size-5" />
+                      <span className=" text-xs md:text-base font-mono tracking-wider">
                         DevHost Brochure
                       </span>
-                    </HoverBorderGradient>
+          </button>
                   </a>
                 </motion.div>
               </div>
-            </HoverBorderGradient>
+            </AboutCard>
           </div>
         </div>
       </motion.div>
