@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 
+
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
@@ -98,7 +99,7 @@ export default function Home() {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: "200% bottom",
+          end: "145% bottom",
           scrub: 1,
           pin: true,
         },
@@ -264,14 +265,7 @@ export default function Home() {
       className="relative min-h-screen overflow-hidden bg-black text-white"
     >
       <div className="relative flex h-screen flex-col items-center justify-center">
-        {/* <div
-          ref={topTextRef}
-          className="absolute top-8 right-0 left-0 text-center opacity-0"
-        >
-          <p className="font-orbitron px-4 text-xs font-bold tracking-wider text-white sm:px-6 sm:text-sm md:text-lg lg:text-xl xl:text-2xl">
-            INNOVATION • COLLABORATION • EXECUTION
-          </p>
-        </div> */}
+        
 
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="font-orbitron flex items-end justify-center">
@@ -328,32 +322,20 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="flex justify-center lg:justify-start">
-            <button
-              onClick={() => window.open("https://google.com", "_blank")}
-              className="relative h-12 w-40 cursor-pointer transition-all duration-300 hover:scale-105 lg:h-12 lg:w-60"
-            >
-              <Image
-                src="/Group2012.svg"
-                alt="Register"
-                fill
-                className="object-contain"
-              />
-              <span className="font-orbitron absolute inset-0 flex items-center justify-center text-sm font-bold text-white">
-                Know More
-              </span>
-            </button>
-          </div>
+          <div className="font-orbitron flex gap-4">
+          <button
+            className="bg-primary relative flex cursor-pointer items-center gap-2 px-5 py-2 text-xs font-bold tracking-widest text-black uppercase transition"
+            style={{
+              clipPath:
+                "polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)",
+            }}
+          >
+            Know More
+          </button>
+        </div>
         </div>
 
-        {/* <div
-          ref={bottomTextRef}
-          className="absolute right-0 bottom-8 left-0 text-center opacity-0"
-        >
-          <p className="font-orbitron px-4 text-xs font-bold tracking-wider text-white sm:px-6 sm:text-sm md:text-lg lg:text-xl xl:text-2xl">
-            20 HOURS • UNLIMITED POSSIBILITIES • ONE EPIC WEEKEND
-          </p>
-        </div> */}
+        
       </div>
     </div>
   );
