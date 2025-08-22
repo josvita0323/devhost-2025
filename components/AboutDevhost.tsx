@@ -22,7 +22,7 @@ export default function AboutDevhost() {
 
   return (
     <section
-      className="my-section relative min-h-screen overflow-hidden bg-black text-[var(--neon-green)]"
+      className="my-section relative min-h-screen overflow-hidden bg-black text-[var(--neon-green)] pt-12"
       style={
         {
           "--neon-green": "#a3ff12",
@@ -35,7 +35,6 @@ export default function AboutDevhost() {
       {/* Background elements */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--neon-green)_1px,transparent_1px)] [background-size:40px_40px] opacity-50" />
 
-      <div className="absolute bottom-0 h-48 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" />
       <div className="absolute top-0 h-48 w-full bg-gradient-to-b from-black/95 via-black/80 to-transparent" />
 
       <motion.div
