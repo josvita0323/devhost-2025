@@ -5,7 +5,6 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 
-
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
@@ -99,7 +98,7 @@ export default function Home() {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: "140% bottom",
+          end: "170% bottom",
           scrub: 1,
           pin: true,
         },
@@ -264,11 +263,9 @@ export default function Home() {
       ref={containerRef}
       className="relative min-h-screen overflow-hidden bg-black text-white"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#a3ff12_1px,transparent_1px)] [background-size:40px_40px] opacity-30 pointer-events-none" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,#a3ff12_1px,transparent_1px)] [background-size:40px_40px] opacity-30" />
 
       <div className="relative flex h-screen flex-col items-center justify-center">
-        
-
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="font-orbitron flex items-end justify-center">
             <div
@@ -313,10 +310,9 @@ export default function Home() {
         </div>
 
         <div
-  ref={contentRef}
-  className="absolute bottom-33 translate-y-[-40px] flex flex-col items-center space-y-6 opacity-0"
->
-
+          ref={contentRef}
+          className="absolute bottom-33 flex translate-y-[-40px] flex-col items-center space-y-6 opacity-0"
+        >
           <div className="max-w-4xl px-6 text-center">
             <p className="mb-4 font-mono text-base leading-relaxed text-gray-300 sm:text-lg md:text-xl">
               Join us for an intense 36-hour hackathon where innovation meets
@@ -326,20 +322,18 @@ export default function Home() {
           </div>
 
           <div className="font-orbitron flex gap-4">
-          <button
-            className="bg-primary relative flex cursor-pointer items-center gap-2 px-5 py-2 text-xs font-bold tracking-widest text-black uppercase transition"
-            style={{
-              clipPath:
-                "polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)",
-            }}
-          >
-            Know More
-          </button>
+            <button
+              className="bg-primary relative flex cursor-pointer items-center gap-2 px-5 py-2 text-xs font-bold tracking-widest text-black uppercase transition"
+              style={{
+                clipPath:
+                  "polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)",
+              }}
+            >
+              Know More
+            </button>
+          </div>
         </div>
-        </div>
-      <div className="absolute bottom-0 h-24 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" />
-
-        
+        <div className="absolute bottom-0 h-24 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" />
       </div>
     </div>
   );
