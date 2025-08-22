@@ -3,7 +3,7 @@
 import React from "react";
 import { MapPin } from "lucide-react";
 
-const Map = () => {
+const Map = () => { 
   return (
     <section className="relative min-h-screen w-full bg-black text-white flex items-center justify-center overflow-hidden px-4 sm:px-6">
       {/* neon grid */}
