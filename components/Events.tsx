@@ -131,7 +131,7 @@ export default function Events() {
       );
     }
 
-    // Cards flip animation
+    // Cards 
     cardsRef.current.forEach((card) => {
   if (card) {
     gsap.fromTo(
