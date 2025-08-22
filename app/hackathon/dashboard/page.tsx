@@ -1,18 +1,17 @@
 'use client';
 
-import {useAuth} from "@/context/AuthContext";
-import {useEffect, useState} from "react";
+import { useAuth } from "@/context/AuthContext";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import { CheckIcon, CopyIcon } from "lucide-react";
+import { ArrowLeft, CheckIcon, CopyIcon } from "lucide-react";
 
 export default function HackathonDashboardPage() {
     const router = useRouter();
     const { user, loading, profile, setProfile, team, teamLoading, setTeam } = useAuth();
-    const [isFormLoading, setIsFormLoading] = useState(false);
     const [loadingStates, setLoadingStates] = useState({
         removing: false,
         deleting: false,
@@ -68,15 +67,15 @@ export default function HackathonDashboardPage() {
             const result = await response.json();
 
             if (response.ok) {
-                setDriveLinkState(prev => ({ 
-                    ...prev, 
+                setDriveLinkState(prev => ({
+                    ...prev,
                     validationResult: result,
                     error: result.accessible ? '' : result.message
                 }));
                 return result;
             } else {
-                setDriveLinkState(prev => ({ 
-                    ...prev, 
+                setDriveLinkState(prev => ({
+                    ...prev,
                     error: result.error || 'Failed to validate drive link'
                 }));
                 return null;
@@ -108,9 +107,9 @@ export default function HackathonDashboardPage() {
             });
 
             if (res.ok) {
-                setDriveLinkState(prev => ({ 
-                    ...prev, 
-                    updated: true, 
+                setDriveLinkState(prev => ({
+                    ...prev,
+                    updated: true,
                     showModal: false,
                     isDirty: false
                 }));
@@ -125,16 +124,16 @@ export default function HackathonDashboardPage() {
                 }, 1500);
             } else {
                 const errorData = await res.json();
-                setDriveLinkState(prev => ({ 
-                    ...prev, 
-                    error: errorData.error || 'Failed to update drive link' 
+                setDriveLinkState(prev => ({
+                    ...prev,
+                    error: errorData.error || 'Failed to update drive link'
                 }));
             }
         } catch (error) {
             console.error('Error updating drive link:', error);
-            setDriveLinkState(prev => ({ 
-                ...prev, 
-                error: 'An error occurred while updating the drive link' 
+            setDriveLinkState(prev => ({
+                ...prev,
+                error: 'An error occurred while updating the drive link'
             }));
         } finally {
             setDriveLinkState(prev => ({ ...prev, isUpdating: false }));
@@ -154,15 +153,15 @@ export default function HackathonDashboardPage() {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${idToken}`,
                 },
-                body: JSON.stringify({peer_id: peer_id, peer_name: peer_name}),
+                body: JSON.stringify({ peer_id: peer_id, peer_name: peer_name }),
             });
 
             if (res.ok) {
                 // Update states immediately
                 setTeam(null);
-                setProfile({...profile, team_id: ''});
+                setProfile({ ...profile, team_id: '' });
                 setSuccessStates(prev => ({ ...prev, removed: true }));
-                
+
                 // Refresh after short delay
                 setTimeout(() => {
                     window.location.reload();
@@ -192,15 +191,15 @@ export default function HackathonDashboardPage() {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${idToken}`,
                 },
-                body: JSON.stringify({team_id: form.team_id}),
+                body: JSON.stringify({ team_id: form.team_id }),
             });
 
             if (res.ok) {
                 // Update states immediately
                 setTeam(null);
-                setProfile({...profile, team_id: ''});
+                setProfile({ ...profile, team_id: '' });
                 setSuccessStates(prev => ({ ...prev, deleted: true }));
-                
+
                 // Navigate after short delay
                 setTimeout(() => {
                     router.push('/hackathon/dashboard');
@@ -231,19 +230,19 @@ export default function HackathonDashboardPage() {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${idToken}`,
                 },
-                body: JSON.stringify({team_id: form.team_id}),
+                body: JSON.stringify({ team_id: form.team_id }),
             });
 
             if (res.ok) {
                 // Update team state to reflect finalized status immediately
                 if (team) {
-                    setTeam({...team, finalized: true});
+                    setTeam({ ...team, finalized: true });
                 }
                 // Update form state to reflect finalized status
-                setForm(prev => ({...prev, finalized: true}));
+                setForm(prev => ({ ...prev, finalized: true }));
                 setSuccessStates(prev => ({ ...prev, finalized: true }));
                 setFinalizeError(null);
-                
+
                 // Reset success state
                 setTimeout(() => {
                     setSuccessStates(prev => ({ ...prev, finalized: false }));
@@ -288,15 +287,15 @@ export default function HackathonDashboardPage() {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${idToken}`,
                 },
-                body: JSON.stringify({team_id: form.team_id}),
+                body: JSON.stringify({ team_id: form.team_id }),
             });
 
             if (res.ok) {
                 // Update states immediately
                 setTeam(null);
-                setProfile({...profile, team_id: ''});
+                setProfile({ ...profile, team_id: '' });
                 setSuccessStates(prev => ({ ...prev, left: true }));
-                
+
                 // Navigate after short delay
                 setTimeout(() => {
                     window.location.reload();
@@ -323,19 +322,19 @@ export default function HackathonDashboardPage() {
 
             // First validate the drive link
             const validationResult = await validateDriveLink(driveLinkState.link);
-            
+
             if (validationResult && validationResult.accessible) {
                 // If accessible, proceed to save
                 handleDriveLinkChange(driveLinkState.link);
             }
             // If not accessible, error message is already set by validateDriveLink
         };
-        
+
         return (
             <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                 <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
                     <h2 className="text-xl font-bold text-gray-800 mb-4">Add Drive Link</h2>
-                    
+
                     <form onSubmit={handleValidateAndSubmit}>
                         <div className="mb-4">
                             <Label htmlFor="drive_link" className="mb-2">Google Drive Link</Label>
@@ -344,9 +343,9 @@ export default function HackathonDashboardPage() {
                                 type="url"
                                 value={driveLinkState.link}
                                 onChange={(e) => {
-                                    setDriveLinkState(prev => ({ 
-                                        ...prev, 
-                                        link: e.target.value, 
+                                    setDriveLinkState(prev => ({
+                                        ...prev,
+                                        link: e.target.value,
                                         isDirty: true,
                                         validationResult: null,
                                         error: ''
@@ -360,16 +359,14 @@ export default function HackathonDashboardPage() {
 
                         {/* Validation Result */}
                         {driveLinkState.validationResult && (
-                            <div className={`mb-4 p-3 rounded-md ${
-                                driveLinkState.validationResult.accessible 
-                                    ? 'bg-green-50 border border-green-200' 
-                                    : 'bg-red-50 border border-red-200'
-                            }`}>
-                                <p className={`text-sm ${
-                                    driveLinkState.validationResult.accessible 
-                                        ? 'text-green-700' 
-                                        : 'text-red-700'
+                            <div className={`mb-4 p-3 rounded-md ${driveLinkState.validationResult.accessible
+                                ? 'bg-green-50 border border-green-200'
+                                : 'bg-red-50 border border-red-200'
                                 }`}>
+                                <p className={`text-sm ${driveLinkState.validationResult.accessible
+                                    ? 'text-green-700'
+                                    : 'text-red-700'
+                                    }`}>
                                     {driveLinkState.validationResult.accessible ? '✓ ' : '✗ '}
                                     {driveLinkState.validationResult.message}
                                 </p>
@@ -378,19 +375,19 @@ export default function HackathonDashboardPage() {
                                 </p>
                             </div>
                         )}
-                        
+
                         <div className="mb-6">
                             <p className="text-sm text-gray-600">
                                 Please make sure your drive folder is set to &quot;Anyone with the link can view&quot; permissions.
                             </p>
                         </div>
-                        
+
                         {driveLinkState.error && !driveLinkState.validationResult && (
                             <p className="text-red-500 text-sm mb-4">{driveLinkState.error}</p>
                         )}
-                        
+
                         <div className="flex gap-3">
-                            <Button 
+                            <Button
                                 type="button"
                                 onClick={() => {
                                     setDriveLinkState(prev => ({
@@ -406,19 +403,19 @@ export default function HackathonDashboardPage() {
                             >
                                 Cancel
                             </Button>
-                            <Button 
+                            <Button
                                 type="submit"
                                 className="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 transition-colors disabled:opacity-50"
                                 disabled={
-                                    driveLinkState.isUpdating || 
-                                    driveLinkState.updated || 
+                                    driveLinkState.isUpdating ||
+                                    driveLinkState.updated ||
                                     !driveLinkState.isDirty ||
                                     driveLinkState.isValidating
                                 }
                             >
-                                {driveLinkState.isValidating ? 'Validating...' : 
-                                 driveLinkState.isUpdating ? 'Saving...' : 
-                                 driveLinkState.updated ? 'Saved!' : 'Save Link'}
+                                {driveLinkState.isValidating ? 'Validating...' :
+                                    driveLinkState.isUpdating ? 'Saving...' :
+                                        driveLinkState.updated ? 'Saved!' : 'Save Link'}
                             </Button>
                         </div>
                     </form>
@@ -435,7 +432,7 @@ export default function HackathonDashboardPage() {
     };
 
     const displayTeamLeader = () => {
-        return (    
+        return (
             <div className="w-full max-w-2xl mx-auto bg-white rounded-2xl shadow-xl p-8">
                 {/* Team Name with Copy Email Button */}
                 <div className="text-center mb-6">
@@ -453,7 +450,7 @@ export default function HackathonDashboardPage() {
                                 className={`px-2 py-2 rounded-sm text-sm font-medium`}
                             >
                                 {copied ? <div><CheckIcon className="h-4 w-4" /></div> : <div><CopyIcon className="h-4 w-4" /></div>}
-                        </button>
+                            </button>
                         </div>
                     )}
                 </div>
@@ -469,7 +466,7 @@ export default function HackathonDashboardPage() {
                                 <span className="text-gray-800 font-medium">{form.team_leader}</span>
                             </div>
                         </div>
-                        
+
                         {/* Team Members */}
                         {form.peers && form.peers.length > 0 ? (
                             form.peers.map((peer) => (
@@ -498,7 +495,7 @@ export default function HackathonDashboardPage() {
                 <div className="flex flex-col gap-3 mt-6">
                     {form.finalized && form.drive_link ? (
                         /* Show drive link if finalized and link exists */
-                        <a 
+                        <a
                             href={form.drive_link}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -508,7 +505,7 @@ export default function HackathonDashboardPage() {
                         </a>
                     ) : !form.finalized ? (
                         /* Show add drive link button if not finalized */
-                        <button 
+                        <button
                             onClick={() => {
                                 setDriveLinkState(prev => ({
                                     ...prev,
@@ -523,7 +520,7 @@ export default function HackathonDashboardPage() {
                             Add Drive Link
                         </button>
                     ) : null}
-                    
+
                     {!form.finalized && (
                         <div className="flex flex-col gap-3">
                             <div className="flex gap-3">
@@ -553,7 +550,7 @@ export default function HackathonDashboardPage() {
                 {!form.finalized && renderDriveLinkModal()}
             </div>
         );
-    } 
+    }
 
     const displayTeamMember = () => {
         return (
@@ -575,7 +572,7 @@ export default function HackathonDashboardPage() {
                                 <span className="text-gray-800 font-medium">{form.team_leader}</span>
                             </div>
                         </div>
-                        
+
                         {/* Team Members */}
                         {form.peers && form.peers.length > 0 ? (
                             form.peers.map((peer) => {
@@ -600,10 +597,10 @@ export default function HackathonDashboardPage() {
                 {/* Drive Link */}
                 {form.drive_link && (
                     <div className="mb-6">
-                        <a 
-                            href={form.drive_link} 
-                            target="_blank" 
-                            rel="noopener noreferrer" 
+                        <a
+                            href={form.drive_link}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="w-full bg-blue-500 text-white px-4 py-3 rounded-lg hover:bg-blue-600 transition-colors text-center block font-medium"
                         >
                             Open Team Drive Link
@@ -655,21 +652,17 @@ export default function HackathonDashboardPage() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100 flex flex-col items-center justify-start py-12 px-4">
-            {/* Hero Section */}
             <div className="w-full max-w-3xl mb-10 text-center">
                 <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-3 tracking-tight drop-shadow-lg">Hackathon Dashboard</h1>
                 <p className="text-lg md:text-xl text-gray-600 mb-6">Manage your team, collaborate, and track your hackathon progress here.</p>
                 <div className="flex flex-wrap justify-center gap-4">
-                    <Link href="/hackathon" className="inline-block">
-                        <Button variant="outline" className="bg-white hover:text-black cursor-pointer text-black border shadow">Hackathon Home</Button>
-                    </Link>
-                    <Link href="/profile" className="inline-block">
-                        <Button variant="outline" className="bg-white hover:text-black cursor-pointer text-black border shadow">My Profile</Button>
-                    </Link>
+                    <Button variant="outline" className="bg-white hover:text-black text-black border shadow" asChild>
+                        <Link href="/profile">
+                            <ArrowLeft className="h-4 w-4" /> Go to Profile
+                        </Link>
+                    </Button>
                 </div>
             </div>
-
-            {/* Main Content */}
             <div className="w-full max-w-4xl">
                 {form.team_id ? (
                     form.team_id === user?.uid ? (
