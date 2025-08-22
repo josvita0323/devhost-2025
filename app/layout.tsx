@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import ReactLenis from "lenis/react";
 
 const amiga = localFont({
   src: "../assets/fonts/amiga4ever.woff2",
@@ -48,6 +49,7 @@ export default function RootLayout({
       <body
         className={`${amiga.variable} ${dystopian.variable} ${delagothic.variable} ${orbitron.variable} ${kleemax.variable} antialiased`}
       >
+        <ReactLenis root />
         {children}
       </body>
     </html>

@@ -102,7 +102,7 @@ export default function FAQ() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen overflow-hidden px-4 py-20 text-white md:px-8"
+      className="relative min-h-screen overflow-hidden px-4 py-48 text-white md:px-8"
     >
       {/* Enhanced cyberpunk grid background */}
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(#a3ff1208_1px,transparent_1px),linear-gradient(90deg,#a3ff1208_1px,transparent_1px)] bg-[size:40px_40px] opacity-30"></div>
@@ -112,15 +112,12 @@ export default function FAQ() {
         <div className="absolute top-0 left-0 h-full w-full animate-pulse bg-[linear-gradient(45deg,transparent_48%,#a3ff1205_49%,#a3ff1205_51%,transparent_52%)] bg-[size:20px_20px]"></div>
       </div>
 
+      <div className="absolute bottom-0 h-48 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" />
+      <div className="absolute top-0 h-48 w-full bg-gradient-to-b from-black/95 via-black/80 to-transparent" />
+
       <div className="relative mx-auto max-w-4xl">
         {/* Cyberpunk Title with enhanced styling */}
         <div className="relative mb-16 text-center">
-          {/* Title background effects */}
-          <div className="absolute inset-0 -z-10">
-            <div className="absolute top-1/2 left-0 h-px w-24 origin-left -translate-y-1/2 transform bg-[#a3ff12] shadow-[0_0_10px_#a3ff12] md:w-32"></div>
-            <div className="absolute top-1/2 right-0 h-px w-24 origin-right -translate-y-1/2 transform bg-[#a3ff12] shadow-[0_0_10px_#a3ff12] md:w-32"></div>
-          </div>
-
           <h2 className="font-orbitron relative inline-block text-5xl font-bold md:text-7xl">
             FAQ
           </h2>
