@@ -661,10 +661,10 @@ export default function HackathonDashboardPage() {
                 <p className="text-lg md:text-xl text-gray-600 mb-6">Manage your team, collaborate, and track your hackathon progress here.</p>
                 <div className="flex flex-wrap justify-center gap-4">
                     <Link href="/hackathon" className="inline-block">
-                        <Button variant="outline" className="bg-white hover:bg-gray-100 text-black border shadow">Hackathon Home</Button>
+                        <Button variant="outline" className="bg-white hover:text-black cursor-pointer text-black border shadow">Hackathon Home</Button>
                     </Link>
                     <Link href="/profile" className="inline-block">
-                        <Button variant="outline" className="bg-white hover:bg-gray-100 text-black border shadow">My Profile</Button>
+                        <Button variant="outline" className="bg-white hover:text-black cursor-pointer text-black border shadow">My Profile</Button>
                     </Link>
                 </div>
             </div>
