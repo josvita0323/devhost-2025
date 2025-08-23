@@ -16,7 +16,11 @@ export default function Home() {
       <Suspense fallback={<Skeleton />}>
         <Hero />
         <Counter />
+        <div className="relative h-[20vh] bg-black" />
         <AboutDevhost />
+        <div className="relative h-[20vh] bg-black">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,#a3ff12_1px,transparent_1px)] [background-size:40px_40px] opacity-30" />
+        </div>
         <AboutHackathon />
         <TimelineSection />
         <Events />
@@ -42,7 +46,7 @@ export default function Home() {
   );
 }
 
-export function Skeleton() {
+function Skeleton() {
   return (
     <div className="animate-pulse space-y-6 p-6">
       <div className="bg-primary/30 h-8 w-1/3 rounded"></div>

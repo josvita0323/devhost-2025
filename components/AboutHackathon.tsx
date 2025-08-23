@@ -235,9 +235,7 @@ export default function Home() {
 
   if (!isClient) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-black text-white">
-        <div className="text-2xl">Loading...</div>
-      </div>
+      <div className="flex min-h-screen items-center justify-center bg-black" />
     );
   }
 

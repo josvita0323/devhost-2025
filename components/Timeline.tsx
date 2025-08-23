@@ -26,9 +26,9 @@ const CyberpunkTimeline: React.FC = () => {
   ];
 
   return (
-    <div className="relative min-h-screen py-48">
-      <div className="absolute bottom-0 h-48 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" />
-      <div className="absolute top-0 h-48 w-full bg-gradient-to-b from-black/95 via-black/80 to-transparent" />
+    <div className="relative min-h-screen bg-black">
+      {/* <div className="absolute bottom-0 h-48 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" /> */}
+      {/* <div className="absolute top-0 h-48 w-full bg-gradient-to-b from-black/95 via-black/80 to-transparent" /> */}
 
       {/* Header */}
       <div className="relative py-12 text-center">
