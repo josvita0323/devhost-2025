@@ -27,15 +27,15 @@ export default function Home() {
       <Footer />
       {/*<CommonEvents /> */}
 
-      <div className="pointer-events-none fixed inset-0 -z-10 opacity-5">
+      <div className="pointer-events-none fixed inset-0 -z-10 opacity-8">
         <div
           className="absolute inset-0"
           style={{
             backgroundImage: `
-        linear-gradient(#FFFF00 2px, transparent 1px),
-        linear-gradient(90deg, #FFFF00 2px, transparent 1px)
+        linear-gradient(#a3ff12 2px, transparent 1px),
+        linear-gradient(90deg, #a3ff12 2px, transparent 1px)
       `,
-            backgroundSize: "40px 40px",
+            backgroundSize: "80px 80px",
           }}
         ></div>
       </div>
