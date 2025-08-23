@@ -2,14 +2,65 @@
 import React, { Fragment } from "react";
 import Logo from "./animated/Logo";
 import DecryptText from "./animated/TextAnimation";
-import { Calendar, Clock, User } from "lucide-react";
+import { User } from "lucide-react";
+import Image from "next/image";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 export default function Hero() {
+  useGSAP(() => {
+    const specialPath =
+      document.querySelector<SVGPathElement>("#specialBlink1");
+    if (specialPath) {
+      gsap.set(specialPath, { opacity: 0 });
+
+      gsap.to(specialPath, {
+        delay: 1.8,
+        opacity: 1,
+        duration: 0.1,
+        ease: "none",
+      });
+    }
+  });
+
   return (
     <Fragment>
-      <div className="relative flex h-screen w-full items-center justify-center overflow-hidden text-zinc-300">
-        {/* Main Logo */}
-        <Logo className="relative z-10 w-full max-w-[250px] sm:max-w-[300px] md:max-w-[400px]" />
+      <div className="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden text-zinc-300">
+        <div className="flex flex-col items-center">
+          <div
+            className="-mt-24 flex w-full max-w-[250px] flex-col pb-1 sm:max-w-[300px] md:max-w-[400px]"
+            id="specialBlink1"
+          >
+            <div className="flex items-center justify-between gap-2">
+              <Image
+                priority
+                src="/sahyadri_logo.png"
+                className="h-10 w-16 object-contain"
+                alt="logo"
+                width={500}
+                height={500}
+              />
+              <Image
+                priority
+                src="/sosc_logo.svg"
+                className="ml-5 h-12 w-16"
+                alt="logo"
+                width={500}
+                height={500}
+              />
+              <Image
+                priority
+                src="/synergia_logo.svg"
+                className="mr-4 h-14 w-22"
+                alt="Synergia logo"
+                width={500}
+                height={500}
+              />
+            </div>
+          </div>
+
+          <Logo className="relative z-10 h-auto w-full max-w-[250px] sm:max-w-[300px] md:max-w-[400px]" />
+        </div>
 
         {/* Cyberpunk side boot logs (left) */}
         <div className="font-orbitron absolute top-10 left-10 text-xs tracking-wider text-zinc-600 sm:text-sm">
