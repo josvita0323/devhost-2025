@@ -111,8 +111,6 @@ const CyberpunkTimeline: React.FC = () => {
                             </p>
                           </div>
 
-                          
-
                           {/* Venue */}
                           <div className="absolute right-0 bottom-0">
                             <div className="border-primary/50 border bg-black px-2 py-1">
