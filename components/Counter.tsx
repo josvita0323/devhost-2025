@@ -42,10 +42,7 @@ function CountdownDigit({
   const isSeconds = label === TIME_LABELS.seconds;
   const digits = formattedValue.split("");
   
-  // Check if value has changed
   const hasChanged = prevValue !== undefined && value !== prevValue;
-  
-  // Check if units digit is 0
   const unitsDigitIsZero = digits[1] === "0";
 
   return (
@@ -56,18 +53,15 @@ function CountdownDigit({
       transition={{ duration: 0.6, delay }}
       className="flex flex-col items-center justify-center"
     >
-      <div className="xs:h-20 xs:w-20 relative flex h-16 w-16 items-center justify-center overflow-hidden sm:h-24 sm:w-24 md:h-28 md:w-28 lg:h-32 lg:w-32">
+      <div className="xs:h-14 xs:w-14 relative flex h-12 w-12 items-center justify-center overflow-hidden sm:h-18 sm:w-18 md:h-22 md:w-22 lg:h-24 lg:w-24">
         <div className="flex items-center justify-center">
           {digits.map((digit, index) => {
-            const isUnitsDigit = index === 1; // Rightmost digit
-            const isTensDigit = index === 0;  // Leftmost digit
+            const isUnitsDigit = index === 1;
+            const isTensDigit = index === 0;
             
-            // Animation logic:
-            // 1. Only animate units digit (right side) most of the time
-            // 2. Only animate tens digit (left side) when units is 0
             const shouldAnimate = hasChanged && (
-              (isUnitsDigit) || // Always animate units (right) digit
-              (isTensDigit && unitsDigitIsZero) // Only animate tens when units is 0
+              (isUnitsDigit) || 
+              (isTensDigit && unitsDigitIsZero)
             );
             
             return (
@@ -81,12 +75,12 @@ function CountdownDigit({
                   duration: isSeconds ? 0.15 : 0.3,
                   type: "tween",
                   ease: "easeOut",
-                  delay: index * 0.05, // Slight delay between first and second digit
+                  delay: index * 0.05,
                 }}
                 className="digit-container flex items-center justify-center"
               >
                 <div
-                  className={`font-kleemax xs:text-3xl text-foreground text-center text-2xl font-bold sm:text-4xl md:text-5xl lg:text-6xl relative ${
+                  className={`font-kleemax xs:text-xl text-foreground text-center text-lg font-bold sm:text-2xl md:text-3xl lg:text-4xl relative ${
                     isSeconds ? "seconds-digit" : ""
                   }`}
                 >
@@ -104,7 +98,7 @@ function CountdownDigit({
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay }}
-          className="font-orbitron text-primary text-center text-xs tracking-widest sm:text-sm md:text-base lg:text-lg"
+          className="font-orbitron text-primary text-center text-[10px] tracking-widest sm:text-xs md:text-xs lg:text-sm"
         >
           {label}
         </motion.div>
@@ -138,12 +132,12 @@ export default function Counter() {
     return (
       <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background px-1 py-6 sm:px-2 sm:py-8 md:px-4 md:py-10 lg:py-12">
         <div className="flex flex-col items-center w-full px-4 mb-4 sm:mb-6">
-          <h2 className="font-dystopian mb-4 xs:mb-5 sm:mb-6 px-1 text-center text-base xs:text-lg sm:text-4xl md:text-5xl lg:text-6xl text-primary/70 tracking-widest shadow-primary">
+          <h2 className="font-dystopian mb-3 xs:mb-4 sm:mb-5 px-1 text-center text-sm xs:text-base sm:text-3xl md:text-4xl lg:text-5xl text-primary/70 tracking-widest shadow-primary">
             {EVENT_SUBTITLE}
           </h2>
         </div>
         
-        <div className="mx-auto grid grid-cols-2 gap-2 xs:gap-3 sm:gap-4 md:gap-6 lg:gap-8 px-2 max-w-[280px] xs:max-w-[320px] sm:max-w-[400px] md:max-w-[640px] lg:max-w-4xl lg:grid-cols-4">
+        <div className="mx-auto grid grid-cols-2 gap-1 xs:gap-2 sm:gap-3 md:gap-4 lg:gap-6 px-2 max-w-[240px] xs:max-w-[280px] sm:max-w-[340px] md:max-w-[500px] lg:max-w-3xl lg:grid-cols-4">
           <CountdownDigit value={0} prevValue={0} label={TIME_LABELS.days} delay={0.3} />
           <CountdownDigit value={0} prevValue={0} label={TIME_LABELS.hours} delay={0.5} />
           <CountdownDigit value={0} prevValue={0} label={TIME_LABELS.minutes} delay={0.7} />
@@ -180,7 +174,7 @@ export default function Counter() {
         transition={{ duration: 0.8 }}
       >
         <motion.h2
-          className="font-orbitron text-primary shadow-primary px-1 text-center text-lg tracking-widest lg:text-3xl"
+          className="font-orbitron text-primary shadow-primary px-1 text-center text-sm tracking-widest lg:text-xl"
           initial={{ skewY: 2 }}
           whileInView={{ skewY: 0 }}
           viewport={{ once: true }}
@@ -190,7 +184,7 @@ export default function Counter() {
         </motion.h2>
       </motion.div>
 
-      <div className="xs:gap-3 xs:max-w-[320px] mx-auto grid max-w-[280px] grid-cols-2 gap-2 px-2 sm:max-w-[400px] sm:gap-4 md:max-w-[640px] md:gap-6 lg:max-w-4xl lg:grid-cols-4 lg:gap-8">
+      <div className="xs:gap-1 xs:max-w-[260px] mx-auto grid max-w-[220px] grid-cols-2 gap-1 px-2 sm:max-w-[320px] sm:gap-2 md:max-w-[460px] md:gap-3 lg:max-w-2xl lg:grid-cols-4 lg:gap-4">
         <CountdownDigit
           value={timeLeft.days}
           prevValue={prevTimeLeft.current.days}
@@ -217,40 +211,38 @@ export default function Counter() {
         />
       </div>
 
-      <motion.div
-        className="bg-primary/50 shadow-primary mt-6 h-[2px] w-32 rounded-sm"
-        initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-      />
-
-      <style jsx global>{`
-        .xs\\:h-20 {
-          height: 5rem;
+        <motion.div
+          className="bg-primary/50 shadow-primary mt-4 h-[1px] w-24 rounded-sm"
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        />      <style jsx global>{`
+        .xs\\:h-14 {
+          height: 3.5rem;
         }
-        .xs\\:w-20 {
-          width: 5rem;
+        .xs\\:w-14 {
+          width: 3.5rem;
         }
-        .xs\\:text-3xl {
-          font-size: 1.875rem;
-          line-height: 2.25rem;
-        }
-        .xs\\:mb-5 {
-          margin-bottom: 1.25rem;
-        }
-        .xs\\:text-lg {
+        .xs\\:text-xl {
           font-size: 1.25rem;
           line-height: 1.75rem;
         }
-        .xs\\:gap-3 {
-          gap: 0.75rem;
+        .xs\\:mb-4 {
+          margin-bottom: 1rem;
         }
-        .xs\\:max-w-\\[320px\\] {
-          max-width: 320px;
+        .xs\\:text-base {
+          font-size: 1rem;
+          line-height: 1.5rem;
         }
-        .xs\\:mt-6 {
-          margin-top: 1.5rem;
+        .xs\\:gap-1 {
+          gap: 0.25rem;
+        }
+        .xs\\:max-w-\\[260px\\] {
+          max-width: 260px;
+        }
+        .xs\\:mt-4 {
+          margin-top: 1rem;
         }
 
         .seconds-digit {
