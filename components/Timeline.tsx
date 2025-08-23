@@ -7,12 +7,12 @@ const CyberpunkTimeline: React.FC = () => {
   const tabGroups = [
     {
       id: "phase-1",
-      label: "PHASE 01",
+      label: "Nov 6",
       days: markers.slice(0, Math.ceil(markers.length / 3)),
     },
     {
       id: "phase-2",
-      label: "PHASE 02",
+      label: "Nov 7",
       days: markers.slice(
         Math.ceil(markers.length / 3),
         Math.ceil((markers.length * 2) / 3),
@@ -20,7 +20,7 @@ const CyberpunkTimeline: React.FC = () => {
     },
     {
       id: "phase-3",
-      label: "PHASE 03",
+      label: "Nov 8",
       days: markers.slice(Math.ceil((markers.length * 2) / 3)),
     },
   ];
@@ -40,7 +40,7 @@ const CyberpunkTimeline: React.FC = () => {
       <div className="mx-auto max-w-6xl px-6">
         <Tabs defaultValue="phase-1" className="w-full">
           {/* Tab Navigation */}
-          <TabsList className="border-primary mb-8 grid w-full grid-cols-3 border bg-black p-1">
+          <TabsList className="border-primary mx-auto mb-8 grid w-full max-w-4xl grid-cols-3 rounded-none border bg-black p-1">
             {tabGroups.map((group) => (
               <TabsTrigger
                 key={group.id}
@@ -57,28 +57,13 @@ const CyberpunkTimeline: React.FC = () => {
               <div className="space-y-8">
                 {group.days.map((day) => (
                   <div key={day.id} className="relative">
-                    {/* Day Header */}
-                    <div className="relative mb-12">
-                      <div className="flex items-center gap-4">
-                        <div className="flex-1"></div>
-                        <div className="border-primary relative border bg-black px-4 py-2">
-                          <span className="font-orbitron text-lg font-bold tracking-widest">
-                            {day.label}
-                          </span>
-                        </div>
-                        <div className="flex-1"></div>
-                      </div>
-                    </div>
-
                     {/* Events Grid */}
-                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    <div className="flex flex-col items-center gap-8">
                       {day.events.map((event) => (
                         <div
                           key={event.id}
-                          className="border-primary/50 hover:border-primary relative border bg-black p-4 transition-all duration-300"
+                          className="border-primary/50 relative w-full max-w-4xl border bg-black p-4"
                         >
-                          {/* <div className="border-primary absolute top-1/2 right-0 h-1 w-8 translate-x-full border-b" /> */}
-
                           {/* Time badge */}
                           <div className="absolute -top-3 left-4">
                             <div className="border-primary border bg-black px-2">
@@ -90,37 +75,45 @@ const CyberpunkTimeline: React.FC = () => {
 
                           {/* Content */}
                           <div className="mt-4 text-gray-200">
-                            <div className="mb-3 flex items-start gap-3">
-                              <span className="text-primary text-lg">
-                                {event.icon}
-                              </span>
-                              <h3 className="font-orbitron text-sm leading-tight font-bold">
-                                {event.title}
-                              </h3>
+                            {/* Title row with meta on right */}
+                            <div className="mb-2 flex items-start justify-between gap-3">
+                              {/* Icon + Title */}
+                              <div className="flex items-start gap-3">
+                                <span className="text-primary text-lg">
+                                  {event.icon}
+                                </span>
+                                <h3 className="font-orbitron text-sm leading-tight font-bold">
+                                  {event.title}
+                                </h3>
+                              </div>
+
+                              {/* Meta (speaker + role) */}
+                              <div className="text-right text-xs">
+                                {event.speaker && (
+                                  <div className="font-orbitron flex items-center justify-end gap-2 text-sm">
+                                    <span className="text-primary">&gt;</span>
+                                    <span className="text-primary font-medium">
+                                      {event.speaker}
+                                    </span>
+                                  </div>
+                                )}
+                                {event.role && (
+                                  <div className="text-primary/70">
+                                    {event.role}
+                                  </div>
+                                )}
+                              </div>
                             </div>
 
-                            <p className="mb-3 text-xs leading-relaxed">
+                            {/* Description */}
+                            <p className="mb-2 text-xs leading-relaxed">
                               {event.description}
                             </p>
-
-                            {/* Meta */}
-                            <div className="space-y-1 text-xs">
-                              {event.speaker && (
-                                <div className="flex items-center gap-2">
-                                  <span className="text-primary">&gt;</span>
-                                  <span className="text-primary font-medium">
-                                    {event.speaker}
-                                  </span>
-                                </div>
-                              )}
-                              {event.role && (
-                                <div className="text-primary/70 pl-4">
-                                  {event.role}
-                                </div>
-                              )}
-                            </div>
                           </div>
 
+                          
+
+                          {/* Venue */}
                           <div className="absolute right-0 bottom-0">
                             <div className="border-primary/50 border bg-black px-2 py-1">
                               <span className="flex items-center gap-2 text-xs text-zinc-400">

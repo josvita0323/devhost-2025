@@ -161,12 +161,7 @@ export default function Events() {
         <p className="mt-4 text-lg font-bold text-[#a3ff12] sm:text-xl">
           &gt; Build, Compete, and Leave Your Mark
         </p>
-        <p className="mt-6 flex items-center justify-center gap-2 font-bold text-white">
-          <span className="h-3 w-3 rounded-sm bg-[#a3ff12] shadow-[0_0_10px_#a3ff12]"></span>
-          <span className="text-xl tracking-wider sm:text-2xl font-orbitron">
-            {events.length} EVENTS AVAILABLE
-          </span>
-        </p>
+
         <div className="mx-auto mt-4 h-1 w-24 bg-[#a3ff12] shadow-[0_0_10px_#a3ff12]" />
       </div>
 
@@ -204,7 +199,7 @@ export default function Events() {
 
               <div className="flex flex-1 flex-col justify-between overflow-hidden py-1 sm:py-7">
                 <div className="flex-1 overflow-y-auto pr-1">
-                  <h2 className="mb-6 text-lg leading-tight font-bold text-[#a3ff12]  lg:text-2xl">
+                  <h2 className="mb-6 text-lg leading-tight font-bold text-[#a3ff12] lg:text-2xl">
                     {event.title}
                   </h2>
                   <p className="mb-2 text-sm leading-tight text-white/90 italic lg:text-base">
@@ -242,7 +237,7 @@ export default function Events() {
                   </div>
                 </div>
 
-                <div className="mt-2 sm:mt-9 flex justify-center lg:justify-start">
+                <div className="mt-2 flex justify-center sm:mt-9 lg:justify-start">
                   <button
                     onClick={() => (window.location.href = "/register")}
                     className="relative h-10 w-32 cursor-pointer transition-all duration-300 hover:scale-105 lg:h-12 lg:w-60"
