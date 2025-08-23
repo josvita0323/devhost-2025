@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 const TARGET_DATE = "2025-11-06T00:00:00";
@@ -31,13 +31,22 @@ function CountdownDigit({
   value,
   label,
   delay = 0,
+  prevValue,
 }: {
   value: number;
   label: string;
   delay?: number;
+  prevValue?: number;
 }) {
   const formattedValue = String(value).padStart(2, "0");
   const isSeconds = label === TIME_LABELS.seconds;
+  const digits = formattedValue.split("");
+  
+  // Check if value has changed
+  const hasChanged = prevValue !== undefined && value !== prevValue;
+  
+  // Check if units digit is 0
+  const unitsDigitIsZero = digits[1] === "0";
 
   return (
     <motion.div
@@ -48,29 +57,45 @@ function CountdownDigit({
       className="flex flex-col items-center justify-center"
     >
       <div className="xs:h-20 xs:w-20 relative flex h-16 w-16 items-center justify-center overflow-hidden sm:h-24 sm:w-24 md:h-28 md:w-28 lg:h-32 lg:w-32">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={value}
-            initial={{ y: -50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 50, opacity: 0 }}
-            transition={{
-              duration: isSeconds ? 0.15 : 0.3,
-              type: "tween",
-              ease: isSeconds ? "easeIn" : "easeOut",
-            }}
-            className="digit-container flex h-full w-full items-center justify-center"
-          >
-            <div
-              className={`font-kleemax xs:text-3xl text-foreground text-center text-2xl font-bold sm:text-4xl md:text-5xl lg:text-6xl ${
-                isSeconds ? "seconds-digit" : ""
-              }`}
-              style={{ position: "relative" }}
-            >
-              {formattedValue}
-            </div>
-          </motion.div>
-        </AnimatePresence>
+        <div className="flex items-center justify-center">
+          {digits.map((digit, index) => {
+            const isUnitsDigit = index === 1; // Rightmost digit
+            const isTensDigit = index === 0;  // Leftmost digit
+            
+            // Animation logic:
+            // 1. Only animate units digit (right side) most of the time
+            // 2. Only animate tens digit (left side) when units is 0
+            const shouldAnimate = hasChanged && (
+              (isUnitsDigit) || // Always animate units (right) digit
+              (isTensDigit && unitsDigitIsZero) // Only animate tens when units is 0
+            );
+            
+            return (
+            <AnimatePresence mode="wait" key={`${index}-${digit}`}>
+              <motion.div
+                key={`${value}-${index}-${shouldAnimate ? "anim" : "static"}`}
+                initial={shouldAnimate ? { y: -80, opacity: 0 } : { y: 0, opacity: 1 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={shouldAnimate ? { y: 80, opacity: 0 } : { y: 0, opacity: 1 }}
+                transition={{
+                  duration: isSeconds ? 0.15 : 0.3,
+                  type: "tween",
+                  ease: "easeOut",
+                  delay: index * 0.05, // Slight delay between first and second digit
+                }}
+                className="digit-container flex items-center justify-center"
+              >
+                <div
+                  className={`font-kleemax xs:text-3xl text-foreground text-center text-2xl font-bold sm:text-4xl md:text-5xl lg:text-6xl relative ${
+                    isSeconds ? "seconds-digit" : ""
+                  }`}
+                >
+                  {digit}
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          )})}
+        </div>
       </div>
 
       {label && (
@@ -91,12 +116,16 @@ function CountdownDigit({
 export default function Counter() {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [mounted, setMounted] = useState(false);
+  const prevTimeLeft = useRef({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
     setMounted(true);
-    setTimeLeft(getTimeLeft());
+    const initialTime = getTimeLeft();
+    setTimeLeft(initialTime);
+    prevTimeLeft.current = initialTime;
     
     const timer = setInterval(() => {
+      prevTimeLeft.current = {...timeLeft};
       setTimeLeft(getTimeLeft());
     }, 1000);
     
@@ -115,10 +144,10 @@ export default function Counter() {
         </div>
         
         <div className="mx-auto grid grid-cols-2 gap-2 xs:gap-3 sm:gap-4 md:gap-6 lg:gap-8 px-2 max-w-[280px] xs:max-w-[320px] sm:max-w-[400px] md:max-w-[640px] lg:max-w-4xl lg:grid-cols-4">
-          <CountdownDigit value={0} label={TIME_LABELS.days} delay={0.3} />
-          <CountdownDigit value={0} label={TIME_LABELS.hours} delay={0.5} />
-          <CountdownDigit value={0} label={TIME_LABELS.minutes} delay={0.7} />
-          <CountdownDigit value={0} label={TIME_LABELS.seconds} delay={0.9} />
+          <CountdownDigit value={0} prevValue={0} label={TIME_LABELS.days} delay={0.3} />
+          <CountdownDigit value={0} prevValue={0} label={TIME_LABELS.hours} delay={0.5} />
+          <CountdownDigit value={0} prevValue={0} label={TIME_LABELS.minutes} delay={0.7} />
+          <CountdownDigit value={0} prevValue={0} label={TIME_LABELS.seconds} delay={0.9} />
         </div>
         
         <div className="mt-6 h-[2px] w-32 bg-primary/50 rounded-sm shadow-primary" />
@@ -164,21 +193,25 @@ export default function Counter() {
       <div className="xs:gap-3 xs:max-w-[320px] mx-auto grid max-w-[280px] grid-cols-2 gap-2 px-2 sm:max-w-[400px] sm:gap-4 md:max-w-[640px] md:gap-6 lg:max-w-4xl lg:grid-cols-4 lg:gap-8">
         <CountdownDigit
           value={timeLeft.days}
+          prevValue={prevTimeLeft.current.days}
           label={TIME_LABELS.days}
           delay={0.3}
         />
         <CountdownDigit
           value={timeLeft.hours}
+          prevValue={prevTimeLeft.current.hours}
           label={TIME_LABELS.hours}
           delay={0.5}
         />
         <CountdownDigit
           value={timeLeft.minutes}
+          prevValue={prevTimeLeft.current.minutes}
           label={TIME_LABELS.minutes}
           delay={0.7}
         />
         <CountdownDigit
           value={timeLeft.seconds}
+          prevValue={prevTimeLeft.current.seconds}
           label={TIME_LABELS.seconds}
           delay={0.9}
         />
