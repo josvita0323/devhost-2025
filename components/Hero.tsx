@@ -43,7 +43,7 @@ export default function Hero() {
               <Image
                 priority
                 src="/sosc_logo.svg"
-                className="ml-5 h-12 w-16"
+                className="h-12 w-16"
                 alt="logo"
                 width={500}
                 height={500}
@@ -51,12 +51,15 @@ export default function Hero() {
               <Image
                 priority
                 src="/synergia_logo.svg"
-                className="mr-4 h-14 w-22"
+                className="h-14 w-22"
                 alt="Synergia logo"
                 width={500}
                 height={500}
               />
             </div>
+            <p className="text-neon-green pb-2 text-center tracking-wide font-orbitron text-xs">
+              Presents
+            </p>
           </div>
 
           <Logo className="relative z-10 h-auto w-full max-w-[250px] sm:max-w-[300px] md:max-w-[400px]" />

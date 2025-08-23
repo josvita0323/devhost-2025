@@ -26,7 +26,7 @@ const CyberpunkTimeline: React.FC = () => {
   ];
 
   return (
-    <div className="relative min-h-screen bg-black">
+    <div className="relative min-h-screen py-24">
       {/* <div className="absolute bottom-0 h-48 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" /> */}
       {/* <div className="absolute top-0 h-48 w-full bg-gradient-to-b from-black/95 via-black/80 to-transparent" /> */}
 
@@ -45,7 +45,7 @@ const CyberpunkTimeline: React.FC = () => {
               <TabsTrigger
                 key={group.id}
                 value={group.id}
-                className="font-orbitron data-[state=active]:text-primary border-none bg-black data-[state=active]:bg-black data-[state=active]:shadow-none"
+                className="font-orbitron bg-black border-none"
               >
                 {group.label}
               </TabsTrigger>

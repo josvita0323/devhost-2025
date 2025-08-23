@@ -259,9 +259,9 @@ export default function Home() {
   return (
     <div
       ref={containerRef}
-      className="relative min-h-screen overflow-hidden bg-black text-white"
+      className="relative min-h-screen overflow-hidden"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,#a3ff12_1px,transparent_1px)] [background-size:40px_40px] opacity-30" />
+      {/* <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,#a3ff12_1px,transparent_1px)] [background-size:40px_40px] opacity-30" /> */}
 
       <div className="relative flex h-screen flex-col items-center justify-center">
         <div className="absolute inset-0 flex items-center justify-center">
@@ -331,7 +331,7 @@ export default function Home() {
             </button>
           </div>
         </div>
-        <div className="absolute bottom-0 h-24 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" />
+        {/* <div className="absolute bottom-0 h-24 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" /> */}
       </div>
     </div>
   );
