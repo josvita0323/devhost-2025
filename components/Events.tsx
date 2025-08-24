@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import DecryptText from "./animated/TextAnimation";
@@ -22,124 +21,143 @@ const events = [
 
 export default function Events() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<HTMLDivElement[]>([]);
   const bgRef = useRef<HTMLDivElement>(null);
+  const eventsContentRef = useRef<HTMLDivElement>(null);
+  const eventsTitleRef = useRef<HTMLHeadingElement>(null);
+  const eventsCaptionRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Green background animation
-      if (bgRef.current) {
-        gsap.set(bgRef.current, { scaleY: 0, transformOrigin: "top" });
-        gsap.to(bgRef.current, {
-          scaleY: 1,
-          ease: "power1.out",
+      requestAnimationFrame(() => {
+        gsap.set([eventsTitleRef.current, eventsCaptionRef.current, eventsContentRef.current], { opacity: 0, y: 30 });
+        gsap.set(bgRef.current, { scaleY: 0, transformOrigin: "top center" });
+        gsap.set(cardsRef.current, { y: 30 });
+
+        const tl = gsap.timeline({
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top top",
-            end: "bottom bottom",
-            scrub: 5,
+            start: "top 80%",
+            end: "top 20%",
+            scrub: 1,
           },
         });
-      }
 
-      // Cards animation
-      cardsRef.current.forEach((card) => {
-        gsap.fromTo(
-          card,
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1,
+        tl.to(eventsContentRef.current, { opacity: 1, duration: 0.8, ease: "power2.out" }, 0)
+          .to(eventsTitleRef.current, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 0.1)
+          .to(eventsCaptionRef.current, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 0.2)
+          .to(bgRef.current, { scaleY: 1, duration: 1, ease: "power2.out" }, 0.2);
+
+        // Cards animation
+        cardsRef.current.forEach((card) => {
+          gsap.to(card, {
             y: 0,
-            duration: 0.6,
+            duration: 0.8,
             ease: "power2.out",
             scrollTrigger: {
               trigger: card,
               start: "top 85%",
               end: "top 60%",
-              toggleActions: "play none none reverse",
+              toggleActions: "play none none none",
             },
-          }
-        );
+          });
+        });
       });
+
+      // Responsive clip-path for background
+      const updateClipPath = () => {
+        if (!bgRef.current) return;
+        const width = window.innerWidth;
+        if (width >= 1024) {
+          bgRef.current.style.clipPath = "polygon(0% 0%, 100% 0%, 100% 92%, 85% 100%, -5% 100%)";
+        } else if (width >= 640) {
+          bgRef.current.style.clipPath = "polygon(0% 0%, 100% 0%, 100% 95%, 90% 100%, 0% 100%)";
+        } else {
+          bgRef.current.style.clipPath = "polygon(0% 0%, 100% 0%, 100% 97%, 95% 100%, 0% 100%)";
+        }
+      };
+
+      updateClipPath();
+      window.addEventListener("resize", updateClipPath);
+      return () => window.removeEventListener("resize", updateClipPath);
+
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <div ref={sectionRef} className="relative flex min-h-screen flex-col items-center bg-black p-4 sm:p-6 lg:p-8 overflow-hidden">
-      {/* Animated green background */}
+    <div ref={sectionRef} className="relative flex flex-col items-center bg-black overflow-hidden pt-20 pb-20">
+      {/* Green background with responsive cut */}
       <div
         ref={bgRef}
-        className="absolute inset-0 bg-[#a3ff12] bg-opacity-20"
-        style={{
-          clipPath: "polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%)",
-        }}
+        className="absolute inset-0 z-0 bg-[#b4ff39] bg-opacity-5"
+        style={{ clipPath: "polygon(0% 0%, 100% 0%, 100% 92%, 85% 100%, -5% 100%)" }}
       />
 
       {/* Heading */}
-      <div className="mt-20 mb-16 text-center relative z-10">
-        <motion.h1
-          className="font-orbitron text-4xl font-bold sm:text-5xl lg:text-6xl text-black drop-shadow-[0_0_15px_#a3ff12]"
-          initial={{ skewY: 2 }}
-          whileInView={{ skewY: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
+      <div ref={eventsContentRef} className="mb-16 text-center relative z-10 px-4">
+        <h1 ref={eventsTitleRef} className="font-orbitron text-4xl font-bold sm:text-5xl lg:text-6xl text-black">
           DevHost Events
-        </motion.h1>
-
-        {/* Replacing static text with DecryptText */}
-        <div className="mt-4 text-lg sm:text-xl font-bold">
+        </h1>
+        <div ref={eventsCaptionRef} className="mt-4 text-lg sm:text-xl px-4">
           <DecryptText
             text="> Build, Compete, and Leave Your Mark"
             startDelayMs={200}
             trailSize={6}
             flickerIntervalMs={50}
             revealDelayMs={100}
-            className="text-black drop-shadow-[0_0_15px_#a3ff12]"
+            className="font-orbitron text-black"
           />
         </div>
       </div>
 
-      {/* Cards */}
-      <div className="grid w-full max-w-[1200px] grid-cols-1 gap-8 sm:grid-cols-2 relative z-10">
+      {/* Event cards */}
+      <div className="grid w-full max-w-[1200px] grid-cols-1 gap-8 sm:grid-cols-2 relative z-10 px-4">
         {events.map((event, idx) => {
           const noRegister = [6, 7, 8].includes(event.id);
           return (
             <div
               key={event.id}
               ref={(el) => { if (el) cardsRef.current[idx] = el; }}
-              className="relative mx-auto w-full bg-primary overflow-hidden"
+              className="relative mx-auto w-full overflow-hidden"
               style={{
-                clipPath: "polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px)",
+                clipPath: "polygon(20px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
               }}
             >
-              {/* Card with green outline */}
               <div
                 className="m-[2px] flex flex-col sm:flex-row gap-3 p-4 relative z-10"
                 style={{
-                  clipPath: "polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px)",
+                  clipPath: "polygon(20px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
                   backgroundColor: "#101810",
-                  border: "2px solid #a3ff12",
+                  border: "2px solid #b4ff39",
                 }}
               >
-                <div className="relative w-full sm:w-1/2 aspect-[4/5]">
+                <div
+                  className="relative w-full sm:w-1/2 aspect-[4/5] overflow-hidden"
+                  style={{ clipPath: "polygon(20px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)" }}
+                >
                   <Image src={event.image} alt={event.title} width={500} height={500} className="object-cover w-full h-full" />
                 </div>
-                <div className="flex flex-1 flex-col justify-start pl-0 sm:pl-4 mt-3 sm:mt-0">
-                  <h2 className="mb-2 text-lg font-bold text-[#a3ff12] lg:text-xl">{event.title}</h2>
+
+                <div className="flex flex-1 flex-col justify-start pl-0 sm:pl-4 mt-3 sm:mt-0 px-2">
+                  <h2 className="mb-2 text-lg font-orbitron font-bold text-[#b4ff39] lg:text-xl">&gt; {event.title}</h2>
                   <p className="mb-1 text-sm italic text-white/90">{event.tagline}</p>
                   <p className="mb-2 text-xs text-white/70 lg:text-sm">{event.description}</p>
                   <div className="space-y-0.5 text-xs text-white/80 lg:text-sm">
-                    <p><span className="mr-1 font-semibold text-[#a3ff12]">Date:</span>{event.date}</p>
-                    <p><span className="mr-1 font-semibold text-[#a3ff12]">Time:</span>{event.time}</p>
-                    <p><span className="mr-1 font-semibold text-[#a3ff12]">Organizer:</span>{event.organizer}</p>
-                    <p><span className="mr-1 font-semibold text-[#a3ff12]">Contact:</span>{event.contact}</p>
+                    <p><span className="mr-1 font-semibold text-[#b4ff39]">Date:</span>{event.date}</p>
+                    <p><span className="mr-1 font-semibold text-[#b4ff39]">Time:</span>{event.time}</p>
+                    <p><span className="mr-1 font-semibold text-[#b4ff39]">Organizer:</span>{event.organizer}</p>
+                    <p><span className="mr-1 font-semibold text-[#b4ff39]">Contact:</span>{event.contact}</p>
                   </div>
                   {!noRegister && (
                     <div className="mt-3 flex justify-start">
-                      <button className="text-black font-orbitron m-[10px] flex cursor-pointer items-center gap-2 bg-[#a3ff12] px-6 py-2 text-xs font-bold tracking-wider uppercase">
+                      <button
+                        className="text-black font-orbitron m-[10px] flex cursor-pointer items-center gap-2 bg-[#b4ff39] px-6 py-2 text-xs font-bold tracking-wider uppercase"
+                        style={{
+                          clipPath: "polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)"
+                        }}
+                      >
                         Register
                       </button>
                     </div>
