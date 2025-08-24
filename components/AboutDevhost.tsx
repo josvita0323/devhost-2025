@@ -214,7 +214,7 @@ export default function AboutDevhost() {
               </button>
             </a>
 
-            <a href="/brochure/General Brochure Devhost.pdf" download>
+            <a href="/brochure/devhost_2025.pdf" download>
               <button
                 className="flex cursor-pointer items-center gap-3 border-2 border-black bg-black px-6 py-3 font-bold tracking-wider uppercase"
                 style={{
