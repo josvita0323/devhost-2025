@@ -140,7 +140,7 @@ export default function AboutDevhost() {
 
       <div
         ref={backgroundRef}
-        className="bg-opacity-5 absolute inset-0 bg-primary"
+        className="bg-opacity-5 bg-primary absolute inset-0"
         style={{
           clipPath: "polygon(0% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%)",
         }}
@@ -187,7 +187,7 @@ export default function AboutDevhost() {
           >
             <a href="/brochure/Event Rulebook - Devhost.pdf" download>
               <button
-                className="flex items-center gap-3 border-2 border-black bg-black px-6 py-3 font-bold tracking-wider uppercase"
+                className="flex cursor-pointer items-center gap-3 border-2 border-black bg-black px-6 py-3 font-bold tracking-wider uppercase"
                 style={{
                   clipPath:
                     "polygon(15px 0%, 100% 0%, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0% 100%, 0% 15px)",
@@ -200,7 +200,7 @@ export default function AboutDevhost() {
 
             <a href="/brochure/General Brochure Devhost.pdf" download>
               <button
-                className="flex items-center gap-3 border-2 border-black bg-black px-6 py-3 font-bold tracking-wider uppercase"
+                className="flex cursor-pointer items-center gap-3 border-2 border-black bg-black px-6 py-3 font-bold tracking-wider uppercase"
                 style={{
                   clipPath:
                     "polygon(15px 0%, 100% 0%, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0% 100%, 0% 15px)",

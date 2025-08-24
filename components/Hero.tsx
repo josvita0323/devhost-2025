@@ -80,7 +80,7 @@ export default function Hero() {
         </div>
 
         {/* Scroll Hint */}
-        <div className="font-orbitron text-primary absolute right-10 bottom-10 z-10 flex items-center">
+        <div className="font-orbitron text-primary absolute right-5 bottom-5 z-10 flex items-center">
           <span className="mr-2 text-3xl">[</span>
           <DecryptText
             text="Scroll to Explore"
