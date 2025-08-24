@@ -261,7 +261,7 @@ export default function Events() {
                 }}
               >
                 <div
-                  className="relative aspect-[4/5] w-full overflow-hidden sm:w-1/2"
+                  className="relative aspect-square sm:aspect-[4/5] w-full overflow-hidden sm:w-1/2"
                   style={{
                     clipPath:
                       "polygon(20px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",

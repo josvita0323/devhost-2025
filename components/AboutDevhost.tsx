@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Download } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -33,6 +33,9 @@ export default function AboutDevhost() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+
+      // initial state
       gsap.set(
         [
           titleRef.current,
@@ -46,15 +49,27 @@ export default function AboutDevhost() {
         },
       );
 
-      gsap.set(contentRef.current, {
-        opacity: 0,
-      });
+      gsap.set(contentRef.current, { opacity: 0 });
 
       gsap.set(backgroundRef.current, {
         scaleY: 0,
         transformOrigin: "top center",
       });
 
+      // responsive clipPath setup
+      mm.add("(max-width: 640px)", () => {
+        gsap.set(backgroundRef.current, {
+          clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)", // rectangle for sm
+        });
+      });
+
+      mm.add("(min-width: 641px)", () => {
+        gsap.set(backgroundRef.current, {
+          clipPath: "polygon(0% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%)", // angled for md+
+        });
+      });
+
+      // timeline
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -65,7 +80,6 @@ export default function AboutDevhost() {
         },
       });
 
-      // Start content animation immediately and complete it at 40% of the timeline
       tl.to(
         contentRef.current,
         {
@@ -115,7 +129,6 @@ export default function AboutDevhost() {
           },
           0.4,
         )
-        // Background animation starts later and takes longer to complete
         .to(
           backgroundRef.current,
           {
@@ -124,7 +137,12 @@ export default function AboutDevhost() {
             ease: "power2.out",
           },
           0.2,
-        ); // Start background at 20% of timeline, complete at 80%
+        );
+
+      return () => {
+        ctx.revert();
+        mm.revert();
+      };
     }, sectionRef);
 
     return () => ctx.revert();
@@ -141,10 +159,8 @@ export default function AboutDevhost() {
       <div
         ref={backgroundRef}
         className="bg-opacity-5 bg-primary absolute inset-0"
-        style={{
-          clipPath: "polygon(0% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%)",
-        }}
       />
+      {/* <div className="absolute bottom-5 left-5 z-20 h-10 w-10 border-b-2 border-l-2 border-black" /> */}
 
       <div className="font-orbitron absolute top-6 left-6 text-sm font-bold text-black opacity-80">
         {"// DEVHOST"}

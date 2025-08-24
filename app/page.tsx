@@ -29,7 +29,7 @@ export default function Home() {
       </Suspense>
 
       {/* Background grid */}
-      <div className="pointer-events-none fixed inset-0 -z-10 opacity-8">
+      <div className="pointer-events-none fixed inset-0 -z-10 opacity-12">
         <div
           className="absolute inset-0"
           style={{
