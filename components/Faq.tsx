@@ -9,6 +9,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import DecryptText from "./animated/TextAnimation";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -78,16 +79,16 @@ export default function FAQ() {
         const items = itemsRef.current.querySelectorAll("[data-faq-item]");
         gsap.fromTo(
           items,
-          { opacity: 0, x: -50 },
+          { opacity: 0, y: 50 },
           {
             opacity: 1,
-            x: 0,
+            y: 0,
             duration: 0.8,
             stagger: 0.1,
             ease: "power2.out",
             scrollTrigger: {
               trigger: itemsRef.current,
-              start: "top 70%",
+              start: "top 20%",
               end: "bottom 30%",
               toggleActions: "play none none reverse",
             },
@@ -102,7 +103,7 @@ export default function FAQ() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen overflow-hidden px-4 py-24 text-white md:px-8 bg-black"
+      className="relative min-h-screen overflow-hidden bg-black px-4 py-24 text-white md:px-8"
     >
       {/* Enhanced cyberpunk grid background */}
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(#a3ff1208_1px,transparent_1px),linear-gradient(90deg,#a3ff1208_1px,transparent_1px)] bg-[size:40px_40px] opacity-30"></div>
@@ -118,9 +119,17 @@ export default function FAQ() {
       <div className="relative mx-auto max-w-4xl">
         {/* Cyberpunk Title with enhanced styling */}
         <div className="relative mb-16 text-center">
-          <h2 className="font-orbitron relative inline-block text-5xl font-bold md:text-7xl">
+          <h2 className="font-orbitron relative mb-6 inline-block text-5xl font-bold md:text-7xl">
             FAQ
           </h2>
+          <DecryptText
+            text="> Answers to Common Questions"
+            startDelayMs={200}
+            trailSize={6}
+            flickerIntervalMs={50}
+            revealDelayMs={100}
+            className="font-orbitron text-primary h-8 text-base tracking-wider md:text-xl"
+          />
         </div>
 
         {/* Enhanced FAQ Accordion with cyberpunk styling */}

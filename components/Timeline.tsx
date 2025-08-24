@@ -70,16 +70,16 @@ const CyberpunkTimeline: React.FC = () => {
                     <div className="bg-primary/50 absolute top-0 left-8 h-full w-[2px]" />
 
                     {/* Events Grid */}
-                    <div className="flex w-full flex-col items-center gap-8">
+                    <div className="flex w-full flex-col items-center gap-12">
                       {day.events.map((event) => (
                         <div
                           key={event.id}
-                          className="border-primary/50 relative w-full max-w-4xl border bg-black p-4 pl-4"
+                          className="border-primary/50 relative w-full max-w-4xl border bg-black p-4 pt-0 pl-4"
                         >
                           {/* Time badge */}
                           <div className="absolute -top-3 left-12">
-                            <div className="border-primary border bg-black px-2">
-                              <span className="font-orbitron text-primary text-xs font-bold">
+                            <div className="border-primary bg-primary flex items-center border px-2 py-0.5">
+                              <span className="font-orbitron text-xs font-bold text-black">
                                 {event.displayTime}
                               </span>
                             </div>
@@ -110,10 +110,14 @@ const CyberpunkTimeline: React.FC = () => {
                               <div className="flex w-full flex-col items-end pb-6 text-right text-xs sm:pb-0">
                                 {event.speaker && (
                                   <div className="font-orbitron flex items-center justify-end gap-2 text-xs sm:text-sm">
-                                    <span className="text-primary">&gt;</span>
-                                    <span className="text-primary font-medium">
-                                      {event.speaker}
-                                    </span>
+                                    <DecryptText
+                                      text={`> ${event.speaker}`}
+                                      startDelayMs={200}
+                                      trailSize={4}
+                                      flickerIntervalMs={50}
+                                      revealDelayMs={50}
+                                      className="text-primary h-5 font-medium"
+                                    />
                                   </div>
                                 )}
                                 {event.role && (
@@ -126,14 +130,16 @@ const CyberpunkTimeline: React.FC = () => {
                           </div>
 
                           {/* Venue */}
-                          <div className="absolute right-0 bottom-0">
-                            <div className="border-primary/50 border bg-black px-2 py-1">
-                              <span className="flex items-center gap-2 text-xs text-zinc-400">
-                                <span>@</span>
-                                <span>{event.venue}</span>
-                              </span>
+                          {event.venue && (
+                            <div className="absolute right-0 bottom-0 w-full sm:w-auto">
+                              <div className="border-primary/50 border-t bg-black px-2 py-1 sm:border">
+                                <span className="flex items-center justify-center gap-2 text-xs text-zinc-400">
+                                  <span>@</span>
+                                  <span>{event.venue}</span>
+                                </span>
+                              </div>
                             </div>
-                          </div>
+                          )}
 
                           {/* Corner accents */}
                           <div className="absolute top-0 right-0 h-6 w-6">
