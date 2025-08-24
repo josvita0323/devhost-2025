@@ -164,14 +164,14 @@ export default function AboutDevhost() {
           <div className="mb-12 text-center">
             <h1
               ref={titleRef}
-              className="font-orbitron mb-8 text-4xl font-bold tracking-wider text-black uppercase md:text-7xl"
+              className="font-orbitron mb-2 text-4xl font-bold tracking-wider text-black uppercase md:text-7xl"
             >
               {devhostData.title}
             </h1>
 
             <h2
               ref={captionRef}
-              className="font-mono text-xl tracking-wider text-black/80 md:text-3xl"
+              className="font-orbitron text-lg tracking-wider text-black/80 md:text-2xl"
             >
               &gt; {devhostData.caption}
             </h2>

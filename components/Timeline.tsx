@@ -2,6 +2,7 @@
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { markers } from "../assets/data/timeline";
+import DecryptText from "./animated/TextAnimation";
 
 const CyberpunkTimeline: React.FC = () => {
   const tabGroups = [
@@ -26,12 +27,23 @@ const CyberpunkTimeline: React.FC = () => {
   ];
 
   return (
-    <div className="relative min-h-screen pb-24 bg-black">
+    <div className="relative min-h-screen bg-black pb-24">
       {/* Header */}
       <div className="relative py-12 text-center">
-        <h1 className="font-orbitron mb-3 text-center text-4xl font-bold sm:text-7xl">
+        <h1 className="font-orbitron mb-6 text-center text-4xl font-bold sm:text-7xl">
           TIMELINE
         </h1>
+        {/* <h2 className="">
+          &gt; Journey of Events
+        </h2> */}
+        <DecryptText
+          text="> Journey of Events"
+          startDelayMs={200}
+          trailSize={6}
+          flickerIntervalMs={50}
+          revealDelayMs={100}
+          className="font-orbitron text-primary h-8 text-base tracking-wider md:text-xl"
+        />
       </div>
 
       <div className="mx-auto max-w-6xl px-6">
@@ -58,7 +70,7 @@ const CyberpunkTimeline: React.FC = () => {
                     <div className="bg-primary/50 absolute top-0 left-8 h-full w-[2px]" />
 
                     {/* Events Grid */}
-                    <div className="flex w-full flex-col items-center gap-12">
+                    <div className="flex w-full flex-col items-center gap-8">
                       {day.events.map((event) => (
                         <div
                           key={event.id}
@@ -67,7 +79,7 @@ const CyberpunkTimeline: React.FC = () => {
                           {/* Time badge */}
                           <div className="absolute -top-3 left-12">
                             <div className="border-primary border bg-black px-2">
-                              <span className="font-orbitron text-xs font-bold text-lime-500">
+                              <span className="font-orbitron text-primary text-xs font-bold">
                                 {event.displayTime}
                               </span>
                             </div>
@@ -76,21 +88,28 @@ const CyberpunkTimeline: React.FC = () => {
                           {/* Content */}
                           <div className="mt-4 text-gray-200">
                             {/* Title row with meta on right */}
-                            <div className="mb-2 flex items-start justify-between gap-3">
+                            <div className="flex flex-col items-start justify-between sm:flex-row">
                               {/* Icon + Title */}
-                              <div className="flex items-center gap-3">
-                                <span className="text-primary text-lg">
-                                  {event.icon}
-                                </span>
-                                <h3 className="font-orbitron text-sm leading-tight font-bold">
-                                  {event.title}
-                                </h3>
+                              <div className="space-y-2">
+                                <div className="flex items-baseline gap-3">
+                                  <span className="text-primary text-lg">
+                                    {event.icon}
+                                  </span>
+                                  <h3 className="font-orbitron leading-tight font-bold whitespace-pre">
+                                    {event.title}
+                                  </h3>
+                                </div>
+
+                                {/* Description */}
+                                <p className="mb-2 text-xs leading-relaxed whitespace-pre">
+                                  {event.description}
+                                </p>
                               </div>
 
                               {/* Meta (speaker + role) */}
-                              <div className="text-right text-xs">
+                              <div className="flex w-full flex-col items-end pb-6 text-right text-xs sm:pb-0">
                                 {event.speaker && (
-                                  <div className="font-orbitron flex items-center justify-end gap-2 text-sm">
+                                  <div className="font-orbitron flex items-center justify-end gap-2 text-xs sm:text-sm">
                                     <span className="text-primary">&gt;</span>
                                     <span className="text-primary font-medium">
                                       {event.speaker}
@@ -104,11 +123,6 @@ const CyberpunkTimeline: React.FC = () => {
                                 )}
                               </div>
                             </div>
-
-                            {/* Description */}
-                            <p className="mb-2 text-xs leading-relaxed">
-                              {event.description}
-                            </p>
                           </div>
 
                           {/* Venue */}
