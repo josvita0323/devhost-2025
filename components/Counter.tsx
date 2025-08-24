@@ -187,7 +187,7 @@ export default function Counter() {
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
       >
-        <motion.h2 className="font-orbitron text-primary shadow-primary px-1 text-center text-3xl tracking-widest md:text-5xl font-semibold pb-2">
+        <motion.h2 className="font-orbitron text-primary shadow-primary px-1 pb-2 text-center text-3xl font-semibold tracking-widest md:text-5xl">
           {EVENT_SUBTITLE}
         </motion.h2>
       </motion.div>

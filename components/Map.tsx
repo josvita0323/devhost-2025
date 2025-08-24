@@ -35,11 +35,6 @@ const Map = () => {
     animateCut(bottomCut2.current, 6, 6, 3);
   }, []);
 
-  const clipPathStyle = {
-    clipPath:
-      "polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
-  };
-
   return (
     <section className="relative flex min-h-screen w-full items-center justify-center overflow-hidden px-4 text-white sm:px-6">
       <div className="absolute top-0 h-24 w-full bg-gradient-to-b from-black/95 via-black/80 to-transparent" />
@@ -48,8 +43,8 @@ const Map = () => {
       {/* Main Content */}
       <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-4 py-12 md:grid-cols-5">
         <div className="space-y-6 text-center md:col-span-2 md:text-left">
-          <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl flex gap-4 justify-center md:justify-start">
-            <MapPin className="h-8 w-8 md:h-12 md:w-12 animate-bounce text-[#a3ff12] " />
+          <h2 className="flex justify-center gap-4 text-3xl font-extrabold tracking-tight sm:text-4xl md:justify-start md:text-5xl lg:text-6xl">
+            <MapPin className="h-8 w-8 animate-bounce text-[#a3ff12] md:h-12 md:w-12" />
             <span className="font-orbitron text-[#a3ff12] uppercase drop-shadow-[0_0_10px_#a3ff12aa]">
               Location
             </span>
