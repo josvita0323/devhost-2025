@@ -130,7 +130,7 @@ export default function Hero() {
         </div>
 
         {/* Bottom gradient fade */}
-        <div className="absolute bottom-0 h-24 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" />
+        {/* <div className="absolute bottom-0 h-24 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" /> */}
       </div>
     </Fragment>
   );

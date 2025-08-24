@@ -102,7 +102,7 @@ export default function FAQ() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen overflow-hidden px-4 py-48 text-white md:px-8"
+      className="relative min-h-screen overflow-hidden px-4 py-24 text-white md:px-8 bg-black"
     >
       {/* Enhanced cyberpunk grid background */}
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(#a3ff1208_1px,transparent_1px),linear-gradient(90deg,#a3ff1208_1px,transparent_1px)] bg-[size:40px_40px] opacity-30"></div>
