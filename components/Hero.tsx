@@ -4,33 +4,13 @@ import Logo from "./animated/Logo";
 import DecryptText from "./animated/TextAnimation";
 import { User } from "lucide-react";
 import Image from "next/image";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
 
 export default function Hero() {
-  useGSAP(() => {
-    const specialPath =
-      document.querySelector<SVGPathElement>("#specialBlink1");
-    if (specialPath) {
-      gsap.set(specialPath, { opacity: 0 });
-
-      gsap.to(specialPath, {
-        delay: 1.8,
-        opacity: 1,
-        duration: 0.1,
-        ease: "none",
-      });
-    }
-  });
-
   return (
     <Fragment>
       <div className="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden text-zinc-300">
         <div className="flex flex-col items-center">
-          <div
-            className="-mt-24 flex w-full max-w-[250px] flex-col pb-1 sm:max-w-[300px] md:max-w-[400px]"
-            id="specialBlink1"
-          >
+          <div className="-mt-24 flex w-full max-w-[250px] flex-col pb-1 sm:max-w-[300px] md:max-w-[400px]">
             <div className="flex items-center justify-center">
               <Image
                 priority
@@ -41,7 +21,7 @@ export default function Hero() {
                 height={500}
               />
             </div>
-            <p className="text-neon-green font-orbitron pb-3 text-center text-xs tracking-wide">
+            <p className="text-neon-green font-orbitron py-1 text-center text-xs tracking-wide">
               Presents
             </p>
           </div>
@@ -105,7 +85,7 @@ export default function Hero() {
           <DecryptText
             text="Scroll to Explore"
             className="text-sm sm:text-lg"
-            startDelayMs={2400}
+            startDelayMs={1800}
             trailSize={4}
             flickerIntervalMs={50}
             revealDelayMs={120}
@@ -114,7 +94,7 @@ export default function Hero() {
         </div>
 
         {/* Bottom gradient fade */}
-        {/* <div className="absolute bottom-0 h-24 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" /> */}
+        <div className="absolute bottom-0 h-12 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" />
       </div>
     </Fragment>
   );

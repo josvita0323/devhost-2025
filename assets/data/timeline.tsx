@@ -13,7 +13,7 @@ export const markers = [
         title: "Registration",
         description: "Attendee check-in and welcome desk.",
         speaker: "Mr Something Something",
-        role: "Data Analyst @ Novigo Solutions",
+        role: "Data Analyst @ Apple Solutions",
         venue: "First Floor Seminar Hall",
       },
       {
