@@ -62,7 +62,7 @@ export default function Home() {
 
       const predefinedPositions = [
         { x: -200, y: -120, scale: 0.9, rotation: 0 },
-        { x: -100, y: -100, scale: 0.7, rotation: 0 },
+        { x: 0, y: 40, scale: 1, rotation: 0 },
         { x: 0, y: -130, scale: 1.0, rotation: 0 },
         { x: 100, y: -110, scale: 0.8, rotation: 0 },
         { x: 200, y: -120, scale: 0.9, rotation: 0 },
