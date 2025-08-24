@@ -12,9 +12,9 @@ export const markers = [
         icon: <Flame className="h-auto sm:w-8" />,
         title: "Registration",
         description: "Attendee check-in and welcome desk.",
-        speaker: "TBA",
-        role: "TBA",
-        venue: "TBA",
+        speaker: "Mr Something Something",
+        role: "Data Analyst @ Apple Solutions",
+        venue: "First Floor Seminar Hall",
       },
       {
         id: "day1-event2",

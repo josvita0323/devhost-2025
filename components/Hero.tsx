@@ -2,14 +2,32 @@
 import React, { Fragment } from "react";
 import Logo from "./animated/Logo";
 import DecryptText from "./animated/TextAnimation";
-import { Calendar, Clock, User } from "lucide-react";
+import { User } from "lucide-react";
+import Image from "next/image";
 
 export default function Hero() {
   return (
     <Fragment>
-      <div className="relative flex h-screen w-full items-center justify-center overflow-hidden text-zinc-300">
-        {/* Main Logo */}
-        <Logo className="relative z-10 w-full max-w-[250px] sm:max-w-[300px] md:max-w-[400px]" />
+      <div className="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden text-zinc-300">
+        <div className="flex flex-col items-center">
+          <div className="-mt-24 flex w-full max-w-[250px] flex-col pb-1 sm:max-w-[300px] md:max-w-[400px]">
+            <div className="flex items-center justify-center">
+              <Image
+                priority
+                src="/logo_group.png"
+                className="w-full object-contain px-3"
+                alt="logo"
+                width={500}
+                height={500}
+              />
+            </div>
+            <p className="text-neon-green font-orbitron py-1 text-center text-xs tracking-wide">
+              Presents
+            </p>
+          </div>
+
+          <Logo className="relative z-10 h-auto w-full max-w-[250px] sm:max-w-[300px] md:max-w-[400px]" />
+        </div>
 
         {/* Cyberpunk side boot logs (left) */}
         <div className="font-orbitron absolute top-10 left-10 text-xs tracking-wider text-zinc-600 sm:text-sm">
@@ -62,12 +80,12 @@ export default function Hero() {
         </div>
 
         {/* Scroll Hint */}
-        <div className="font-orbitron text-primary absolute right-10 bottom-10 z-10 flex items-center">
+        <div className="font-orbitron text-primary absolute right-5 bottom-5 z-10 flex items-center">
           <span className="mr-2 text-3xl">[</span>
           <DecryptText
             text="Scroll to Explore"
             className="text-sm sm:text-lg"
-            startDelayMs={2400}
+            startDelayMs={1800}
             trailSize={4}
             flickerIntervalMs={50}
             revealDelayMs={120}
@@ -76,7 +94,7 @@ export default function Hero() {
         </div>
 
         {/* Bottom gradient fade */}
-        <div className="absolute bottom-0 h-24 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" />
+        <div className="absolute bottom-0 h-12 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" />
       </div>
     </Fragment>
   );

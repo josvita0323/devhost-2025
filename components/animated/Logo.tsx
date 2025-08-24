@@ -65,7 +65,7 @@ export default function Logo({ className = "" }: { className?: string }) {
   ];
 
   const makeFlickerFrames = () => {
-    const frames: Array<Record<string, any>> = [];
+    const frames: Array<Record<string, number>> = [];
     const flickers = Math.floor(Math.random() * 5) + 4;
 
     // First 1–2 frames: completely invisible
@@ -120,7 +120,7 @@ export default function Logo({ className = "" }: { className?: string }) {
         gsap.set(specialPath, { opacity: 0 }); // start hidden
 
         gsap.to(specialPath, {
-          delay: 1.8, // wait before blinking
+          delay: 2, // wait before blinking
           opacity: 1,
           duration: 0.1, // instant blink speed
           ease: "none",

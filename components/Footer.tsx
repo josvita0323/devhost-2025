@@ -3,8 +3,8 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="relative pt-12">
-      <div className="absolute top-0 h-24 w-full bg-gradient-to-b from-black/95 via-black/80 to-transparent" />
+    <footer className="relative bg-black pt-6">
+      <div className="absolute top-0 h-12 w-full bg-gradient-to-b from-black/95 via-black/80 to-transparent" />
 
       <div className="mx-auto w-full max-w-screen-xl p-8 py-6 lg:py-8">
         <div className="py-5 md:flex md:justify-between">
@@ -73,7 +73,7 @@ const Footer = () => {
               >
                 sosc@sahyadri.edu.in
               </Link>
-              <p className="pt-2">+91 79941 34420</p>
+              <p className="pt-2">+91 96208 55052</p>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-8 sm:gap-6">

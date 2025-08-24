@@ -1,20 +1,20 @@
 "use client";
+
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import DecryptText from "./animated/TextAnimation";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+gsap.registerPlugin(ScrollTrigger);
 
 const events = [
   {
     id: 1,
     title: "Loot & Lead",
-    tagline: "Battle it out in the ultimate BGMI showdown",
+    tagline: "Battle it out in BGMI",
     description:
-      "Compete with the best teams in a high stakes BGMI tournament. Strategy, teamwork, and reflexes will decide the champions.",
+      "Compete with the best teams in a high stakes BGMI tournament.",
     date: "7 Nov",
     time: "9:00 AM onwards",
     organizer: "Yishith",
@@ -26,7 +26,7 @@ const events = [
     title: "R00TQuest",
     tagline: "Crack the code. Capture the flag.",
     description:
-      "Test your cybersecurity skills in a capture-the-flag challenge filled with real-world hacking scenarios.",
+      "Test your cybersecurity skills in a capture-the-flag challenge.",
     date: "7 Nov",
     time: "11:00 - 12:30",
     organizer: "Koshin",
@@ -37,8 +37,7 @@ const events = [
     id: 3,
     title: "How I Met My Investor",
     tagline: "Pitch. Persuade. Prevail.",
-    description:
-      "A tech pitching event where young entrepreneurs showcase innovative ideas to potential investors.",
+    description: "Pitch your innovative tech ideas to potential investors.",
     date: "7 Nov",
     time: "11:00 - 12:30",
     organizer: "Varsha",
@@ -49,8 +48,7 @@ const events = [
     id: 4,
     title: "Oh My Grid!",
     tagline: "Untangle the CSS chaos",
-    description:
-      "Showcase your front-end magic in a CSS battle where design meets speed and creativity.",
+    description: "Showcase your frontend magic in a CSS battle",
     date: "7 Nov",
     time: "3:00 - 5:00",
     organizer: "Manvitha",
@@ -62,7 +60,7 @@ const events = [
     title: "O(n)Slaught",
     tagline: "Compete. Solve. Dominate.",
     description:
-      "Take part in a competitive programming battle designed to push your problem solving limits.",
+      "Take part in a competitive programming battle to showcase your problem solving skills.",
     date: "7 Nov",
     time: "3:00 - 5:00",
     organizer: "Sthuthi",
@@ -84,8 +82,7 @@ const events = [
     id: 7,
     title: "Speed Typing",
     tagline: "Fingers on fire.",
-    description:
-      "Compete to showcase your typing speed and accuracy in a thrilling typing challenge.",
+    description: "Compete to showcase your typing speed and accuracy",
     date: "All 3 days",
     time: "9:00 AM",
     organizer: "TBA",
@@ -97,7 +94,7 @@ const events = [
     title: "Rubik's Cube",
     tagline: "Twist. Turn. Solve.",
     description:
-      "Show your cube-solving speed and algorithms in a high-pressure cubing competition.",
+      "Show your cube-solving speed in a high-pressure cubing competition.",
     date: "All 3 days",
     time: "9:00 AM",
     organizer: "TBA",
@@ -107,161 +104,235 @@ const events = [
 ];
 
 export default function Events() {
-  const headingRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<Array<HTMLDivElement | null>>([]);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
+  const eventsContentRef = useRef<HTMLDivElement>(null);
+  const eventsTitleRef = useRef<HTMLHeadingElement>(null);
+  const eventsCaptionRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
-    if (headingRef.current) {
-      gsap.fromTo(
-        headingRef.current,
-        { opacity: 0, y: 60 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: headingRef.current,
-            start: "top 80%",
-          },
-        },
-      );
-    }
+    const ctx = gsap.context(() => {
+      requestAnimationFrame(() => {
+        gsap.set(
+          [
+            eventsTitleRef.current,
+            eventsCaptionRef.current,
+            eventsContentRef.current,
+          ],
+          { opacity: 0, y: 30 },
+        );
+        gsap.set(bgRef.current, { scaleY: 0, transformOrigin: "top center" });
+        gsap.set(cardsRef.current, { y: 30 });
 
-    cardsRef.current.forEach((card) => {
-      if (card) {
-        gsap.fromTo(
-          card,
-          { opacity: 0, y: 50 },
-          {
-            opacity: 1,
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+            end: "top 20%",
+            scrub: 1,
+          },
+        });
+
+        tl.to(
+          eventsContentRef.current,
+          { opacity: 1, duration: 0.8, ease: "power2.out" },
+          0,
+        )
+          .to(
+            eventsTitleRef.current,
+            { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
+            0.1,
+          )
+          .to(
+            eventsCaptionRef.current,
+            { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
+            0.2,
+          )
+          .to(
+            bgRef.current,
+            { scaleY: 1, duration: 1, ease: "power2.out" },
+            0.2,
+          );
+
+        // Cards animation
+        cardsRef.current.forEach((card) => {
+          gsap.to(card, {
             y: 0,
-            duration: 1,
-            ease: "power3.out",
+            duration: 0.8,
+            ease: "power2.out",
             scrollTrigger: {
               trigger: card,
               start: "top 85%",
+              end: "top 60%",
               toggleActions: "play none none none",
             },
-          },
-        );
-      }
-    });
+          });
+        });
+      });
+
+      // Responsive clip-path for background
+      const updateClipPath = () => {
+        if (!bgRef.current) return;
+        const width = window.innerWidth;
+        if (width >= 1024) {
+          bgRef.current.style.clipPath =
+            "polygon(0% 0%, 100% 0%, 100% 92%, 85% 100%, -5% 100%)";
+        } else {
+          bgRef.current.style.clipPath =
+            "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)"; // rectangle
+        }
+      };
+
+      updateClipPath();
+      window.addEventListener("resize", updateClipPath);
+      return () => window.removeEventListener("resize", updateClipPath);
+    }, sectionRef);
+
+    return () => ctx.revert();
   }, []);
 
   return (
-    <div className="flex min-h-screen flex-col items-center bg-black p-4 sm:p-6 lg:p-8">
-      <div ref={headingRef} className="mt-20 mb-16 text-center">
-        <h1 className="font-orbitron text-4xl font-bold sm:text-5xl lg:text-6xl">
-          <span className="text-white">DevHost </span>
-          <span className="text-[#a3ff12] drop-shadow-[0_0_15px_#a3ff12]">
-            Events
-          </span>
-        </h1>
-        <p className="mt-4 text-lg font-bold text-[#a3ff12] sm:text-xl">
-          &gt; Build, Compete, and Leave Your Mark
-        </p>
-        <p className="mt-6 flex items-center justify-center gap-2 font-bold text-white">
-          <span className="h-3 w-3 rounded-sm bg-[#a3ff12] shadow-[0_0_10px_#a3ff12]"></span>
-          <span className="text-xl tracking-wider sm:text-2xl font-orbitron">
-            {events.length} EVENTS AVAILABLE
-          </span>
-        </p>
-        <div className="mx-auto mt-4 h-1 w-24 bg-[#a3ff12] shadow-[0_0_10px_#a3ff12]" />
+    <div
+      ref={sectionRef}
+      className="relative flex flex-col items-center overflow-hidden bg-black py-20 md:pb-[20vh]"
+    >
+      {/* Green background with responsive cut */}
+      <div
+        ref={bgRef}
+        className="bg-opacity-5 bg-primary absolute inset-0 z-0"
+        style={{
+          clipPath: "polygon(0% 0%, 100% 0%, 100% 92%, 85% 100%, -5% 100%)",
+        }}
+      />
+
+      <div className="font-orbitron absolute top-6 left-6 text-sm font-bold text-black opacity-80">
+        {"// DEVHOST"}
+      </div>
+      <div className="font-orbitron absolute top-6 right-6 text-sm font-bold text-black opacity-80">
+        2025
       </div>
 
-      <div className="grid w-full max-w-[1440px] grid-cols-1 gap-8 lg:grid-cols-2">
-        {events.map((event, idx) => (
-          <div
-            key={event.id}
-            ref={(el) => {
-              cardsRef.current[idx] = el ?? null;
-            }}
-            className="relative mx-auto aspect-[7/5] w-full max-w-[700px] lg:max-w-[700px]"
-          >
-            <Image
-              src="/Group2010.svg"
-              alt="Card Background"
-              fill
-              className="pointer-events-none absolute inset-0 object-contain"
-              priority
-            />
+      {/* Heading */}
+      <div
+        ref={eventsContentRef}
+        className="relative z-10 mb-16 px-4 text-center"
+      >
+        <h1
+          ref={eventsTitleRef}
+          className="font-orbitron mb-6 text-center text-4xl font-bold text-black sm:text-7xl"
+        >
+          DEVHOST EVENTS
+        </h1>
+        <div ref={eventsCaptionRef} className="mt-4 px-4 text-lg sm:text-xl">
+          <DecryptText
+            text="> Build, Compete, and Leave Your Mark"
+            startDelayMs={200}
+            trailSize={6}
+            flickerIntervalMs={50}
+            revealDelayMs={100}
+            className="font-orbitron h-8 text-base tracking-wider text-black md:text-xl"
+          />
+        </div>
+      </div>
 
-            <div className="absolute inset-0 flex flex-row gap-4 p-[8%] lg:p-[9%]">
-              <div className="relative -ml-5 h-full w-[54.2%] lg:h-[95%] lg:w-[51%]">
-                <Image
-                  src={event.image}
-                  alt={event.title}
-                  fill
-                  className="rounded-md border-2 border-[#a3ff12] object-cover shadow-[0_0_15px_#a3ff12]"
+      {/* Event cards */}
+      <div className="relative z-10 grid w-full max-w-[1200px] grid-cols-1 gap-8 px-4 md:grid-cols-2">
+        {events.map((event, idx) => {
+          const noRegister = [6, 7, 8].includes(event.id);
+          return (
+            <div
+              key={event.id}
+              ref={(el) => {
+                if (el) cardsRef.current[idx] = el;
+              }}
+              className="relative mx-auto w-full overflow-hidden"
+              style={{
+                clipPath:
+                  "polygon(20px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
+              }}
+            >
+              <div
+                className="relative z-10 m-[2px] flex h-full flex-col p-4 sm:flex-row"
+                style={{
+                  clipPath:
+                    "polygon(20px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
+                  backgroundColor: "#101810",
+                }}
+              >
+                <div
+                  className="relative aspect-square sm:aspect-[4/5] w-full overflow-hidden sm:w-1/2"
                   style={{
                     clipPath:
-                      "polygon(12% 0, 100% 0, 100% 100%, 0 100%, 0 12%)",
-                    objectPosition: "center",
+                      "polygon(20px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
                   }}
-                />
-              </div>
-
-              <div className="flex flex-1 flex-col justify-between overflow-hidden py-1 sm:py-7">
-                <div className="flex-1 overflow-y-auto pr-1">
-                  <h2 className="mb-6 text-lg leading-tight font-bold text-[#a3ff12]  lg:text-2xl">
-                    {event.title}
-                  </h2>
-                  <p className="mb-2 text-sm leading-tight text-white/90 italic lg:text-base">
-                    {event.tagline}
-                  </p>
-                  <p className="mb-3 flex-1 text-xs leading-relaxed text-white/70 lg:text-sm">
-                    {event.description}
-                  </p>
-
-                  <div className="space-y-0.5 text-[10px] text-white/80 lg:text-sm">
-                    <p className="flex flex-wrap">
-                      <span className="mr-1 font-semibold text-[#a3ff12]">
-                        Date:
-                      </span>
-                      <span>{event.date}</span>
-                    </p>
-                    <p className="flex flex-wrap">
-                      <span className="mr-1 font-semibold text-[#a3ff12]">
-                        Time:
-                      </span>
-                      <span>{event.time}</span>
-                    </p>
-                    <p className="flex flex-wrap">
-                      <span className="mr-1 font-semibold text-[#a3ff12]">
-                        Organizer:
-                      </span>
-                      <span>{event.organizer}</span>
-                    </p>
-                    <p className="flex flex-wrap">
-                      <span className="mr-1 font-semibold text-[#a3ff12]">
-                        Contact:
-                      </span>
-                      <span>{event.contact}</span>
-                    </p>
-                  </div>
+                >
+                  <Image
+                    src={event.image}
+                    alt={event.title}
+                    width={500}
+                    height={500}
+                    className="h-full w-full object-cover"
+                  />
                 </div>
 
-                <div className="mt-2 sm:mt-9 flex justify-center lg:justify-start">
-                  <button
-                    onClick={() => (window.location.href = "/register")}
-                    className="relative h-10 w-32 cursor-pointer transition-all duration-300 hover:scale-105 lg:h-12 lg:w-60"
-                  >
-                    <Image
-                      src="/Group2012.svg"
-                      alt="Register"
-                      fill
-                      className="object-contain"
-                    />
-                    <span className="font-orbitron absolute inset-0 flex items-center justify-center text-sm font-bold text-white lg:text-lg">
-                      Register
-                    </span>
-                  </button>
+                <div className="mt-3 flex flex-1 flex-col justify-between px-2 py-4 pl-0 sm:mt-0 sm:pl-4">
+                  <div>
+                    <h2 className="font-orbitron mb-4 text-lg font-bold text-[#b4ff39] lg:text-xl">
+                      &gt; {event.title}
+                    </h2>
+                    <p className="mb-1 text-sm text-white/90 italic">
+                      {event.tagline}
+                    </p>
+                    <p className="mb-2 text-xs text-white/70 lg:text-sm">
+                      {event.description}
+                    </p>
+                    <div className="space-y-0.5 text-xs text-white/80 lg:text-sm">
+                      <p>
+                        <span className="mr-1 font-semibold text-[#b4ff39]">
+                          Date:
+                        </span>
+                        {event.date}
+                      </p>
+                      <p>
+                        <span className="mr-1 font-semibold text-[#b4ff39]">
+                          Time:
+                        </span>
+                        {event.time}
+                      </p>
+                      <p>
+                        <span className="mr-1 font-semibold text-[#b4ff39]">
+                          Organizer:
+                        </span>
+                        {event.organizer}
+                      </p>
+                      <p>
+                        <span className="mr-1 font-semibold text-[#b4ff39]">
+                          Contact:
+                        </span>
+                        {event.contact}
+                      </p>
+                    </div>
+                  </div>
+
+                  {!noRegister && (
+                    <div className="mt-6 flex justify-start">
+                      <button
+                        className="font-orbitron flex w-full cursor-pointer items-center justify-center gap-2 bg-[#b4ff39] px-6 py-2 text-center text-xs font-bold tracking-wider text-black uppercase"
+                        style={{
+                          clipPath:
+                            "polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
+                        }}
+                      >
+                        Register
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
