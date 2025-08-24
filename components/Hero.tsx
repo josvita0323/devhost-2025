@@ -31,33 +31,17 @@ export default function Hero() {
             className="-mt-24 flex w-full max-w-[250px] flex-col pb-1 sm:max-w-[300px] md:max-w-[400px]"
             id="specialBlink1"
           >
-            <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center justify-center">
               <Image
                 priority
-                src="/sahyadri_logo.png"
-                className="h-10 w-16 object-contain"
+                src="/logo_group.png"
+                className="w-full object-contain px-3"
                 alt="logo"
-                width={500}
-                height={500}
-              />
-              <Image
-                priority
-                src="/sosc_logo.svg"
-                className="h-12 w-16"
-                alt="logo"
-                width={500}
-                height={500}
-              />
-              <Image
-                priority
-                src="/synergia_logo.svg"
-                className="h-14 w-22"
-                alt="Synergia logo"
                 width={500}
                 height={500}
               />
             </div>
-            <p className="text-neon-green pb-2 text-center tracking-wide font-orbitron text-xs">
+            <p className="text-neon-green font-orbitron pb-3 text-center text-xs tracking-wide">
               Presents
             </p>
           </div>

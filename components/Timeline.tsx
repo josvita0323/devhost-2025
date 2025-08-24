@@ -26,10 +26,7 @@ const CyberpunkTimeline: React.FC = () => {
   ];
 
   return (
-    <div className="relative min-h-screen py-24">
-      {/* <div className="absolute bottom-0 h-48 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" /> */}
-      {/* <div className="absolute top-0 h-48 w-full bg-gradient-to-b from-black/95 via-black/80 to-transparent" /> */}
-
+    <div className="relative min-h-screen pb-24">
       {/* Header */}
       <div className="relative py-12 text-center">
         <h1 className="font-orbitron mb-3 text-center text-4xl font-bold sm:text-7xl">
@@ -45,7 +42,7 @@ const CyberpunkTimeline: React.FC = () => {
               <TabsTrigger
                 key={group.id}
                 value={group.id}
-                className="font-orbitron bg-black border-none"
+                className="font-orbitron border-none bg-black"
               >
                 {group.label}
               </TabsTrigger>
@@ -54,18 +51,21 @@ const CyberpunkTimeline: React.FC = () => {
           {/* Tab Content */}
           {tabGroups.map((group) => (
             <TabsContent key={group.id} value={group.id} className="mt-0">
-              <div className="space-y-8">
+              <div className="mx-auto max-w-4xl space-y-8">
                 {group.days.map((day) => (
-                  <div key={day.id} className="relative">
+                  <div key={day.id} className="relative flex">
+                    {/* Timeline vertical line */}
+                    <div className="bg-primary/50 absolute top-0 left-8 h-full w-[2px]" />
+
                     {/* Events Grid */}
-                    <div className="flex flex-col items-center gap-8">
+                    <div className="flex w-full flex-col items-center gap-12">
                       {day.events.map((event) => (
                         <div
                           key={event.id}
-                          className="border-primary/50 relative w-full max-w-4xl border bg-black p-4"
+                          className="border-primary/50 relative w-full max-w-4xl border bg-black p-4 pl-4"
                         >
                           {/* Time badge */}
-                          <div className="absolute -top-3 left-4">
+                          <div className="absolute -top-3 left-12">
                             <div className="border-primary border bg-black px-2">
                               <span className="font-orbitron text-xs font-bold text-lime-500">
                                 {event.displayTime}
@@ -78,7 +78,7 @@ const CyberpunkTimeline: React.FC = () => {
                             {/* Title row with meta on right */}
                             <div className="mb-2 flex items-start justify-between gap-3">
                               {/* Icon + Title */}
-                              <div className="flex items-start gap-3">
+                              <div className="flex items-center gap-3">
                                 <span className="text-primary text-lg">
                                   {event.icon}
                                 </span>

@@ -84,7 +84,7 @@ function CountdownDigit({
                   className="digit-container flex items-center justify-center"
                 >
                   <div
-                    className={`font-amiga text-foreground text-center text-2xl font-bold sm:text-4xl ${
+                    className={`font-amiga text-foreground text-center text-xl font-bold sm:text-4xl ${
                       isSeconds ? "seconds-digit" : ""
                     }`}
                   >
