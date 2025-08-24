@@ -140,7 +140,7 @@ export default function AboutDevhost() {
 
       <div
         ref={backgroundRef}
-        className="bg-opacity-5 absolute inset-0 bg-[#b4ff39]"
+        className="bg-opacity-5 absolute inset-0 bg-primary"
         style={{
           clipPath: "polygon(0% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%)",
         }}

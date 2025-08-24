@@ -200,7 +200,7 @@ export default function Events() {
       {/* Green background with responsive cut */}
       <div
         ref={bgRef}
-        className="bg-opacity-5 absolute inset-0 z-0 bg-[#b4ff39]"
+        className="bg-opacity-5 absolute inset-0 z-0 bg-primary"
         style={{
           clipPath: "polygon(0% 0%, 100% 0%, 100% 92%, 85% 100%, -5% 100%)",
         }}
@@ -220,9 +220,9 @@ export default function Events() {
       >
         <h1
           ref={eventsTitleRef}
-          className="font-orbitron text-4xl font-bold text-black sm:text-5xl lg:text-6xl"
+          className="font-orbitron mb-6 text-center text-4xl text-black font-bold sm:text-7xl"
         >
-          DevHost Events
+         DEVHOST EVENTS
         </h1>
         <div ref={eventsCaptionRef} className="mt-4 px-4 text-lg sm:text-xl">
           <DecryptText
@@ -231,7 +231,7 @@ export default function Events() {
             trailSize={6}
             flickerIntervalMs={50}
             revealDelayMs={100}
-            className="font-orbitron h-8 text-base tracking-wider text-black md:text-xl"
+            className="font-orbitron text-black h-8 text-base tracking-wider md:text-xl"
           />
         </div>
       </div>
