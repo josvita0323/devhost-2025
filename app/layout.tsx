@@ -28,12 +28,6 @@ const delagothic = localFont({
   preload: true,
 });
 
-const kleemax = localFont({
-  src: "../assets/fonts/kleemax.ttf",
-  variable: "--font-kleemax",
-  preload: true,
-});
-
 export const metadata: Metadata = {
   title: {
     default: "DevHost 2025",
@@ -82,7 +76,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${amiga.variable} ${dystopian.variable} ${delagothic.variable} ${orbitron.variable} ${kleemax.variable} antialiased`}
+        className={`${amiga.variable} ${dystopian.variable} ${delagothic.variable} ${orbitron.variable} antialiased`}
       >
         <ReactLenis root />
         {children}

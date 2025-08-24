@@ -65,7 +65,7 @@ export default function Logo({ className = "" }: { className?: string }) {
   ];
 
   const makeFlickerFrames = () => {
-    const frames: Array<Record<string, any>> = [];
+    const frames: Array<Record<string, number>> = [];
     const flickers = Math.floor(Math.random() * 5) + 4;
 
     // First 1–2 frames: completely invisible

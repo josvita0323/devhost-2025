@@ -147,7 +147,7 @@ export default function AboutDevhost() {
       />
 
       <div className="font-orbitron absolute top-6 left-6 text-sm font-bold text-black opacity-80">
-        // DEVHOST
+        {"// DEVHOST"}
       </div>
       <div className="font-orbitron absolute top-6 right-6 text-sm font-bold text-black opacity-80">
         2025

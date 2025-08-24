@@ -9,7 +9,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   const [isClient, setIsClient] = useState(false);
-  const [showContent, setShowContent] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const hacRef = useRef<HTMLDivElement>(null);
@@ -184,7 +183,6 @@ export default function Home() {
             y: 0,
             duration: 1.5,
             ease: "power2.out",
-            onComplete: () => setShowContent(true),
           },
           "-=1",
         )
