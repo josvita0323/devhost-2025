@@ -16,10 +16,9 @@ export default function Home() {
       <Suspense fallback={<Skeleton />}>
         <Hero />
         <Counter />
-        {/* <div className="relative h-[20vh]" /> */}
         <AboutDevhost />
-        <div className="relative h-[20vh]">
-          {/* <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,#a3ff12_1px,transparent_1px)] [background-size:40px_40px] opacity-30" /> */}
+        <div className="relative h-[30vh]">
+          <div className="absolute top-0 h-24 w-full bg-gradient-to-b from-black/95 via-black/80 to-transparent" />
         </div>
         <AboutHackathon />
         <TimelineSection />

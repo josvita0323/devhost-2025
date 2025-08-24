@@ -26,7 +26,7 @@ const CyberpunkTimeline: React.FC = () => {
   ];
 
   return (
-    <div className="relative min-h-screen pb-24">
+    <div className="relative min-h-screen pb-24 bg-black">
       {/* Header */}
       <div className="relative py-12 text-center">
         <h1 className="font-orbitron mb-3 text-center text-4xl font-bold sm:text-7xl">

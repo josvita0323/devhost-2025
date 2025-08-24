@@ -257,8 +257,10 @@ export default function Home() {
   ];
 
   return (
-    <div ref={containerRef} className="relative min-h-screen overflow-hidden">
-      <div className="relative flex h-screen flex-col items-center justify-center">
+    <div ref={containerRef} className="relative min-h-screen">
+      <div className="absolute bottom-0 h-24 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" />
+
+      <div className="relative flex h-screen flex-col items-center justify-center overflow-x-clip">
         {/* Title Section */}
         <div className="flex flex-col items-center">
           <div className="font-orbitron flex items-end justify-center">
@@ -308,7 +310,7 @@ export default function Home() {
             className="mt-10 flex flex-col items-center space-y-6 opacity-0"
           >
             <div className="max-w-4xl px-6 text-center">
-              <p className="text-sm leading-relaxed text-gray-300 sm:text-lg md:text-xl text-justify">
+              <p className="text-justify text-sm leading-relaxed text-gray-300 sm:text-lg md:text-xl">
                 Join us for an intense 36-hour hackathon where innovation meets
                 execution. Build, code, and create the future in one epic
                 weekend of non-stop development.

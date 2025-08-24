@@ -133,7 +133,7 @@ export default function AboutDevhost() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-screen items-center justify-center overflow-hidden"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-black"
     >
       {/* <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,#a3ff12_1px,transparent_1px)] [background-size:40px_40px] opacity-30" /> */}
       {/* <div className="absolute top-0 h-24 w-full bg-gradient-to-b from-black/95 via-black/80 to-transparent" /> */}
@@ -146,13 +146,13 @@ export default function AboutDevhost() {
         }}
       />
 
-      <div className="absolute top-6 left-6 font-orbitron text-sm font-bold text-black opacity-80">
+      <div className="font-orbitron absolute top-6 left-6 text-sm font-bold text-black opacity-80">
         // DEVHOST
       </div>
-      <div className="absolute top-6 right-6 font-orbitron text-sm font-bold text-black opacity-80">
+      <div className="font-orbitron absolute top-6 right-6 text-sm font-bold text-black opacity-80">
         2025
       </div>
-      <div className="absolute right-6 bottom-6 origin-bottom-right -rotate-90 font-orbitron text-xs font-bold text-black opacity-60">
+      <div className="font-orbitron absolute right-6 bottom-6 origin-bottom-right -rotate-90 text-xs font-bold text-black opacity-60">
         ADAPTIVE MOBILE
       </div>
 

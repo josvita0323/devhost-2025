@@ -41,7 +41,10 @@ const Map = () => {
   };
 
   return (
-    <section className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-black px-4 text-white sm:px-6">
+    <section className="relative flex min-h-screen w-full items-center justify-center overflow-hidden px-4 text-white sm:px-6">
+      <div className="absolute top-0 h-24 w-full bg-gradient-to-b from-black/95 via-black/80 to-transparent" />
+      <div className="absolute bottom-0 h-24 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" />
+
       {/* Main Content */}
       <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-4 py-12 md:grid-cols-5">
         <div className="space-y-6 text-center md:col-span-2 md:text-left">
