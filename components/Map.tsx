@@ -48,14 +48,14 @@ const Map = () => {
       {/* Main Content */}
       <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-4 py-12 md:grid-cols-5">
         <div className="space-y-6 text-center md:col-span-2 md:text-left">
-          <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
-            <span className="font-orbitron text-[#a3ff12] drop-shadow-[0_0_10px_#a3ff12aa]">
+          <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl flex gap-4 justify-center md:justify-start">
+            <MapPin className="h-8 w-8 md:h-12 md:w-12 animate-bounce text-[#a3ff12] " />
+            <span className="font-orbitron text-[#a3ff12] uppercase drop-shadow-[0_0_10px_#a3ff12aa]">
               Location
             </span>
           </h2>
 
           <h3 className="flex items-center justify-center gap-2 text-lg font-semibold text-gray-200 sm:text-xl md:justify-start md:text-2xl">
-            <MapPin className="h-6 w-6 animate-bounce text-[#a3ff12] sm:h-7 sm:w-7 md:h-8 md:w-8" />
             Sahyadri College of Engineering And Management
           </h3>
 

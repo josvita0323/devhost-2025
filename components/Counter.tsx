@@ -47,8 +47,8 @@ function CountdownDigit({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20, scale: 0.8 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.6, delay }}
       className="flex flex-col items-center justify-center"
@@ -99,11 +99,11 @@ function CountdownDigit({
 
       {label && (
         <motion.div
-          initial={{ opacity: 0, x: -10 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay }}
-          className="font-orbitron text-primary text-[10px] tracking-widest sm:text-sm"
+          className="font-orbitron text-primary -mt-4 text-[10px] tracking-widest sm:text-sm"
         >
           {label}
         </motion.div>
@@ -138,48 +138,23 @@ export default function Counter() {
 
   const isComplete = Object.values(timeLeft).every((v) => v === 0);
 
-  if (!mounted) {
+  if (!mounted)
     return (
-      <div className="relative flex h-auto flex-col items-center overflow-hidden px-2 pb-12">
-        <div className="flex w-full flex-col items-center px-4">
-          <h2 className="font-dystopian text-primary/70 shadow-primary px-1 text-center text-2xl tracking-widest sm:text-5xl">
-            {EVENT_SUBTITLE}
-          </h2>
-        </div>
-
-        <div className="flex">
-          <CountdownDigit
-            value={0}
-            prevValue={0}
-            label={TIME_LABELS.days}
-            delay={0.3}
-          />
-          <CountdownDigit
-            value={0}
-            prevValue={0}
-            label={TIME_LABELS.hours}
-            delay={0.5}
-          />
-          <CountdownDigit
-            value={0}
-            prevValue={0}
-            label={TIME_LABELS.minutes}
-            delay={0.7}
-          />
-          <CountdownDigit
-            value={0}
-            prevValue={0}
-            label={TIME_LABELS.seconds}
-            delay={0.9}
-          />
-        </div>
+      <div className="h-[40vh]">
+        <div className="absolute top-5 left-5 h-10 w-10 border-t-2 border-l-2 border-[#c3ff49]/50" />
+        <div className="absolute top-5 right-5 h-10 w-10 border-t-2 border-r-2 border-[#c3ff49]/50" />
+        <div className="absolute bottom-5 left-5 z-10 h-10 w-10 border-b-2 border-l-2 border-[#c3ff49]/50" />
+        <div className="absolute right-5 bottom-5 z-10 h-10 w-10 border-r-2 border-b-2 border-[#c3ff49]/50" />
       </div>
     );
-  }
 
   if (isComplete && mounted) {
     return (
       <div className="text-primary flex h-auto flex-col items-center justify-center">
+        <div className="absolute top-5 left-5 h-10 w-10 border-t-2 border-l-2 border-[#c3ff49]/50" />
+        <div className="absolute top-5 right-5 h-10 w-10 border-t-2 border-r-2 border-[#c3ff49]/50" />
+        <div className="absolute bottom-5 left-5 z-10 h-10 w-10 border-b-2 border-l-2 border-[#c3ff49]/50" />
+        <div className="absolute right-5 bottom-5 z-10 h-10 w-10 border-r-2 border-b-2 border-[#c3ff49]/50" />
         <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -193,7 +168,11 @@ export default function Counter() {
   }
 
   return (
-    <div className="relative flex h-auto flex-col items-center overflow-hidden px-2 pb-14">
+    <div className="relative flex h-[40vh] flex-col items-center overflow-hidden px-2 py-14">
+      <div className="absolute top-5 left-5 h-10 w-10 border-t-2 border-l-2 border-[#c3ff49]/50" />
+      <div className="absolute top-5 right-5 h-10 w-10 border-t-2 border-r-2 border-[#c3ff49]/50" />
+      <div className="absolute bottom-5 left-5 z-10 h-10 w-10 border-b-2 border-l-2 border-[#c3ff49]/50" />
+      <div className="absolute right-5 bottom-5 z-10 h-10 w-10 border-r-2 border-b-2 border-[#c3ff49]/50" />
       <motion.div
         className="flex w-full flex-col items-center px-4"
         initial={{ opacity: 0 }}
@@ -201,13 +180,7 @@ export default function Counter() {
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
       >
-        <motion.h2
-          className="font-orbitron text-primary shadow-primary px-1 text-center text-lg tracking-widest sm:text-2xl"
-          initial={{ skewY: 2 }}
-          whileInView={{ skewY: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
+        <motion.h2 className="font-orbitron text-primary shadow-primary px-1 text-center text-lg tracking-widest sm:text-2xl">
           {EVENT_SUBTITLE}
         </motion.h2>
       </motion.div>

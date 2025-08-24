@@ -152,9 +152,6 @@ export default function AboutDevhost() {
       <div className="font-orbitron absolute top-6 right-6 text-sm font-bold text-black opacity-80">
         2025
       </div>
-      <div className="font-orbitron absolute right-6 bottom-6 origin-bottom-right -rotate-90 text-xs font-bold text-black opacity-60">
-        ADAPTIVE MOBILE
-      </div>
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 py-12">
         <div
