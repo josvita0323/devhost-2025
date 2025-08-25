@@ -84,7 +84,7 @@ function CountdownDigit({
                   className="digit-container flex items-center justify-center"
                 >
                   <div
-                    className={`font-amiga text-primary text-center text-xl font-bold sm:text-4xl ${
+                    className={`font-amiga text-center text-xl font-bold sm:text-3xl ${
                       isSeconds ? "seconds-digit" : ""
                     }`}
                   >
@@ -150,7 +150,7 @@ export default function Counter() {
 
   if (isComplete && mounted) {
     return (
-      <div className="text-primary flex h-auto flex-col items-center justify-center bg-black">
+      <div className="text-primary flex h-[50vh] flex-col items-center justify-center bg-black">
         {/* <div className="absolute top-5 left-5 h-10 w-10 border-t-2 border-l-2 border-[#c3ff49]/50" />
         <div className="absolute top-5 right-5 h-10 w-10 border-t-2 border-r-2 border-[#c3ff49]/50" />
         <div className="absolute bottom-5 left-5 z-10 h-10 w-10 border-b-2 border-l-2 border-[#c3ff49]/50" />
@@ -187,7 +187,7 @@ export default function Counter() {
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
       >
-        <motion.h2 className="font-orbitron text-primary shadow-primary px-1 pb-2 text-center text-3xl font-semibold tracking-widest md:text-5xl">
+        <motion.h2 className="font-orbitron text-primary shadow-primary px-1 pb-2 text-center text-2xl sm:3xl font-semibold tracking-widest md:text-5xl">
           {EVENT_SUBTITLE}
         </motion.h2>
       </motion.div>
