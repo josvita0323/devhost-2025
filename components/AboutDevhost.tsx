@@ -139,15 +139,13 @@ export default function AboutDevhost() {
           0.2,
         );
 
-      return () => {
-        ctx.revert();
-        mm.revert();
-      };
+      // cleanup only once
+      return () => mm.revert();
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
-
+  
   return (
     <section
       ref={sectionRef}
