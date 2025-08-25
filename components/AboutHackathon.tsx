@@ -9,6 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   const [isClient, setIsClient] = useState(false);
+  const [showContent, setShowContent] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const hacRef = useRef<HTMLDivElement>(null);
@@ -61,7 +62,7 @@ export default function Home() {
 
       const predefinedPositions = [
         { x: -200, y: -120, scale: 0.9, rotation: 0 },
-        { x: -100, y: -100, scale: 0.7, rotation: 0 },
+        { x: 0, y: 40, scale: 1, rotation: 0 },
         { x: 0, y: -130, scale: 1.0, rotation: 0 },
         { x: 100, y: -110, scale: 0.8, rotation: 0 },
         { x: 200, y: -120, scale: 0.9, rotation: 0 },
@@ -183,6 +184,7 @@ export default function Home() {
             y: 0,
             duration: 1.5,
             ease: "power2.out",
+            onComplete: () => setShowContent(true),
           },
           "-=1",
         )
@@ -233,7 +235,9 @@ export default function Home() {
 
   if (!isClient) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-black" />
+      <div className="flex min-h-screen items-center justify-center bg-black text-white">
+        <div className="text-2xl">Loading...</div>
+      </div>
     );
   }
 
@@ -255,16 +259,18 @@ export default function Home() {
   ];
 
   return (
-    <div ref={containerRef} className="relative min-h-screen">
-      <div className="absolute bottom-0 h-24 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" />
+    <div
+      ref={containerRef}
+      className="relative min-h-screen overflow-hidden bg-black text-white"
+    >
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,#a3ff12_1px,transparent_1px)] [background-size:40px_40px] opacity-30" />
 
-      <div className="relative flex h-screen flex-col items-center justify-center overflow-x-clip">
-        {/* Title Section */}
-        <div className="flex flex-col items-center">
+      <div className="relative flex h-screen flex-col items-center justify-center">
+        <div className="absolute inset-0 flex items-center justify-center">
           <div className="font-orbitron flex items-end justify-center">
             <div
               ref={hacRef}
-              className="-mr-1 text-[12vw] leading-none font-black tracking-tight text-white opacity-0 select-none sm:mr-0 sm:text-[8vw]"
+              className="-mr-1 text-[12vw] leading-none font-black tracking-tight text-white opacity-0 select-none md:mr-0 md:text-[8vw]"
             >
               DEV
             </div>
@@ -288,7 +294,7 @@ export default function Home() {
 
               <div
                 ref={kRef}
-                className="absolute text-[12vw] leading-none font-black tracking-tight text-[#a3ff12] opacity-0 select-none sm:text-[8vw]"
+                className="absolute text-[12vw] leading-none font-black tracking-tight text-[#a3ff12] opacity-0 select-none md:text-[8vw]"
               >
                 H
               </div>
@@ -296,38 +302,38 @@ export default function Home() {
 
             <div
               ref={athonRef}
-              className="-ml-1 text-[12vw] leading-none font-black tracking-tight text-white opacity-0 select-none sm:ml-0 sm:text-[8vw]"
+              className="-ml-1 text-[12vw] leading-none font-black tracking-tight text-white opacity-0 select-none md:ml-0 md:text-[8vw]"
             >
               ACK
             </div>
           </div>
+        </div>
 
-          {/* Content Section - placed directly below */}
-          <div
-            ref={contentRef}
-            className="mt-10 flex flex-col items-center space-y-6 opacity-0"
-          >
-            <div className="max-w-4xl px-6 text-center">
-              <p className="text-justify text-sm leading-relaxed text-gray-300 sm:text-lg md:text-xl">
-                Join us for an intense 36-hour hackathon where innovation meets
-                execution. Build, code, and create the future in one epic
-                weekend of non-stop development.
-              </p>
-            </div>
+        <div
+          ref={contentRef}
+          className="absolute bottom-33 flex translate-y-[-40px] flex-col items-center space-y-6 opacity-0"
+        >
+          <div className="max-w-4xl px-6 text-center">
+            <p className="mb-4 font-mono text-base leading-relaxed text-gray-300 sm:text-lg md:text-xl">
+              Join us for an intense 36-hour hackathon where innovation meets
+              execution. Build, code, and create the future in one epic weekend
+              of non-stop development.
+            </p>
+          </div>
 
-            <div className="font-orbitron flex gap-4">
-              <button
-                className="bg-primary relative flex cursor-pointer items-center gap-2 px-5 py-2 text-xs font-bold tracking-widest text-black uppercase transition"
-                style={{
-                  clipPath:
-                    "polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)",
-                }}
-              >
-                Know More
-              </button>
-            </div>
+          <div className="font-orbitron flex gap-4">
+            <button
+              className="bg-primary relative flex cursor-pointer items-center gap-2 px-5 py-2 text-xs font-bold tracking-widest text-black uppercase transition"
+              style={{
+                clipPath:
+                  "polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)",
+              }}
+            >
+              Know More
+            </button>
           </div>
         </div>
+        <div className="absolute bottom-0 h-24 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" />
       </div>
     </div>
   );
