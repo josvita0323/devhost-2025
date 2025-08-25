@@ -8,7 +8,7 @@ export default function Background() {
       viewBox="0 0 469 90"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="absolute top-0 left-0 w-full h-full -translate-y-1/3 opacity-80"
+      className="absolute top-0 left-0 h-full w-full -translate-y-1/3 opacity-80"
     >
       <path
         d="M283.281 16.4763H291.459L305.539 7.04404H317.271V6.07114H338.777V7.04404H392.461L382.573 0.420044H283.281V16.4763Z"

@@ -1,157 +1,163 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { markers } from "../assets/data/timeline";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import DecryptText from "./animated/TextAnimation";
 
 const CyberpunkTimeline: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [mounted, setMounted] = useState<boolean>(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!mounted || !containerRef.current) return;
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        ".timeline-line",
-        { scaleY: 0 },
-        {
-          scaleY: 1,
-          duration: 2,
-          ease: "none",
-          scrollTrigger: {
-            trigger: ".timeline-container",
-            start: "top center",
-            end: "bottom top",
-            scrub: true,
-          },
-        },
-      );
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, [mounted]);
-
-  if (!mounted) return null;
+  const tabGroups = [
+    {
+      id: "phase-1",
+      label: "Nov 6",
+      days: markers.slice(0, Math.ceil(markers.length / 3)),
+    },
+    {
+      id: "phase-2",
+      label: "Nov 7",
+      days: markers.slice(
+        Math.ceil(markers.length / 3),
+        Math.ceil((markers.length * 2) / 3),
+      ),
+    },
+    {
+      id: "phase-3",
+      label: "Nov 8",
+      days: markers.slice(Math.ceil((markers.length * 2) / 3)),
+    },
+  ];
 
   return (
-    <div ref={containerRef} className="relative min-h-screen py-48">
+    <div className="relative min-h-screen bg-black pb-24">
       {/* Header */}
-      <h1 className="font-orbitron mb-3 text-center text-4xl font-bold sm:text-7xl">
-        TIMELINE
-      </h1>
-
-      <div className="timeline-container relative mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
-        {/* Timeline line */}
-        <div className="timeline-line bg-primary absolute left-4 h-full w-0.5 origin-top -translate-x-0.5 transform sm:left-1/2 sm:-translate-x-0.5"></div>
-
-        {markers.map((day) => (
-          <div key={day.id} className="mb-16">
-            {/* Day marker */}
-            <div className="relative mb-10 text-center">
-              <div className="border-border bg-background inline-block border px-6 py-2 shadow-lg">
-                <span className="font-orbitron text-3xl font-bold tracking-widest">
-                  {day.label}
-                </span>
-              </div>
-            </div>
-
-            {/* Day events */}
-            {day.events.map((item, index) => {
-              const isLeft = index % 2 === 0;
-
-              return (
-                <div
-                  key={item.id}
-                  className={`relative mb-12 flex flex-col sm:flex-row ${
-                    isLeft
-                      ? "sm:justify-end sm:pr-8"
-                      : "sm:justify-start sm:pl-8"
-                  }`}
-                >
-                  {/* Timeline node */}
-                  <div className="border-primary bg-background absolute top-1/2 z-10 h-4 w-4 -translate-x-1/2 -translate-y-1/2 transform rounded-full border-2 sm:left-1/2">
-                    <div className="bg-primary absolute top-1/2 left-1/2 h-1 w-1 -translate-x-1/2 -translate-y-1/2 transform rounded-full"></div>
-                  </div>
-
-                  {/* Content card */}
-                  <div className="w-full pl-4 sm:w-5/12 sm:pl-0">
-                    <div className="border-primary before:border-primary/30 relative border-2 bg-black/90 p-4 backdrop-blur-sm before:absolute before:inset-0 before:border-2 before:content-[''] after:absolute after:top-0 after:right-0 after:h-full after:w-1 after:bg-gradient-to-b after:to-transparent after:content-[''] sm:p-6">
-                      {/* Time badge */}
-                      <div
-                        className={`absolute top-0 right-0 sm:transform sm:${
-                          isLeft
-                            ? "translate-x-2 -translate-y-2"
-                            : "-translate-x-2 -translate-y-2"
-                        } border-primary before:from-primary/20 before:to-primary/40 border-2 bg-black px-3 py-1 before:absolute before:-inset-0.5 before:-z-10`}
-                      >
-                        <span className="font-orbitron text-primary relative z-10 text-xs">
-                          {item.displayTime}
-                        </span>
-                      </div>
-
-                      {/* Content */}
-                      <div className="mt-3 space-y-2">
-                        <div className="flex items-center gap-2">
-                          <span className="text-primary drop-shadow-[0_0_10px_currentColor]">
-                            {item.icon}
-                          </span>
-                          <h3 className="font-orbitron text-primary text-lg font-bold tracking-wide drop-shadow-[0_0_8px_currentColor]">
-                            {item.title}
-                          </h3>
-                        </div>
-
-                        <p className="text-sm leading-relaxed text-gray-300">
-                          {item.description}
-                        </p>
-
-                        {item.speaker && (
-                          <p className="font-orbitron text-primary text-sm">
-                            {item.speaker}
-                          </p>
-                        )}
-                        {item.role && (
-                          <p className="text-xs text-gray-400">{item.role}</p>
-                        )}
-                        {item.venue && (
-                          <p className="before:text-primary font-mono text-xs text-gray-400 before:content-['>>_']">
-                            VENUE: {item.venue}
-                          </p>
-                        )}
-                      </div>
-
-                      {/* Cyberpunk corner accents */}
-                      <div className="border-primary from-primary/20 absolute right-0 bottom-0 h-8 w-12 border-t-2 border-l-2 bg-gradient-to-tl to-transparent"></div>
-                      <div className="border-primary/50 absolute top-0 left-0 h-4 w-4 border-r-2 border-b-2"></div>
-
-                      {/* Scanning line effect */}
-                      <div className="via-primary absolute top-0 left-0 h-0.5 w-full animate-pulse bg-gradient-to-r from-transparent to-transparent opacity-60"></div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        ))}
-
-        {/* End marker */}
-        <div className="relative text-center">
-          <div className="border-border bg-background inline-block border px-4 py-2">
-            <span className="font-orbitron text-lg font-bold">END OF LOG</span>
-          </div>
-        </div>
+      <div className="relative py-12 text-center">
+        <h1 className="font-orbitron mb-6 text-center text-4xl font-bold sm:text-7xl">
+          TIMELINE
+        </h1>
+        {/* <h2 className="">
+          &gt; Journey of Events
+        </h2> */}
+        <DecryptText
+          text="> Journey of Events"
+          startDelayMs={200}
+          trailSize={6}
+          flickerIntervalMs={50}
+          revealDelayMs={100}
+          className="font-orbitron text-primary h-8 text-base tracking-wider md:text-xl"
+        />
       </div>
 
-      <div className="absolute bottom-0 h-48 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" />
-      <div className="absolute top-0 h-48 w-full bg-gradient-to-b from-black/95 via-black/80 to-transparent" />
+      <div className="mx-auto max-w-6xl px-6">
+        <Tabs defaultValue="phase-1" className="w-full">
+          {/* Tab Navigation */}
+          <TabsList className="border-primary mx-auto mb-8 grid w-full max-w-4xl grid-cols-3 rounded-none border bg-black p-1">
+            {tabGroups.map((group) => (
+              <TabsTrigger
+                key={group.id}
+                value={group.id}
+                className="font-orbitron border-none bg-black"
+              >
+                {group.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          {/* Tab Content */}
+          {tabGroups.map((group) => (
+            <TabsContent key={group.id} value={group.id} className="mt-0">
+              <div className="mx-auto max-w-4xl space-y-8">
+                {group.days.map((day) => (
+                  <div key={day.id} className="relative flex">
+                    {/* Timeline vertical line */}
+                    <div className="bg-primary/50 absolute top-0 left-8 h-full w-[2px]" />
+
+                    {/* Events Grid */}
+                    <div className="flex w-full flex-col items-center gap-12">
+                      {day.events.map((event) => (
+                        <div
+                          key={event.id}
+                          className="border-primary/50 relative w-full max-w-4xl border bg-black p-4 pt-0 pl-4"
+                        >
+                          {/* Time badge */}
+                          <div className="absolute -top-3 left-12">
+                            <div className="border-primary bg-primary flex items-center border px-2 py-0.5">
+                              <span className="font-orbitron text-xs font-bold text-black">
+                                {event.displayTime}
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Content */}
+                          <div className="mt-4 text-gray-200">
+                            {/* Title row with meta on right */}
+                            <div className="flex flex-col items-start justify-between sm:flex-row">
+                              {/* Icon + Title */}
+                              <div className="space-y-2">
+                                <div className="flex items-baseline gap-3">
+                                  <span className="text-primary text-lg">
+                                    {event.icon}
+                                  </span>
+                                  <h3 className="font-orbitron leading-tight font-bold whitespace-pre">
+                                    {event.title}
+                                  </h3>
+                                </div>
+
+                                {/* Description */}
+                                <p className="mb-2 text-xs leading-relaxed whitespace-pre">
+                                  {event.description}
+                                </p>
+                              </div>
+
+                              {/* Meta (speaker + role) */}
+                              <div className="flex w-full flex-col items-end pb-6 text-right text-xs sm:pb-0">
+                                {event.speaker && (
+                                  <div className="font-orbitron flex items-center justify-end gap-2 text-xs sm:text-sm">
+                                    <DecryptText
+                                      text={`> ${event.speaker}`}
+                                      startDelayMs={200}
+                                      trailSize={4}
+                                      flickerIntervalMs={50}
+                                      revealDelayMs={50}
+                                      className="text-primary h-5 font-medium"
+                                    />
+                                  </div>
+                                )}
+                                {event.role && (
+                                  <div className="text-primary/70">
+                                    {event.role}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Venue */}
+                          {event.venue && (
+                            <div className="absolute right-0 bottom-0 w-full sm:w-auto">
+                              <div className="border-primary/50 border-t bg-black px-2 py-1 sm:border">
+                                <span className="flex items-center justify-center gap-2 text-xs text-zinc-400">
+                                  <span>@</span>
+                                  <span>{event.venue}</span>
+                                </span>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Corner accents */}
+                          <div className="absolute top-0 right-0 h-6 w-6">
+                            <div className="border-primary/70 absolute top-1 right-1 h-3 w-3 border-t border-r"></div>
+                          </div>
+                          <div className="absolute bottom-0 left-0 h-6 w-6">
+                            <div className="border-primary/70 absolute bottom-1 left-1 h-3 w-3 border-b border-l"></div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </TabsContent>
+          ))}
+        </Tabs>
+      </div>
     </div>
   );
 };
