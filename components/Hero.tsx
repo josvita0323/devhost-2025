@@ -4,6 +4,7 @@ import Logo from "./animated/Logo";
 import DecryptText from "./animated/TextAnimation";
 import { User } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -68,15 +69,17 @@ export default function Hero() {
 
         {/* Floating Dock (Top Right) */}
         <div className="font-orbitron absolute top-10 right-10 z-20 flex gap-4">
-          <button
-            className="bg-primary relative flex cursor-pointer items-center gap-2 px-5 py-2 text-xs font-bold tracking-widest text-black uppercase transition"
-            style={{
-              clipPath:
-                "polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)",
-            }}
-          >
-            <User size={14} /> Profile
-          </button>
+          <Link href={"/register"}>
+            <button
+              className="bg-primary relative flex cursor-pointer items-center gap-2 px-5 py-2 text-xs font-bold tracking-widest text-black uppercase transition"
+              style={{
+                clipPath:
+                  "polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)",
+              }}
+            >
+              <User size={14} /> Profile
+            </button>
+          </Link>
         </div>
 
         {/* Scroll Hint */}
