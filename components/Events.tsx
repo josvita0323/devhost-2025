@@ -5,6 +5,7 @@ import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import DecryptText from "./animated/TextAnimation";
+import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -261,7 +262,7 @@ export default function Events() {
                 }}
               >
                 <div
-                  className="relative aspect-square sm:aspect-[4/5] w-full overflow-hidden sm:w-1/2"
+                  className="relative aspect-square w-full overflow-hidden sm:aspect-[4/5] sm:w-1/2"
                   style={{
                     clipPath:
                       "polygon(20px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
@@ -324,7 +325,7 @@ export default function Events() {
                             "polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
                         }}
                       >
-                        Register
+                        <Link href={"/register"}>Register</Link>
                       </button>
                     </div>
                   )}
