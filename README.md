@@ -1,6 +1,6 @@
 # DevHost 2025
 
-**Expertise Redefined, Experience Reimagined**  
+**Connecting Minds, Crafting Progress.**  
 *November 06–08, 2025 · Sahyadri Campus, Adyar*  
 
 ---
