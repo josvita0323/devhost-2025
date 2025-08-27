@@ -20,7 +20,7 @@ const events = [
     time: "9:00 AM onwards",
     organizer: "Yishith",
     contact: "+91 9964057549",
-    image: "/demo.jpeg",
+    image: "/event/lootnlead.png",
   },
   {
     id: 2,
@@ -32,7 +32,7 @@ const events = [
     time: "11:00 - 12:30",
     organizer: "Koshin",
     contact: "+91 7899715941",
-    image: "/demo.jpeg",
+    image: "/event/rootquest.png",
   },
   {
     id: 3,
@@ -43,7 +43,7 @@ const events = [
     time: "11:00 - 12:30",
     organizer: "Varsha",
     contact: "+91 7022709062",
-    image: "/demo.jpeg",
+    image: "/event/howimetmyinvestor.png",
   },
   {
     id: 4,
@@ -54,7 +54,7 @@ const events = [
     time: "3:00 - 5:00",
     organizer: "Manvitha",
     contact: "+91 9686515869",
-    image: "/demo.jpeg",
+    image: "/event/ohmygrid.png",
   },
   {
     id: 5,
@@ -66,7 +66,7 @@ const events = [
     time: "3:00 - 5:00",
     organizer: "Sthuthi",
     contact: "+91 7795009031",
-    image: "/demo.jpeg",
+    image: "/event/onslaught.png",
   },
   {
     id: 6,
@@ -77,22 +77,22 @@ const events = [
     time: "9:00 - 10:30",
     organizer: "Hitha",
     contact: "+91 9740451519",
-    image: "/demo.jpeg",
+    image: "/event/techtactoe.png",
   },
   {
     id: 7,
-    title: "Speed Typing",
+    title: "Blazing Fingers",
     tagline: "Fingers on fire.",
     description: "Compete to showcase your typing speed and accuracy",
     date: "All 3 days",
     time: "9:00 AM",
     organizer: "TBA",
     contact: "later",
-    image: "/demo.jpeg",
+    image: "/event/blazingfingers.png",
   },
   {
     id: 8,
-    title: "Rubik's Cube",
+    title: "Speed Cuber",
     tagline: "Twist. Turn. Solve.",
     description:
       "Show your cube-solving speed in a high-pressure cubing competition.",
@@ -100,7 +100,7 @@ const events = [
     time: "9:00 AM",
     organizer: "TBA",
     contact: "later",
-    image: "/demo.jpeg",
+    image: "/event/speedcuber.png",
   },
 ];
 
