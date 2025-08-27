@@ -18,7 +18,8 @@ export default function Hero() {
       try {
         await signInWithGoogle();
         router.replace('/profile');
-      } catch (err: any) { //change any to appropriate error type later
+      } catch {
+        // Handle error silently
       }
     }
   };
