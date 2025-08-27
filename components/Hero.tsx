@@ -11,18 +11,19 @@ export default function Hero() {
   const router = useRouter();
   const { user, signInWithGoogle } = useAuth();
 
-  const handleGoogleLogin = async () => {
-    if (user) {
-      router.replace('/profile');
-    } else {
-      try {
-        await signInWithGoogle();
-        router.replace('/profile');
-      } catch {
-        // Handle error silently
-      }
+const handleGoogleLogin = async () => {
+  if (user) {
+    router.push('/profile');
+  } else {
+    try {
+      await signInWithGoogle();
+      // Wait for auth state to update, then redirect
+        router.push('/profile');
+    } catch (error) {
+      console.error('Sign in failed:', error);
     }
-  };
+  }
+};
     
   return (
     <Fragment>
