@@ -202,9 +202,9 @@ export default function HackathonDashboardPage() {
                 setProfile({ ...profile, team_id: '' });
                 setSuccessStates(prev => ({ ...prev, deleted: true }));
 
-                // Navigate after short delay
+                // Reload the page after short delay
                 setTimeout(() => {
-                    router.push('/hackathon/dashboard');
+                    window.location.reload();
                 }, 800);
             } else {
                 const errorData = await res.json();
