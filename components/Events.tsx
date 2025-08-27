@@ -20,7 +20,7 @@ const events = [
     time: "9:00 AM onwards",
     organizer: "Yishith",
     contact: "+91 9964057549",
-    image: "/event/lootnlead.png",
+    image: "/event/lootnlead.webp",
   },
   {
     id: 2,
@@ -32,7 +32,7 @@ const events = [
     time: "11:00 - 12:30",
     organizer: "Koshin",
     contact: "+91 7899715941",
-    image: "/event/rootquest.png",
+    image: "/event/rootquest.webp",
   },
   {
     id: 3,
@@ -43,7 +43,7 @@ const events = [
     time: "11:00 - 12:30",
     organizer: "Varsha",
     contact: "+91 7022709062",
-    image: "/event/howimetmyinvestor.png",
+    image: "/event/howimetmyinvestor.webp",
   },
   {
     id: 4,
@@ -54,7 +54,7 @@ const events = [
     time: "3:00 - 5:00",
     organizer: "Manvitha",
     contact: "+91 9686515869",
-    image: "/event/ohmygrid.png",
+    image: "/event/ohmygrid.webp",
   },
   {
     id: 5,
@@ -66,7 +66,7 @@ const events = [
     time: "3:00 - 5:00",
     organizer: "Sthuthi",
     contact: "+91 7795009031",
-    image: "/event/onslaught.png",
+    image: "/event/onslaught.webp",
   },
   {
     id: 6,
@@ -77,7 +77,7 @@ const events = [
     time: "9:00 - 10:30",
     organizer: "Hitha",
     contact: "+91 9740451519",
-    image: "/event/techtactoe.png",
+    image: "/event/techtactoe.webp",
   },
   {
     id: 7,
@@ -88,7 +88,7 @@ const events = [
     time: "9:00 AM",
     organizer: "TBA",
     contact: "later",
-    image: "/event/blazingfingers.png",
+    image: "/event/blazingfingers.webp",
   },
   {
     id: 8,
@@ -100,7 +100,7 @@ const events = [
     time: "9:00 AM",
     organizer: "TBA",
     contact: "later",
-    image: "/event/speedcuber.png",
+    image: "/event/speedcuber.webp",
   },
 ];
 
