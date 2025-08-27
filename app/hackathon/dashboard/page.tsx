@@ -284,6 +284,13 @@ export default function HackathonDashboardPage() {
         }
     }, [loading, profileLoading, teamLoading, profile]);
 
+    // Redirect to hackathon page if no team found
+    useEffect(() => {
+        if (initialDataLoaded && !form.team_id) {
+            router.replace('/hackathon');
+        }
+    }, [initialDataLoaded, form.team_id, router]);
+
     const handleLeaveTeam = async () => {
         if (!user) return;
 
@@ -641,7 +648,7 @@ export default function HackathonDashboardPage() {
 
     useEffect(() => {
         if (!loading && !user) {
-            router.push('/signin');
+            router.push('/');
         }
     }, [user, loading, router]);
 
@@ -669,26 +676,12 @@ export default function HackathonDashboardPage() {
                 </div>
             </div>
             <div className="w-full max-w-4xl">
-                {form.team_id ? (
+                {form.team_id && (
                     form.team_id === user?.uid ? (
                         <div className="animate-fade-in-up">{displayTeamLeader()}</div>
                     ) : (
                         <div className="animate-fade-in-up">{displayTeamMember()}</div>
                     )
-                ) : (
-                    <div className="flex flex-col items-center justify-center bg-white rounded-xl shadow-lg p-10 animate-fade-in-up">
-                        <Image src="/globe.svg" alt="No Team" width={96} height={96} className="mb-4 opacity-80" />
-                        <h2 className="text-2xl font-semibold text-gray-800 mb-2">No Team Found</h2>
-                        <p className="text-gray-500 mb-6">You are not part of any team yet. Create or join a team to get started!</p>
-                        <div className="flex gap-4">
-                            <Link href="/hackathon/join">
-                                <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6">Join a Team</Button>
-                            </Link>
-                            <Link href="/hackathon/create">
-                                <Button className="bg-purple-600 hover:bg-purple-700 text-white px-6">Create a Team</Button>
-                            </Link>
-                        </div>
-                    </div>
                 )}
             </div>
         </div>
