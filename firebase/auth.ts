@@ -1,12 +1,9 @@
 import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
   signOut as firebaseSignOut,
   signInWithPopup,
   GoogleAuthProvider,
   User,
   UserCredential,
-  updateProfile
 } from 'firebase/auth';
 import { auth } from './config';
 
@@ -57,7 +54,7 @@ export const isAuthenticated = (): boolean => {
 };
 
 // this is for sending the token from client to server side (to store the session as cookie in return)
-async function exchangeIdTokenForSession(idToken: string) {
+export async function exchangeIdTokenForSession(idToken: string) {
   const res = await fetch('/api/auth/sign-in', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
