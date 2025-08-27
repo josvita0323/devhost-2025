@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { AlertCircle } from 'lucide-react';
+import { COLLEGES } from '@/lib/constants';
 
 export default function DetailsPage() {
   const router = useRouter();
@@ -158,7 +159,7 @@ export default function DetailsPage() {
                 />
               </div>
               <div>
-                <Label htmlFor="email" className="mb-2 block">Email *</Label>
+                <Label htmlFor="email" className="mb-2 block">Email</Label>
                 <Input
                   id="email"
                   type="email"
@@ -166,7 +167,7 @@ export default function DetailsPage() {
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                   placeholder="Enter your email"
                   className="text-gray-900 placeholder:text-gray-500 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
+                  disabled
                 />
               </div>
             </div>
@@ -186,15 +187,21 @@ export default function DetailsPage() {
               </div>
               <div>
                 <Label htmlFor="college" className="mb-2 block">College/University *</Label>
-                <Input
-                  id="college"
-                  type="text"
+                <Select
                   value={form.college}
-                  onChange={(e) => setForm({ ...form, college: e.target.value })}
-                  placeholder="Enter your college name"
-                  className="text-gray-900 placeholder:text-gray-500 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
-                />
+                  onValueChange={(value) => setForm({ ...form, college: value })}
+                >
+                  <SelectTrigger className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <SelectValue placeholder="Select your college" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {COLLEGES.map((college, idx) => (
+                      <SelectItem key={idx} value={college}>
+                        {college}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 
