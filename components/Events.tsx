@@ -5,6 +5,7 @@ import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import DecryptText from "./animated/TextAnimation";
+import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,7 +20,7 @@ const events = [
     time: "9:00 AM onwards",
     organizer: "Yishith",
     contact: "+91 9964057549",
-    image: "/demo.jpeg",
+    image: "/event/lootnlead.webp",
   },
   {
     id: 2,
@@ -31,7 +32,7 @@ const events = [
     time: "11:00 - 12:30",
     organizer: "Koshin",
     contact: "+91 7899715941",
-    image: "/demo.jpeg",
+    image: "/event/rootquest.webp",
   },
   {
     id: 3,
@@ -42,7 +43,7 @@ const events = [
     time: "11:00 - 12:30",
     organizer: "Varsha",
     contact: "+91 7022709062",
-    image: "/demo.jpeg",
+    image: "/event/howimetmyinvestor.webp",
   },
   {
     id: 4,
@@ -53,7 +54,7 @@ const events = [
     time: "3:00 - 5:00",
     organizer: "Manvitha",
     contact: "+91 9686515869",
-    image: "/demo.jpeg",
+    image: "/event/ohmygrid.webp",
   },
   {
     id: 5,
@@ -65,7 +66,7 @@ const events = [
     time: "3:00 - 5:00",
     organizer: "Sthuthi",
     contact: "+91 7795009031",
-    image: "/demo.jpeg",
+    image: "/event/onslaught.webp",
   },
   {
     id: 6,
@@ -76,22 +77,22 @@ const events = [
     time: "9:00 - 10:30",
     organizer: "Hitha",
     contact: "+91 9740451519",
-    image: "/demo.jpeg",
+    image: "/event/techtactoe.webp",
   },
   {
     id: 7,
-    title: "Speed Typing",
+    title: "Blazing Fingers",
     tagline: "Fingers on fire.",
     description: "Compete to showcase your typing speed and accuracy",
     date: "All 3 days",
     time: "9:00 AM",
     organizer: "TBA",
     contact: "later",
-    image: "/demo.jpeg",
+    image: "/event/blazingfingers.webp",
   },
   {
     id: 8,
-    title: "Rubik's Cube",
+    title: "Speed Cuber",
     tagline: "Twist. Turn. Solve.",
     description:
       "Show your cube-solving speed in a high-pressure cubing competition.",
@@ -99,7 +100,7 @@ const events = [
     time: "9:00 AM",
     organizer: "TBA",
     contact: "later",
-    image: "/demo.jpeg",
+    image: "/event/speedcuber.webp",
   },
 ];
 
@@ -261,7 +262,7 @@ export default function Events() {
                 }}
               >
                 <div
-                  className="relative aspect-square sm:aspect-[4/5] w-full overflow-hidden sm:w-1/2"
+                  className="relative aspect-square w-full overflow-hidden sm:aspect-[4/5] sm:w-1/2"
                   style={{
                     clipPath:
                       "polygon(20px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
@@ -324,7 +325,7 @@ export default function Events() {
                             "polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
                         }}
                       >
-                        Register
+                        <Link href={"/register"}>Register</Link>
                       </button>
                     </div>
                   )}
