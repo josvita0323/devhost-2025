@@ -68,7 +68,7 @@ export default function ProfileClient({ profile } : { profile: Profile}) {
                 <Button onClick={handleSave} className="px-4 bg-green-600 hover:bg-green-700 text-white">
                   <Save className="w-4 h-4 mr-2" /> Save
                 </Button>
-                <Button onClick={handleCancel} variant="outline" className="px-4">
+                <Button onClick={handleCancel} variant="outline" className="px-4 text-black">
                   <X className="w-4 h-4 mr-2" /> Cancel
                 </Button>
               </>
