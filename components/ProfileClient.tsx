@@ -22,6 +22,7 @@ interface Profile {
 export default function ProfileClient({ profile } : { profile: Profile}) {
   const router = useRouter();
   const { signOut } = useAuth();
+  const [profileState, setProfileState] = useState(profile);
   const [isEditing, setIsEditing] = useState(false);
   const [editedProfile, setEditedProfile] = useState(profile);
 
@@ -41,7 +42,7 @@ export default function ProfileClient({ profile } : { profile: Profile}) {
       });
 
       if (res.ok) {
-        Object.assign(profile, editedProfile);
+        setProfileState(editedProfile);
         setIsEditing(false);
       }
     } catch (error) {
@@ -50,7 +51,7 @@ export default function ProfileClient({ profile } : { profile: Profile}) {
   };
 
   const handleCancel = () => {
-    setEditedProfile(profile);
+    setEditedProfile(profileState);
     setIsEditing(false);
   };
 
@@ -68,7 +69,7 @@ export default function ProfileClient({ profile } : { profile: Profile}) {
                 <Button onClick={handleSave} className="px-4 bg-green-600 hover:bg-green-700 text-white">
                   <Save className="w-4 h-4 mr-2" /> Save
                 </Button>
-                <Button onClick={handleCancel} variant="outline" className="px-4 text-black">
+                <Button onClick={handleCancel} variant="outline" className="px-4">
                   <X className="w-4 h-4 mr-2" /> Cancel
                 </Button>
               </>
@@ -102,7 +103,7 @@ export default function ProfileClient({ profile } : { profile: Profile}) {
                   className="mt-1"
                 />
               ) : (
-                <div className="p-3 bg-gray-50 rounded-md border">{profile.name}</div>
+                <div className="p-3 bg-gray-50 rounded-md border">{profileState.name}</div>
               )}
             </div>
             <div>
@@ -117,7 +118,7 @@ export default function ProfileClient({ profile } : { profile: Profile}) {
               ) : (
                 <div className="p-3 bg-gray-50 rounded-md border flex items-center gap-2">
                   <Mail className="w-4 h-4 text-gray-500" />
-                  {profile.email}
+                  {profileState.email}
                 </div>
               )}
             </div>
@@ -132,7 +133,7 @@ export default function ProfileClient({ profile } : { profile: Profile}) {
               ) : (
                 <div className="p-3 bg-gray-50 rounded-md border flex items-center gap-2">
                   <Phone className="w-4 h-4 text-gray-500" />
-                  {profile.phone}
+                  {profileState.phone}
                 </div>
               )}
             </div>
@@ -162,7 +163,7 @@ export default function ProfileClient({ profile } : { profile: Profile}) {
                   </SelectContent>
                 </Select>
               ) : (
-                <div className="p-3 bg-gray-50 rounded-md border">{profile.college}</div>
+                <div className="p-3 bg-gray-50 rounded-md border">{profileState.college}</div>
               )}
             </div>
             <div>
@@ -176,7 +177,7 @@ export default function ProfileClient({ profile } : { profile: Profile}) {
               ) : (
                 <div className="p-3 bg-gray-50 rounded-md border flex items-center gap-2">
                   <BookOpen className="w-4 h-4 text-gray-500" />
-                  {profile.branch}
+                  {profileState.branch}
                 </div>
               )}
             </div>
@@ -197,15 +198,15 @@ export default function ProfileClient({ profile } : { profile: Profile}) {
               ) : (
                 <div className="p-3 bg-gray-50 rounded-md border flex items-center gap-2">
                   <Calendar className="w-4 h-4 text-gray-500" />
-                  {profile.year === 1
+                  {profileState.year === 1
                     ? '1st Year'
-                    : profile.year === 2
+                    : profileState.year === 2
                     ? '2nd Year'
-                    : profile.year === 3
+                    : profileState.year === 3
                     ? '3rd Year'
-                    : profile.year === 4
+                    : profileState.year === 4
                     ? '4th Year'
-                    : `${profile.year}th Year`}
+                    : `${profileState.year}th Year`}
                 </div>
               )}
             </div>
@@ -213,7 +214,7 @@ export default function ProfileClient({ profile } : { profile: Profile}) {
         </Card>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-          {!profile?.team_id ? (
+          {!profileState?.team_id ? (
             <Link href="/hackathon">
               <Button size="lg" className="bg-black hover:bg-neutral-950 text-white px-8">
                 Join Hackathon
