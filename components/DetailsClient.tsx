@@ -143,7 +143,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
   };
 
   return (
-    <div className="font-orbitron relative min-h-screen overflow-hidden bg-black py-8 text-white">
+    <div className="font-orbitron relative flex min-h-screen items-center overflow-hidden bg-black py-8 text-white">
       {/* Fixed grid background */}
       <div className="pointer-events-none fixed inset-0 z-0">
         <div
@@ -173,27 +173,24 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
         </button>
       </div>
 
-      <div className="mx-auto max-w-2xl px-4">
+      <div className="mx-auto w-full max-w-2xl px-4">
         {/* Main clipped card */}
         <div
           style={{
             clipPath:
               "polygon(20px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
             backgroundColor: "#b4ff39", // neon border color
-            padding: "2px", // border thickness
+            padding: "1px", // border thickness
           }}
         >
           {/* Inner content */}
           <div
             ref={cardRef}
-            className="relative z-10 m-[2px] flex h-full flex-col rounded-2xl p-6 backdrop-blur-md"
+            className="relative z-10 m-[2px] flex h-full flex-col p-6"
             style={{
               clipPath:
                 "polygon(20px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
               backgroundColor: "rgba(0,0,0,0.9)",
-              boxShadow: "0 0 20px rgba(157, 255, 44, 0.2)", // soft glow inside
-              backdropFilter: "blur(16px)",
-              boxSizing: "border-box",
             }}
           >
             <div className="mb-6">
@@ -221,7 +218,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                   <p
                     className="font-semibold"
                     style={{
-                      color   : "var(--primary)",
+                      color: "var(--primary)",
                     }}
                   >
                     {completionPercentage}%
@@ -314,7 +311,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
               </div>
             )}
 
-{/*            
+            {/*            
             <div className="border-destructive mb-6 flex items-start gap-3 rounded-lg border bg-black/60 p-4">
               <AlertCircle className="text-destructive mt-0.5 h-5 w-5 flex-shrink-0" />
               <div>
@@ -334,7 +331,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                 <div>
                   <Label
                     htmlFor="name"
-                    className="mb-2 block flex items-center gap-1 text-white"
+                    className="mb-2 flex items-center gap-1 text-white"
                   >
                     <User size={14} className="inline-block" /> Full Name *
                     {form.name && (
@@ -346,8 +343,8 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                     type="text"
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
-              placeholder="Enter your full name"
-              className="w-full rounded-md px-3 py-2 text-[#9dff2c] placeholder:text-[#9dff2c] bg-white/10 hover:border-[#9dff2c]/90 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c] focus:outline-none"
+                    placeholder="Enter your full name"
+                    className="w-full rounded-md bg-white/10 px-3 py-2 text-[#9dff2c] placeholder:text-[#9dff2c] hover:border-[#9dff2c]/90 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c] focus:outline-none"
                     required
                   />
                 </div>
@@ -362,8 +359,8 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                     onChange={(e) =>
                       setForm({ ...form, email: e.target.value })
                     }
-              placeholder="Enter your email"
-              className="form-field rounded-md px-3 py-2 text-[#9dff2c] transition-all duration-150 placeholder:text-[#9dff2c] hover:border-[#9dff2c]/70 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c]/50 focus:outline-none"
+                    placeholder="Enter your email"
+                    className="form-field rounded-md px-3 py-2 text-[#9dff2c] transition-all duration-150 placeholder:text-[#9dff2c] hover:border-[#9dff2c]/70 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c]/50 focus:outline-none"
                     disabled
                   />
                 </div>
@@ -373,7 +370,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                 <div>
                   <Label
                     htmlFor="phone"
-                    className="cyberpunk-label mb-2 block flex items-center gap-1"
+                    className="cyberpunk-label mb-2 flex items-center gap-1"
                   >
                     <Phone size={14} className="inline-block" /> Phone Number *
                     {form.phone && (
@@ -387,15 +384,15 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                     onChange={(e) =>
                       setForm({ ...form, phone: e.target.value })
                     }
-              placeholder="Enter your phone number"
-              className="form-field rounded-md px-3 py-2 transition-all duration-150 placeholder:text-[#9dff2c] hover:border-[#9dff2c]/70 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c]/50 focus:outline-none"
+                    placeholder="Enter your phone number"
+                    className="form-field rounded-md px-3 py-2 transition-all duration-150 placeholder:text-[#9dff2c] hover:border-[#9dff2c]/70 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c]/50 focus:outline-none"
                     required
                   />
                 </div>
                 <div>
                   <Label
                     htmlFor="college"
-                    className="cyberpunk-label mb-2 block flex items-center gap-1"
+                    className="cyberpunk-label mb-2 flex items-center gap-1"
                   >
                     <School size={14} className="inline-block" />{" "}
                     College/University *
@@ -434,7 +431,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                 <div>
                   <Label
                     htmlFor="branch"
-                    className="cyberpunk-label mb-2 block flex items-center gap-1"
+                    className="cyberpunk-label mb-2 flex items-center gap-1"
                   >
                     <BookOpen size={14} className="inline-block" /> Branch/Major
                     *
@@ -449,15 +446,15 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                     onChange={(e) =>
                       setForm({ ...form, branch: e.target.value })
                     }
-              placeholder="e.g., Computer Science, Electronics"
-              className="form-field rounded-md px-3 py-2 text-[#9dff2c] transition-all duration-150 placeholder:text-[#9dff2c] hover:border-[#9dff2c]/70 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c]/50 focus:outline-none"
+                    placeholder="e.g., Computer Science, Electronics"
+                    className="form-field rounded-md px-3 py-2 text-[#9dff2c] transition-all duration-150 placeholder:text-[#9dff2c] hover:border-[#9dff2c]/70 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c]/50 focus:outline-none"
                     required
                   />
                 </div>
                 <div>
                   <Label
                     htmlFor="year"
-                    className="cyberpunk-label mb-2 block flex items-center gap-1"
+                    className="cyberpunk-label mb-2 flex items-center gap-1"
                   >
                     <Calendar size={14} className="inline-block" /> Academic
                     Year *
