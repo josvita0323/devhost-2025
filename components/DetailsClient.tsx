@@ -1,19 +1,31 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
+import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { AlertCircle } from 'lucide-react';
-import { COLLEGES } from '@/lib/constants';
+} from "@/components/ui/select";
+import {
+  AlertCircle,
+  CheckCircle2,
+  User,
+  Phone,
+  School,
+  BookOpen,
+  Calendar,
+  ArrowRight,
+  Loader2,
+  PartyPopper,
+  Star,
+} from "lucide-react";
+import { COLLEGES } from "@/lib/constants";
 
 interface Profile {
   name: string;
@@ -28,179 +40,518 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
   const router = useRouter();
 
   const [form, setForm] = useState<Profile>({
-    name: profile.name || '',
-    email: profile.email || '',
-    phone: profile.phone || '',
-    college: profile.college || '',
-    branch: profile.branch || '',
+    name: profile.name || "",
+    email: profile.email || "",
+    phone: profile.phone || "",
+    college: profile.college || "",
+    branch: profile.branch || "",
     year: profile.year || 1,
   });
 
   const [isSaving, setIsSaving] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+  const [completionPercentage, setCompletionPercentage] = useState(0);
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  // Calculate profile completion percentage
+  useEffect(() => {
+    let fieldsCompleted = 0;
+    const totalRequiredFields = 5; // name, phone, college, branch, year (email is pre-filled)
+
+    if (form.name) fieldsCompleted++;
+    if (form.phone) fieldsCompleted++;
+    if (form.college) fieldsCompleted++;
+    if (form.branch) fieldsCompleted++;
+    if (form.year) fieldsCompleted++;
+
+    setCompletionPercentage(
+      Math.round((fieldsCompleted / totalRequiredFields) * 100),
+    );
+  }, [form]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!form.name || !form.email || !form.phone || !form.college || !form.branch || !form.year) {
-      setError('All fields are required.');
+    if (
+      !form.name ||
+      !form.email ||
+      !form.phone ||
+      !form.college ||
+      !form.branch ||
+      !form.year
+    ) {
+      setError("All fields are required.");
       return;
     }
 
-    setError('');
+    setError("");
     setIsSaving(true);
 
     try {
       // Session cookie sent automatically with request; no Authorization header needed
-      const res = await fetch('/api/v1/user/create', {
-        method: 'POST',
+      const res = await fetch("/api/v1/user/create", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(form),
       });
 
       if (res.ok) {
         setSaved(true);
-          router.replace('/profile');
+        setShowSuccess(true);
+        // Delay redirect to show the full animation of success message
+        setTimeout(() => {
+          router.replace("/profile");
+        }, 2500);
       } else {
-        setError('Failed to save profile. Please try again.');
+        setError("Failed to save profile. Please try again.");
       }
     } catch {
-      setError('An error occurred while saving. Please try again.');
+      setError("An error occurred while saving. Please try again.");
     } finally {
       setIsSaving(false);
     }
   };
 
-return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-2xl mx-auto px-4">
-        <div className="bg-white rounded-lg shadow p-8">
-          <div className="mb-6">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Complete Your Profile</h1>
-            <p className="text-gray-600">Please fill in all the required information to continue.</p>
-          </div>
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
-            <div>
-              <h3 className="font-semibold text-red-800 mb-1">Important Notice</h3>
-              <p className="text-sm text-red-600">
-                Once you submit this form, your details cannot be edited later. Please ensure all information is accurate before submitting.
+  return (
+    <div className="relative min-h-screen py-8">
+      {/* Fixed background grid */}
+      <div
+        className="pointer-events-none fixed inset-0 -z-10"
+        style={{
+          backgroundImage: `
+        linear-gradient(var(--primary) 2px, transparent 1px),
+        linear-gradient(90deg, var(--primary) 2px, transparent 1px)
+      `,
+          backgroundSize: "80px 80px",
+          backgroundPosition: "center",
+          opacity: 0.1, // subtle but visible
+        }}
+      />
+
+      <div className="mx-auto max-w-2xl px-4">
+        {/* Container with event card shape */}
+        <div
+          className="relative mx-auto w-full overflow-hidden"
+          style={{
+            clipPath:
+              "polygon(20px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
+            position: "relative",
+          }}
+        >
+          {/* Border overlay for clippath cuts */}
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              pointerEvents: "none",
+              clipPath:
+                "polygon(20px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
+              border: "2px solid var(--primary)",
+              boxSizing: "border-box",
+              zIndex: 20,
+            }}
+          ></div>
+
+          {/* Inner content box */}
+          <div
+            className="relative z-10 m-[2px] flex h-full flex-col rounded-2xl p-6 backdrop-blur-md"
+            style={{
+              clipPath:
+                "polygon(20px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
+              backgroundColor: "rgba(0, 0, 0, 0.9)",
+              boxShadow: "0 0 20px rgba(157, 255, 44, 0.2)",
+              backdropFilter: "blur(16px)",
+              boxSizing: "border-box",
+            }}
+          >
+            <div className="mb-6">
+              <h1 className="font-orbitron text-foreground mb-2 text-3xl font-bold tracking-wider uppercase">
+                Complete Your Profile
+              </h1>
+              <p className="text-foreground/80">
+                Please fill in all the required information to continue.
               </p>
-            </div>
-          </div>
 
-          <form className="space-y-6 text-gray-900" onSubmit={handleSubmit}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <Label htmlFor="name" className="mb-2 block">Full Name *</Label>
-                <Input
-                  id="name"
-                  type="text"
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  placeholder="Enter your full name"
-                  className="text-gray-900 placeholder:text-gray-500 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
-                />
-              </div>
-              <div>
-                <Label htmlFor="email" className="mb-2 block">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  placeholder="Enter your email"
-                  className="text-gray-900 placeholder:text-gray-500 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  disabled
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <Label htmlFor="phone" className="mb-2 block">Phone Number *</Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  value={form.phone}
-                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                  placeholder="Enter your phone number"
-                  className="text-gray-900 placeholder:text-gray-500 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
-                />
-              </div>
-              <div>
-                <Label htmlFor="college" className="mb-2 block">College/University *</Label>
-                <Select
-                  value={form.college}
-                  onValueChange={(value) => setForm({ ...form, college: value })}
+              {/* Profile Completion Progress */}
+              <div className="mt-4">
+                <div className="mb-1 flex items-center justify-between">
+                  <p
+                    className="text-sm font-bold tracking-wider uppercase"
+                    style={{
+                      color:
+                        completionPercentage < 100
+                          ? "var(--muted)"
+                          : "var(--primary)",
+                    }}
+                  >
+                    Profile Completion
+                  </p>
+                  <p
+                    className="font-semibold"
+                    style={{
+                      color:
+                        completionPercentage < 100
+                          ? "var(--muted)"
+                          : "var(--primary)",
+                    }}
+                  >
+                    {completionPercentage}%
+                  </p>
+                </div>
+                <div
+                  className="h-2 w-full overflow-hidden rounded-full border bg-black"
+                  style={{
+                    borderColor:
+                      completionPercentage < 100
+                        ? "var(--muted)"
+                        : "var(--primary)",
+                  }}
                 >
-                  <SelectTrigger className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <SelectValue placeholder="Select your college" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {COLLEGES.map((college, idx) => (
-                      <SelectItem key={idx} value={college}>
-                        {college}
-                      </SelectItem>
+                  <div
+                    className="h-full rounded-full transition-all duration-500 ease-out"
+                    style={{
+                      width: `${completionPercentage}%`,
+                      background:
+                        completionPercentage < 100
+                          ? "var(--muted)"
+                          : "var(--primary)",
+                      boxShadow:
+                        completionPercentage < 100
+                          ? "0 0 10px var(--muted)"
+                          : "0 0 10px var(--primary)",
+                    }}
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            {/* Success Message */}
+            {showSuccess && (
+              <div className="relative mb-6 overflow-hidden">
+                <div
+                  className="animate-in slide-in-from-top-10 zoom-in-95 transform rounded-lg border-2 border-[#9dff2c] bg-black/80 p-6 shadow-lg transition-all duration-500 ease-out"
+                  style={{
+                    animation: "success-pulse 2s infinite alternate",
+                    boxShadow: "0 0 20px rgba(157, 255, 44, 0.3)",
+                  }}
+                >
+                  {/* Background stars/decoration */}
+                  <div className="absolute inset-0 overflow-hidden">
+                    {[...Array(6)].map((_, i) => (
+                      <Star
+                        key={i}
+                        size={16}
+                        className="absolute text-[#9dff2c] opacity-70"
+                        style={{
+                          top: `${Math.random() * 100}%`,
+                          left: `${Math.random() * 100}%`,
+                          animation: `star-float ${2 + Math.random() * 3}s infinite alternate ease-in-out`,
+                          animationDelay: `${Math.random() * 2}s`,
+                        }}
+                      />
                     ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
+                  </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <Label htmlFor="branch" className="mb-2 block">Branch/Major *</Label>
-                <Input
-                  id="branch"
-                  type="text"
-                  value={form.branch}
-                  onChange={(e) => setForm({ ...form, branch: e.target.value })}
-                  placeholder="e.g., Computer Science, Electronics"
-                  className="text-gray-900 placeholder:text-gray-500 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
-                />
-              </div>
-              <div>
-                <Label htmlFor="year" className="mb-2 block">Academic Year *</Label>
-                <Select
-                  value={String(form.year)}
-                  onValueChange={(value) => setForm({ ...form, year: Number(value) })}
-                >
-                  <SelectTrigger className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <SelectValue placeholder="Select your year" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="1">1st Year</SelectItem>
-                    <SelectItem value="2">2nd Year</SelectItem>
-                    <SelectItem value="3">3rd Year</SelectItem>
-                    <SelectItem value="4">4th Year</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-start gap-3">
+                      <div
+                        className="flex h-10 w-10 animate-bounce items-center justify-center rounded-full bg-[#9dff2c] shadow-md"
+                        style={{
+                          boxShadow: "0 0 15px rgba(157, 255, 44, 0.5)",
+                        }}
+                      >
+                        <CheckCircle2 className="h-6 w-6 text-black" />
+                      </div>
+                      <div className="relative">
+                        <h3 className="animate-in slide-in-from-left mb-1 text-xl font-bold tracking-wider text-[#9dff2c] uppercase duration-500">
+                          Profile Saved Successfully!
+                        </h3>
+                        <p className="animate-in slide-in-from-left text-[#9dff2c]/90 delay-150 duration-500">
+                          Your profile has been created and you're all set for
+                          DevHost 2025!
+                        </p>
+                        <p className="animate-in slide-in-from-left mt-2 text-sm text-[#9dff2c]/80 delay-300 duration-500">
+                          Redirecting to your profile page in a moment...
+                        </p>
+                      </div>
+                    </div>
+                    <PartyPopper className="hidden h-8 w-8 animate-ping text-[#9dff2c] md:block" />
+                  </div>
 
-            {error && (
-              <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-                <p className="text-red-700 text-sm">{error}</p>
+                  {/* Progress bar for redirect countdown */}
+                  <div className="mt-4 h-1.5 w-full overflow-hidden rounded-full border border-[#9dff2c]/30 bg-black">
+                    <div
+                      className="h-full rounded-full bg-[#9dff2c]"
+                      style={{
+                        width: "100%",
+                        animation: "countdown 2s linear forwards",
+                        boxShadow: "0 0 10px rgba(157, 255, 44, 0.5)",
+                      }}
+                    ></div>
+                  </div>
+                </div>
               </div>
             )}
 
-            <div className="pt-4">
-              <Button
-                type="submit"
-                className="w-full bg-neutral-950 hover:bg-neutral-800 cursor-pointer text-white px-6 py-3 rounded-md transition-colors disabled:opacity-50 font-medium"
-                disabled={isSaving || saved}
-              >
-                {isSaving ? 'Saving Profile...' : saved ? 'Redirecting...' : 'Complete Profile'}
-              </Button>
+            {/* Important Notice */}
+            <div className="border-destructive mb-6 flex items-start gap-3 rounded-lg border bg-black/60 p-4">
+              <AlertCircle className="text-destructive mt-0.5 h-5 w-5 flex-shrink-0" />
+              <div>
+                <h3 className="text-destructive mb-1 font-semibold tracking-wider uppercase">
+                  Important Notice
+                </h3>
+                <p className="text-destructive text-sm">
+                  Once you submit this form, your details cannot be edited
+                  later. Please ensure all information is accurate before
+                  submitting.
+                </p>
+              </div>
             </div>
-          </form>
+
+            <form className="space-y-6 text-white" onSubmit={handleSubmit}>
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div>
+                  <Label
+                    htmlFor="name"
+                    className="mb-2 block flex items-center gap-1 text-white"
+                  >
+                    <User size={14} className="inline-block" /> Full Name *
+                    {form.name && (
+                      <CheckCircle2 size={14} className="ml-1 text-[#9dff2c]" />
+                    )}
+                  </Label>
+                  <Input
+                    id="name"
+                    type="text"
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    placeholder="Enter your full name"
+                    className="w-full rounded-md px-3 py-2 text-[#9dff2c] placeholder:text-[#9dff2c] hover:border-[#9dff2c]/90 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c] focus:outline-none"
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="email" className="cyberpunk-label mb-2 block">
+                    Email
+                  </Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={form.email}
+                    onChange={(e) =>
+                      setForm({ ...form, email: e.target.value })
+                    }
+                    placeholder="Enter your email"
+                    className="form-field rounded-md px-3 py-2 text-[#9dff2c] transition-all duration-150 placeholder:text-[#9dff2c]/60 hover:border-[#9dff2c]/70 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c]/50 focus:outline-none"
+                    disabled
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div>
+                  <Label
+                    htmlFor="phone"
+                    className="cyberpunk-label mb-2 block flex items-center gap-1"
+                  >
+                    <Phone size={14} className="inline-block" /> Phone Number *
+                    {form.phone && (
+                      <CheckCircle2 size={14} className="ml-1 text-[#9dff2c]" />
+                    )}
+                  </Label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    value={form.phone}
+                    onChange={(e) =>
+                      setForm({ ...form, phone: e.target.value })
+                    }
+                    placeholder="Enter your phone number"
+                    className="form-field rounded-md px-3 py-2 transition-all duration-150 placeholder:text-[#9dff2c]/60 hover:border-[#9dff2c]/70 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c]/50 focus:outline-none"
+                    required
+                  />
+                </div>
+                <div>
+                  <Label
+                    htmlFor="college"
+                    className="cyberpunk-label mb-2 block flex items-center gap-1"
+                  >
+                    <School size={14} className="inline-block" />{" "}
+                    College/University *
+                    {form.college && (
+                      <CheckCircle2 size={14} className="ml-1 text-[#9dff2c]" />
+                    )}
+                  </Label>
+                  <Select
+                    value={form.college}
+                    onValueChange={(value) =>
+                      setForm({ ...form, college: value })
+                    }
+                  >
+                    <SelectTrigger className="form-field w-full rounded-md px-3 py-2 text-[#9dff2c] transition-all duration-150 hover:border-[#9dff2c]/70 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c]/50 focus:outline-none active:border-[#9dff2c] data-[placeholder]:text-[#9dff2c]/70">
+                      <SelectValue
+                        className="font-medium text-[#9dff2c] placeholder:text-[#9dff2c]/70"
+                        placeholder="Select your college"
+                      />
+                    </SelectTrigger>
+                    <SelectContent className="border border-[#9dff2c] bg-black font-medium text-[#9dff2c]">
+                      {COLLEGES.map((college, idx) => (
+                        <SelectItem
+                          key={idx}
+                          value={college}
+                          className="font-medium text-[#9dff2c] data-[highlighted]:bg-[#9dff2c]/10"
+                        >
+                          {college}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div>
+                  <Label
+                    htmlFor="branch"
+                    className="cyberpunk-label mb-2 block flex items-center gap-1"
+                  >
+                    <BookOpen size={14} className="inline-block" /> Branch/Major
+                    *
+                    {form.branch && (
+                      <CheckCircle2 size={14} className="ml-1 text-[#9dff2c]" />
+                    )}
+                  </Label>
+                  <Input
+                    id="branch"
+                    type="text"
+                    value={form.branch}
+                    onChange={(e) =>
+                      setForm({ ...form, branch: e.target.value })
+                    }
+                    placeholder="e.g., Computer Science, Electronics"
+                    className="form-field rounded-md px-3 py-2 text-[#9dff2c] transition-all duration-150 placeholder:text-[#9dff2c]/70 hover:border-[#9dff2c]/70 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c]/50 focus:outline-none"
+                    required
+                  />
+                </div>
+                <div>
+                  <Label
+                    htmlFor="year"
+                    className="cyberpunk-label mb-2 block flex items-center gap-1"
+                  >
+                    <Calendar size={14} className="inline-block" /> Academic
+                    Year *
+                    {form.year && (
+                      <CheckCircle2 size={14} className="ml-1 text-[#9dff2c]" />
+                    )}
+                  </Label>
+                  <Select
+                    value={String(form.year)}
+                    onValueChange={(value) =>
+                      setForm({ ...form, year: Number(value) })
+                    }
+                  >
+                    <SelectTrigger className="form-field w-full rounded-md px-3 py-2 text-[#9dff2c] transition-all duration-150 hover:border-[#9dff2c]/70 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c]/50 focus:outline-none active:border-[#9dff2c] data-[placeholder]:text-[#9dff2c]/70">
+                      <SelectValue
+                        className="font-medium text-[#9dff2c]"
+                        placeholder="Select your year"
+                      />
+                    </SelectTrigger>
+                    <SelectContent className="border border-[#9dff2c] bg-black font-medium text-[#9dff2c]">
+                      <SelectItem
+                        value="1"
+                        className="font-medium text-[#9dff2c] data-[highlighted]:bg-[#9dff2c]/10"
+                      >
+                        1st Year
+                      </SelectItem>
+                      <SelectItem
+                        value="2"
+                        className="font-medium text-[#9dff2c] data-[highlighted]:bg-[#9dff2c]/10"
+                      >
+                        2nd Year
+                      </SelectItem>
+                      <SelectItem
+                        value="3"
+                        className="font-medium text-[#9dff2c] data-[highlighted]:bg-[#9dff2c]/10"
+                      >
+                        3rd Year
+                      </SelectItem>
+                      <SelectItem
+                        value="4"
+                        className="font-medium text-[#9dff2c] data-[highlighted]:bg-[#9dff2c]/10"
+                      >
+                        4th Year
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              {error && (
+                <div
+                  className="animate-pulse rounded-lg border bg-black/60 p-4"
+                  style={{ borderColor: "var(--chart-5)" }}
+                >
+                  <div className="flex items-start gap-3">
+                    <AlertCircle
+                      className="mt-0.5 h-5 w-5 flex-shrink-0"
+                      style={{ color: "var(--chart-5)" }}
+                    />
+                    <div>
+                      <h3
+                        className="mb-1 font-semibold tracking-wider uppercase"
+                        style={{ color: "var(--chart-5)" }}
+                      >
+                        Error
+                      </h3>
+                      <p
+                        className="text-sm"
+                        style={{ color: "var(--chart-5)" }}
+                      >
+                        {error}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex justify-center pt-4">
+                <Button
+                  type="submit"
+                  className="cyberpunk-btn font-orbitron flex w-auto cursor-pointer items-center justify-center gap-2 px-6 py-3 text-center text-xs font-bold tracking-wider uppercase transition-all duration-200 hover:scale-[1.02] focus:ring-2 focus:ring-[#9dff2c]/50 focus:outline-none active:scale-[1.02] active:bg-[#9dff2c]/90 disabled:bg-gray-700 disabled:text-gray-400 disabled:opacity-50 disabled:shadow-none"
+                  style={{
+                    clipPath:
+                      "polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
+                  }}
+                  disabled={isSaving || saved || completionPercentage < 100}
+                >
+                  {isSaving ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Saving Profile...
+                    </>
+                  ) : saved ? (
+                    <>
+                      <CheckCircle2 className="h-4 w-4" />
+                      Redirecting...
+                    </>
+                  ) : completionPercentage < 100 ? (
+                    <>Complete All Fields</>
+                  ) : (
+                    <>
+                      Complete Profile
+                      <ArrowRight className="h-4 w-4" />
+                    </>
+                  )}
+                </Button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
