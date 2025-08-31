@@ -25,6 +25,13 @@ export default function ProfileClient({ profile } : { profile: Profile}) {
   const [profileState, setProfileState] = useState(profile);
   const [isEditing, setIsEditing] = useState(false);
   const [editedProfile, setEditedProfile] = useState(profile);
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState('');
+
+  const isValidPhone = (phone: string) => {
+    const phoneRegex = /^[0-9]{10}$/;
+    return phoneRegex.test(phone.replace(/\s/g, ''));
+  };
 
   const handleLogout = async () => {
     await signOut();
@@ -32,6 +39,19 @@ export default function ProfileClient({ profile } : { profile: Profile}) {
   };
 
   const handleSave = async () => {
+    if (!editedProfile.name || !editedProfile.phone || !editedProfile.college || !editedProfile.branch || !editedProfile.year) {
+      setError('All fields are required.');
+      return;
+    }
+
+    if (!isValidPhone(editedProfile.phone)) {
+      setError('Please enter a valid phone number.');
+      return;
+    }
+
+    setError('');
+    setIsSaving(true);
+
     try {
       const res = await fetch('/api/v1/user/update', {
         method: 'POST',
@@ -44,9 +64,13 @@ export default function ProfileClient({ profile } : { profile: Profile}) {
       if (res.ok) {
         setProfileState(editedProfile);
         setIsEditing(false);
+      } else {
+        setError('Failed to save profile. Please try again.');
       }
     } catch (error) {
-      console.error('Failed to save profile:', error);
+      setError('An error occurred while saving. Please try again.');
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -66,10 +90,10 @@ export default function ProfileClient({ profile } : { profile: Profile}) {
           <div className="flex gap-2">
             {isEditing ? (
               <>
-                <Button onClick={handleSave} className="px-4 bg-green-600 hover:bg-green-700 text-white">
-                  <Save className="w-4 h-4 mr-2" /> Save
+                <Button onClick={handleSave} disabled={isSaving} className="px-4 bg-green-600 hover:bg-green-700 text-white">
+                  <Save className="w-4 h-4 mr-2" /> {isSaving ? 'Saving...' : 'Save'}
                 </Button>
-                <Button onClick={handleCancel} variant="outline" className="px-4">
+                <Button onClick={handleCancel} variant="outline" className="px-4 text-black">
                   <X className="w-4 h-4 mr-2" /> Cancel
                 </Button>
               </>
@@ -129,6 +153,7 @@ export default function ProfileClient({ profile } : { profile: Profile}) {
                   value={editedProfile.phone}
                   onChange={(e) => setEditedProfile({...editedProfile, phone: e.target.value})}
                   className="mt-1"
+                  maxLength={10}
                 />
               ) : (
                 <div className="p-3 bg-gray-50 rounded-md border flex items-center gap-2">
@@ -212,6 +237,22 @@ export default function ProfileClient({ profile } : { profile: Profile}) {
             </div>
           </CardContent>
         </Card>
+
+        {error && (
+          <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-md">
+            <div className="flex items-start gap-3">
+              <div className="text-red-600">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-red-800 font-semibold">Error</h3>
+                <p className="text-red-700 text-sm">{error}</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
           {!profileState?.team_id ? (
