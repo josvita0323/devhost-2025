@@ -1,77 +1,53 @@
 "use client";
-
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { useUserProfile } from "@/lib/hooks/useUserData";
 import DecryptText from "@/components/animated/TextAnimation";
 import { ClippedCard } from "@/components/ClippedCard";
 
-interface JoinFormData {
-  leader_email: string;
-}
-
-export default function HackathonJoinTeam() {
+export default function HackathonPage() {
+  const { user, loading: authLoading } = useAuth();
+  const { profile, profileLoading } = useUserProfile();
   const router = useRouter();
-  const { user, loading } = useAuth();
-  const [mounted, setMounted] = useState(false); // SSR guard
+  const [isChecking, setIsChecking] = useState(true);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    setError,
-    clearErrors,
-  } = useForm<JoinFormData>();
-
-  useEffect(() => setMounted(true), []);
-
+  // Check authentication and profile only once
   useEffect(() => {
-    if (!loading && !user) router.push("/signin");
-  }, [user, loading, router]);
-
-  const onSubmit = async (data: JoinFormData) => {
-    if (!user) return;
-    clearErrors();
-
-    try {
-      const idToken = await user.getIdToken(true);
-      const res = await fetch("/api/v1/team/join", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${idToken}`,
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (res.ok) {
-        sessionStorage.setItem("teamJustJoined", "true");
-        window.location.href = "/hackathon/dashboard?joined=true";
+    if (!authLoading) {
+      if (!user) {
+        router.push("/signin");
       } else {
-        const errorData = await res.json();
-        setError("root", {
-          message:
-            errorData.error ||
-            "Team leader not found or team is already finalized. Please check the email and try again.",
-        });
+        setIsChecking(false);
       }
-    } catch (error) {
-      console.error(error);
-      setError("root", {
-        message: "An error occurred while joining the team.",
-      });
     }
-  };
+  }, [user, authLoading, router]);
 
-  if (!mounted) return null; // prevent SSR hydration mismatch
+  // Check if user already has a team
+  useEffect(() => {
+    if (!profileLoading && profile?.team_id) {
+      router.replace("/hackathon/dashboard");
+    }
+  }, [profile, profileLoading, router]);
+
+  if (isChecking || authLoading || profileLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-black">
+        <div className="text-center">
+          <div className="border-primary mx-auto h-12 w-12 animate-spin rounded-full border-b-2"></div>
+          <p className="font-orbitron text-primary mt-4">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="font-orbitron relative min-h-screen w-full overflow-hidden bg-black text-white">
-      {/* Grid background */}
-      <div className="pointer-events-none fixed inset-0 z-0">
+    <section className="relative min-h-screen overflow-hidden bg-black text-white">
+
+      {/* Animated grid background */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
         <div
           className="absolute inset-0"
           style={{
@@ -80,99 +56,87 @@ export default function HackathonJoinTeam() {
               linear-gradient(to bottom, #a3ff12 1px, transparent 1px)
             `,
             backgroundSize: "80px 80px",
-            opacity: 0.1,
+            opacity: 0.13,
           }}
         />
       </div>
 
-      {/* Back button */}
-      <div className="absolute top-6 left-4 z-10 sm:top-10 sm:left-10">
-        <button
-          onClick={() => router.push("/hackathon")}
-          className="flex cursor-pointer items-center justify-center gap-2 bg-[#b4ff39] px-3 py-2 text-xs font-bold tracking-wider text-black uppercase transition-all hover:brightness-90 disabled:opacity-50 sm:px-4 sm:text-sm"
-          style={{
-            clipPath:
-              "polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
-            border: "2px solid #b4ff39",
-          }}
-        >
-          Back
-        </button>
-      </div>
+      <div className="relative z-10 container mx-auto flex min-h-screen flex-col items-center justify-center px-6 py-16">
+        <div className="mb-8 text-center">
+          <h1 className="font-orbitron text-primary mb-4 text-5xl font-bold tracking-wider uppercase md:text-7xl">
+            TEAM UP
+          </h1>
+          <div className="font-orbitron mx-auto flex h-18 max-w-2xl items-center justify-center text-gray-300 md:text-lg">
+            <DecryptText
+              text="&gt; Join forces with other hackers or start your own team. The future of innovation awaits."
+              startDelayMs={800}
+              trailSize={6}
+              flickerIntervalMs={40}
+              revealDelayMs={30}
+            />
+          </div>
+        </div>
 
-      {/* Centered ClippedCard form */}
-      <div className="flex min-h-screen flex-col items-center justify-center p-4 sm:p-6">
-        <ClippedCard innerBg="bg-[#101810]">
-          <div className="flex w-full flex-col items-center justify-center p-6 sm:p-8">
-            <h2 className="mb-6 text-center text-lg font-bold tracking-wider text-white uppercase sm:text-xl md:text-2xl">
-              Join Your Hackathon Team
-            </h2>
-            <form
-              className="flex w-full flex-col items-center justify-center space-y-6"
-              onSubmit={handleSubmit(onSubmit)}
-            >
-              <div className="flex w-full flex-col gap-4">
-                <div className="flex flex-col w-full">
-                  <Label
-                    htmlFor="leader_email"
-                    className="mb-2 text-sm font-bold tracking-wider text-[#b4ff39] uppercase sm:text-base"
-                  >
-                    Team Leader Email
-                  </Label>
-                  <DecryptText
-                    text="> Enter valid email to join"
-                    startDelayMs={300}
-                    trailSize={5}
-                    flickerIntervalMs={50}
-                    revealDelayMs={100}
-                    className="mb-2 text-xs text-white/70 sm:text-sm"
-                  />
-                  <Input
-                    id="leader_email"
-                    type="email"
-                    {...register("leader_email", {
-                      required: "Team leader email is required",
-                      pattern: {
-                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: "Invalid email address",
-                      },
-                    })}
-                    placeholder="Enter team leader's email"
-                    className="w-full rounded-md border border-black bg-white/10 px-4 py-3 text-white transition-all placeholder:text-white/50 focus:ring-2 focus:ring-black focus:outline-none"
-                  />
-                  {errors.leader_email?.message && (
-                    <p className="mt-2 text-xs tracking-wide text-red-500 sm:text-sm">
-                      {errors.leader_email?.message}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              {errors.root?.message && (
-                <p className="text-sm tracking-wide text-pink-500 sm:text-base">
-                  {errors.root?.message}
-                </p>
-              )}
-
-              <button
-                type="submit"
-                className="flex w-full cursor-pointer items-center justify-center gap-2 bg-[#b4ff39] px-6 py-3 text-xs font-bold tracking-wider text-black uppercase transition-all hover:brightness-90 disabled:opacity-50 sm:text-sm"
+        {/* Options grid with integrated buttons */}
+        <div className="mb-16 grid w-full max-w-4xl grid-cols-1 gap-8 md:grid-cols-2">
+          {/* Join Team Card */}
+          <ClippedCard innerBg="bg-[#101810]">
+            <div className="flex h-full flex-col border p-8">
+              <div className="text-primary font-amiga mb-4 text-3xl">01</div>
+              <h3 className="font-orbitron mb-4 text-2xl text-white">
+                Join a Team
+              </h3>
+              <p className="mb-6 flex-grow text-sm text-gray-400">
+                Find an existing team that matches your skills and interests.
+                Collaborate with like-minded developers to bring your ideas to
+                life.
+              </p>
+              <Button
+                className="bg-primary font-orbitron relative flex cursor-pointer items-center gap-2 rounded-none px-5 py-2 text-xs font-bold tracking-widest text-black uppercase"
                 style={{
                   clipPath:
-                    "polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
-                  border: "2px solid #b4ff39",
+                    "polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)",
                 }}
-                disabled={isSubmitting}
+                asChild
               >
-                {isSubmitting ? "Joining..." : "Join Team"}
-              </button>
-            </form>
-          </div>
-        </ClippedCard>
+                <Link href="/hackathon/join">Join a Team</Link>
+              </Button>
+            </div>
+          </ClippedCard>
+
+          {/* Create Team Card */}
+          <ClippedCard innerBg="bg-[#101810]">
+            <div className="flex h-full flex-col border p-8">
+              <div className="text-primary font-amiga mb-4 text-3xl">02</div>
+              <h3 className="font-orbitron mb-4 text-2xl text-white">
+                Create a Team
+              </h3>
+              <p className="mb-6 flex-grow text-sm text-gray-400">
+                Start your own team and invite others to join your vision. Be
+                the leader and guide your team to victory in the hackathon.
+              </p>
+              <Button
+                className="bg-primary font-orbitron relative flex cursor-pointer items-center gap-2 rounded-none px-5 py-2 text-xs font-bold tracking-widest text-black uppercase"
+                style={{
+                  clipPath:
+                    "polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)",
+                }}
+                asChild
+              >
+                <Link href="/hackathon/create">Create a Team</Link>
+              </Button>
+            </div>
+          </ClippedCard>
+        </div>
       </div>
 
-      {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 h-12 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" />
-    </div>
+      {/* Footer text */}
+      <div className="font-orbitron text-primary absolute bottom-6 left-6 text-sm opacity-80">
+        {"// DEVHOST 2025"}
+      </div>
+      <div className="font-orbitron text-primary absolute right-6 bottom-6 text-sm opacity-80">
+        {"TEAM SELECTION"}
+      </div>
+    </section>
   );
 }
