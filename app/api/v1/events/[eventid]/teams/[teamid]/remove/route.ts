@@ -27,6 +27,8 @@ export async function POST(
     return NextResponse.json({ error: "Team not found" }, { status: 404 });
 
   const team = teamDoc.data();
+
+  // Only leader can remove
   if (team?.leaderEmail !== decoded.email) {
     return NextResponse.json(
       { error: "Only the team leader can remove members" },
@@ -34,6 +36,15 @@ export async function POST(
     );
   }
 
+  // Prevent removal if team is registered
+  if (team?.registered) {
+    return NextResponse.json(
+      { error: "Cannot remove members from a registered team" },
+      { status: 400 },
+    );
+  }
+
+  // Member must exist
   if (!team || !team.members.includes(memberEmail)) {
     return NextResponse.json(
       { error: "Member not found in team" },

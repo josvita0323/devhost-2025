@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { adminDb } from "@/firebase/admin";
 import { FieldValue } from "firebase-admin/firestore";
 import { verifyToken } from "@/lib/verify-token";
-import { groupEventMaxMembers } from "@/assets/data/event_registration";
+import { groupEventMaxMembers } from "@/assets/data/events";
 
 export async function POST(
   req: NextRequest,
@@ -43,6 +43,14 @@ export async function POST(
   const teamDoc = teamSnap.docs[0];
   const docRef = teamDoc.ref;
   const teamData = teamDoc.data();
+
+  // Prevent joining if team is already registered
+  if (teamData.registered) {
+    return NextResponse.json(
+      { error: "Cannot join a team that is already registered" },
+      { status: 400 },
+    );
+  }
 
   // Check max members
   const maxMembers = groupEventMaxMembers[parseInt(eventId)] ?? 1;
