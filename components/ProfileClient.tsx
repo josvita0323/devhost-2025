@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useState } from "react";
 import { COLLEGES } from "@/lib/constants";
+import { toast } from "sonner";
 
 interface Profile {
   name: string;
@@ -64,11 +65,14 @@ export default function ProfileClient({ profile } : { profile: Profile}) {
       if (res.ok) {
         setProfileState(editedProfile);
         setIsEditing(false);
+        toast("Profile updated successfully!");
       } else {
         setError('Failed to save profile. Please try again.');
+        toast.error('Failed to save profile. Please try again.');
       }
     } catch (error) {
       setError('An error occurred while saving. Please try again.');
+      toast.error('An error occurred while saving. Please try again.');
     } finally {
       setIsSaving(false);
     }
