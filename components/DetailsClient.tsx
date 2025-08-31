@@ -35,7 +35,7 @@ interface Profile {
   phone: string;
   college: string;
   branch: string;
-  year: number;
+  year: number | null;
 }
 
 export default function DetailsClient({ profile }: { profile: Profile }) {
@@ -47,7 +47,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
     phone: profile.phone || "",
     college: profile.college || "",
     branch: profile.branch || "",
-    year: profile.year || 1,
+    year: profile.year || null,
   });
 
   const [isSaving, setIsSaving] = useState(false);
@@ -463,7 +463,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                     )}
                   </Label>
                   <Select
-                    value={String(form.year)}
+                    value={form.year ? String(form.year) : ""}
                     onValueChange={(value) =>
                       setForm({ ...form, year: Number(value) })
                     }
