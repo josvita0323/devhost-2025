@@ -4,11 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
+import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   const [isClient, setIsClient] = useState(false);
+  const [showContent, setShowContent] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const hacRef = useRef<HTMLDivElement>(null);
@@ -61,7 +63,7 @@ export default function Home() {
 
       const predefinedPositions = [
         { x: -200, y: -120, scale: 0.9, rotation: 0 },
-        { x: -100, y: -100, scale: 0.7, rotation: 0 },
+        { x: 0, y: 40, scale: 1, rotation: 0 },
         { x: 0, y: -130, scale: 1.0, rotation: 0 },
         { x: 100, y: -110, scale: 0.8, rotation: 0 },
         { x: 200, y: -120, scale: 0.9, rotation: 0 },
@@ -183,6 +185,7 @@ export default function Home() {
             y: 0,
             duration: 1.5,
             ease: "power2.out",
+            onComplete: () => setShowContent(true),
           },
           "-=1",
         )
@@ -233,7 +236,7 @@ export default function Home() {
 
   if (!isClient) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-black" />
+      <div className="flex min-h-screen items-center justify-center text-white"></div>
     );
   }
 
@@ -255,79 +258,92 @@ export default function Home() {
   ];
 
   return (
-    <div ref={containerRef} className="relative min-h-screen">
-      <div className="absolute bottom-0 h-24 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" />
-
-      <div className="relative flex h-screen flex-col items-center justify-center overflow-x-clip">
-        {/* Title Section */}
-        <div className="flex flex-col items-center">
-          <div className="font-orbitron flex items-end justify-center">
+    <div
+      ref={containerRef}
+      className="relative min-h-screen overflow-x-clip text-white"
+    >
+      <div className="relative flex min-h-screen flex-col items-center justify-center">
+        {/* === Scaled Text Block === */}
+        <div className="flex scale-45 flex-col items-center sm:scale-75 lg:scale-100">
+          <div className="font-orbitron flex items-end justify-center gap-2">
+            {/* DEV */}
             <div
               ref={hacRef}
-              className="-mr-1 text-[12vw] leading-none font-black tracking-tight text-white opacity-0 select-none sm:mr-0 sm:text-[8vw]"
+              className="text-9xl leading-none font-black tracking-tight text-white opacity-0 select-none"
             >
               DEV
             </div>
 
-            <div className="relative flex items-end justify-center">
-              <div
-                ref={imageRef}
-                className="relative h-[40px] w-[60px] opacity-1 sm:h-[50px] sm:w-[75px] md:h-[60px] md:w-[90px]"
-              >
-                {images.map((img, i) => (
-                  <Image
-                    key={i}
-                    src={img.src || "/placeholder.svg"}
-                    alt={img.alt}
-                    width={190}
-                    height={160}
-                    className="hackathon-image absolute inset-0 h-full w-full object-cover opacity-0 shadow-lg"
-                  />
-                ))}
-              </div>
-
-              <div
-                ref={kRef}
-                className="absolute text-[12vw] leading-none font-black tracking-tight text-[#a3ff12] opacity-0 select-none sm:text-[8vw]"
-              >
-                H
-              </div>
+            {/* H (placeholder where images overlay from outside) */}
+            <div
+              ref={kRef}
+              className="relative text-9xl leading-none font-black tracking-tight text-[#a3ff12] opacity-0 select-none"
+            >
+              H
             </div>
 
+            {/* ACK */}
             <div
               ref={athonRef}
-              className="-ml-1 text-[12vw] leading-none font-black tracking-tight text-white opacity-0 select-none sm:ml-0 sm:text-[8vw]"
+              className="-ml-1 text-9xl leading-none font-black tracking-tight text-white opacity-0 select-none"
             >
               ACK
             </div>
           </div>
+        </div>
 
-          {/* Content Section - placed directly below */}
-          <div
-            ref={contentRef}
-            className="mt-10 flex flex-col items-center space-y-6 opacity-0"
-          >
-            <div className="max-w-4xl px-6 text-center">
-              <p className="text-justify text-sm leading-relaxed text-gray-300 sm:text-lg md:text-xl">
-                Join us for an intense 36-hour hackathon where innovation meets
-                execution. Build, code, and create the future in one epic
-                weekend of non-stop development.
-              </p>
-            </div>
-
-            <div className="font-orbitron flex gap-4">
-              <button
-                className="bg-primary relative flex cursor-pointer items-center gap-2 px-5 py-2 text-xs font-bold tracking-widest text-black uppercase transition"
-                style={{
-                  clipPath:
-                    "polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)",
-                }}
-              >
-                Know More
-              </button>
-            </div>
+        {/* === Images container OUTSIDE scale === */}
+        <div
+          ref={imageRef}
+          className="absolute flex items-center justify-center"
+          style={{
+            // Position images over the "H" area
+            top: "50%",
+            transform: "translateY(-50%)",
+          }}
+        >
+          <div className="relative h-[60px] w-[90px]">
+            {images.map((img, i) => (
+              <Image
+                key={i}
+                src={img.src || "/placeholder.svg"}
+                alt={img.alt}
+                width={190}
+                height={160}
+                className="hackathon-image absolute inset-0 h-full w-full object-cover opacity-0 shadow-lg"
+              />
+            ))}
           </div>
         </div>
+
+        {/* Content under DEVHACK */}
+        <div
+          ref={contentRef}
+          className="flex flex-col items-center space-y-2 px-4 opacity-0 sm:mt-10"
+        >
+          <div className="max-w-4xl text-center">
+            <p className="mb-4 font-mono text-sm leading-relaxed text-gray-300 sm:text-base md:text-lg">
+              Join us for an intense 36-hour hackathon where innovation meets
+              execution. Build, code, and create the future in one epic weekend
+              of non-stop development.
+            </p>
+          </div>
+
+          <div className="font-orbitron flex gap-4">
+            <button
+              className="bg-primary relative flex cursor-pointer items-center gap-2 px-5 py-2 text-xs font-bold tracking-widest text-black uppercase transition"
+              style={{
+                clipPath:
+                  "polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)",
+              }}
+            >
+              <Link href={"/register"}>Know More</Link>
+            </button>
+          </div>
+        </div>
+
+        {/* Bottom gradient */}
+        <div className="absolute bottom-0 h-24 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent" />
       </div>
     </div>
   );
