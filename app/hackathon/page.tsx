@@ -45,9 +45,20 @@ export default function HackathonPage() {
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-black text-white">
+
       {/* Animated grid background */}
-      <div className="absolute inset-0 opacity-15">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#a3ff12_1px,transparent_1px),linear-gradient(to_bottom,#a3ff12_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] bg-[size:4rem_4rem]"></div>
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `
+              linear-gradient(to right, #a3ff12 1px, transparent 1px),
+              linear-gradient(to bottom, #a3ff12 1px, transparent 1px)
+            `,
+            backgroundSize: "80px 80px",
+            opacity: 0.13,
+          }}
+        />
       </div>
 
       <div className="relative z-10 container mx-auto flex min-h-screen flex-col items-center justify-center px-6 py-16">
@@ -81,7 +92,7 @@ export default function HackathonPage() {
                 life.
               </p>
               <Button
-                className="bg-primary relative flex cursor-pointer items-center gap-2 rounded-none px-5 py-2 text-xs font-bold tracking-widest text-black uppercase"
+                className="bg-primary font-orbitron relative flex cursor-pointer items-center gap-2 rounded-none px-5 py-2 text-xs font-bold tracking-widest text-black uppercase"
                 style={{
                   clipPath:
                     "polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)",
@@ -105,7 +116,7 @@ export default function HackathonPage() {
                 the leader and guide your team to victory in the hackathon.
               </p>
               <Button
-                className="bg-primary relative flex cursor-pointer items-center gap-2 rounded-none px-5 py-2 text-xs font-bold tracking-widest text-black uppercase"
+                className="bg-primary font-orbitron relative flex cursor-pointer items-center gap-2 rounded-none px-5 py-2 text-xs font-bold tracking-widest text-black uppercase"
                 style={{
                   clipPath:
                     "polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)",

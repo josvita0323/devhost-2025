@@ -34,7 +34,7 @@ export function ClippedCard({
       <div
         className={clsx(
           textColor,
-          "font-orbitron flex h-full items-center gap-2",
+          "flex h-full items-center gap-2",
           innerBg,
         )}
         style={{
