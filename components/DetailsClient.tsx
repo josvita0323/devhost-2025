@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import gsap from "gsap";
+
 import {
   Select,
   SelectContent,
@@ -54,6 +56,11 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
   const [completionPercentage, setCompletionPercentage] = useState(0);
   const [showSuccess, setShowSuccess] = useState(false);
 
+  const cardRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
   // Calculate profile completion percentage
   useEffect(() => {
     let fieldsCompleted = 0;
@@ -69,6 +76,26 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
       Math.round((fieldsCompleted / totalRequiredFields) * 100),
     );
   }, [form]);
+  useEffect(() => {
+    if (
+      !cardRef.current ||
+      !headerRef.current ||
+      !progressRef.current ||
+      !buttonRef.current
+    )
+      return;
+
+    const tl = gsap.timeline();
+
+    tl.from(headerRef.current, { opacity: 0, y: -20, duration: 0.6 })
+      .from(cardRef.current, { opacity: 0, y: 20, duration: 0.6 }, "-=0.4")
+      .from(progressRef.current, {
+        scaleX: 0,
+        transformOrigin: "left",
+        duration: 0.5,
+      })
+      .from(buttonRef.current, { opacity: 0, y: 10, duration: 0.5 });
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -116,62 +143,64 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
   };
 
   return (
-    <div className="relative min-h-screen py-8">
-      {/* Fixed background grid */}
-      <div
-        className="pointer-events-none fixed inset-0 -z-10"
-        style={{
-          backgroundImage: `
-        linear-gradient(var(--primary) 2px, transparent 1px),
-        linear-gradient(90deg, var(--primary) 2px, transparent 1px)
-      `,
-          backgroundSize: "80px 80px",
-          backgroundPosition: "center",
-          opacity: 0.1, // subtle but visible
-        }}
-      />
+    <div className="font-orbitron relative min-h-screen overflow-hidden bg-black py-8 text-white">
+      {/* Fixed grid background */}
+      <div className="pointer-events-none fixed inset-0 z-0">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `
+              linear-gradient(to right, #a3ff12 1px, transparent 1px),
+              linear-gradient(to bottom, #a3ff12 1px, transparent 1px)
+            `,
+            backgroundSize: "80px 80px",
+            opacity: 0.1,
+          }}
+        />
+      </div>
+      {/* Back button to home page */}
+      <div className="absolute top-6 left-4 z-10 sm:top-10 sm:left-10">
+        <button
+          onClick={() => router.push("/")}
+          className="flex cursor-pointer items-center justify-center gap-2 bg-[#b4ff39] px-3 py-2 text-xs font-bold tracking-wider text-black uppercase transition-all hover:brightness-90 disabled:opacity-50 sm:px-4 sm:text-sm"
+          style={{
+            clipPath:
+              "polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
+            border: "2px solid #b4ff39",
+          }}
+        >
+          Back
+        </button>
+      </div>
 
       <div className="mx-auto max-w-2xl px-4">
-        {/* Container with event card shape */}
+        {/* Main clipped card */}
         <div
-          className="relative mx-auto w-full overflow-hidden"
           style={{
             clipPath:
               "polygon(20px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
-            position: "relative",
+            backgroundColor: "#b4ff39", // neon border color
+            padding: "2px", // border thickness
           }}
         >
-          {/* Border overlay for clippath cuts */}
+          {/* Inner content */}
           <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              pointerEvents: "none",
-              clipPath:
-                "polygon(20px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
-              border: "2px solid var(--primary)",
-              boxSizing: "border-box",
-              zIndex: 20,
-            }}
-          ></div>
-
-          {/* Inner content box */}
-          <div
+            ref={cardRef}
             className="relative z-10 m-[2px] flex h-full flex-col rounded-2xl p-6 backdrop-blur-md"
             style={{
               clipPath:
                 "polygon(20px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
-              backgroundColor: "rgba(0, 0, 0, 0.9)",
-              boxShadow: "0 0 20px rgba(157, 255, 44, 0.2)",
+              backgroundColor: "rgba(0,0,0,0.9)",
+              boxShadow: "0 0 20px rgba(157, 255, 44, 0.2)", // soft glow inside
               backdropFilter: "blur(16px)",
               boxSizing: "border-box",
             }}
           >
             <div className="mb-6">
-              <h1 className="font-orbitron text-foreground mb-2 text-3xl font-bold tracking-wider uppercase">
+              <h1
+                className="font-orbitron mb-2 text-3xl font-bold tracking-wider uppercase"
+                style={{ color: "var(--primary)" }}
+              >
                 Complete Your Profile
               </h1>
               <p className="text-foreground/80">
@@ -184,10 +213,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                   <p
                     className="text-sm font-bold tracking-wider uppercase"
                     style={{
-                      color:
-                        completionPercentage < 100
-                          ? "var(--muted)"
-                          : "var(--primary)",
+                      color: "var(--primary)",
                     }}
                   >
                     Profile Completion
@@ -195,36 +221,25 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                   <p
                     className="font-semibold"
                     style={{
-                      color:
-                        completionPercentage < 100
-                          ? "var(--muted)"
-                          : "var(--primary)",
+                      color   : "var(--primary)",
                     }}
                   >
                     {completionPercentage}%
                   </p>
                 </div>
                 <div
+                  ref={progressRef}
                   className="h-2 w-full overflow-hidden rounded-full border bg-black"
                   style={{
-                    borderColor:
-                      completionPercentage < 100
-                        ? "var(--muted)"
-                        : "var(--primary)",
+                    borderColor: "var(--foreground)",
                   }}
                 >
                   <div
                     className="h-full rounded-full transition-all duration-500 ease-out"
                     style={{
                       width: `${completionPercentage}%`,
-                      background:
-                        completionPercentage < 100
-                          ? "var(--muted)"
-                          : "var(--primary)",
-                      boxShadow:
-                        completionPercentage < 100
-                          ? "0 0 10px var(--muted)"
-                          : "0 0 10px var(--primary)",
+                      background: "#fff",
+                      boxShadow: "0 0 10px #fff",
                     }}
                   ></div>
                 </div>
@@ -299,7 +314,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
               </div>
             )}
 
-            {/* Important Notice */}
+{/*            
             <div className="border-destructive mb-6 flex items-start gap-3 rounded-lg border bg-black/60 p-4">
               <AlertCircle className="text-destructive mt-0.5 h-5 w-5 flex-shrink-0" />
               <div>
@@ -312,7 +327,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                   submitting.
                 </p>
               </div>
-            </div>
+            </div> */}
 
             <form className="space-y-6 text-white" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -331,8 +346,8 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                     type="text"
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    placeholder="Enter your full name"
-                    className="w-full rounded-md px-3 py-2 text-[#9dff2c] placeholder:text-[#9dff2c] hover:border-[#9dff2c]/90 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c] focus:outline-none"
+              placeholder="Enter your full name"
+              className="w-full rounded-md px-3 py-2 text-[#9dff2c] placeholder:text-[#9dff2c] bg-white/10 hover:border-[#9dff2c]/90 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c] focus:outline-none"
                     required
                   />
                 </div>
@@ -347,8 +362,8 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                     onChange={(e) =>
                       setForm({ ...form, email: e.target.value })
                     }
-                    placeholder="Enter your email"
-                    className="form-field rounded-md px-3 py-2 text-[#9dff2c] transition-all duration-150 placeholder:text-[#9dff2c]/60 hover:border-[#9dff2c]/70 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c]/50 focus:outline-none"
+              placeholder="Enter your email"
+              className="form-field rounded-md px-3 py-2 text-[#9dff2c] transition-all duration-150 placeholder:text-[#9dff2c] hover:border-[#9dff2c]/70 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c]/50 focus:outline-none"
                     disabled
                   />
                 </div>
@@ -372,8 +387,8 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                     onChange={(e) =>
                       setForm({ ...form, phone: e.target.value })
                     }
-                    placeholder="Enter your phone number"
-                    className="form-field rounded-md px-3 py-2 transition-all duration-150 placeholder:text-[#9dff2c]/60 hover:border-[#9dff2c]/70 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c]/50 focus:outline-none"
+              placeholder="Enter your phone number"
+              className="form-field rounded-md px-3 py-2 transition-all duration-150 placeholder:text-[#9dff2c] hover:border-[#9dff2c]/70 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c]/50 focus:outline-none"
                     required
                   />
                 </div>
@@ -434,8 +449,8 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                     onChange={(e) =>
                       setForm({ ...form, branch: e.target.value })
                     }
-                    placeholder="e.g., Computer Science, Electronics"
-                    className="form-field rounded-md px-3 py-2 text-[#9dff2c] transition-all duration-150 placeholder:text-[#9dff2c]/70 hover:border-[#9dff2c]/70 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c]/50 focus:outline-none"
+              placeholder="e.g., Computer Science, Electronics"
+              className="form-field rounded-md px-3 py-2 text-[#9dff2c] transition-all duration-150 placeholder:text-[#9dff2c] hover:border-[#9dff2c]/70 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c]/50 focus:outline-none"
                     required
                   />
                 </div>
