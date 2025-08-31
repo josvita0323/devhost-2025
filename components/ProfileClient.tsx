@@ -83,6 +83,8 @@ export default function ProfileClient({ profile } : { profile: Profile}) {
     setIsEditing(false);
   };
 
+  const hasChanges = JSON.stringify(editedProfile) !== JSON.stringify(profileState);
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-4xl mx-auto px-4">
@@ -94,7 +96,7 @@ export default function ProfileClient({ profile } : { profile: Profile}) {
           <div className="flex gap-2">
             {isEditing ? (
               <>
-                <Button onClick={handleSave} disabled={isSaving} className="px-4 bg-green-600 hover:bg-green-700 text-white">
+                <Button onClick={handleSave} disabled={isSaving || !hasChanges} className="px-4 bg-green-600 hover:bg-green-700 text-white">
                   <Save className="w-4 h-4 mr-2" /> {isSaving ? 'Saving...' : 'Save'}
                 </Button>
                 <Button onClick={handleCancel} variant="outline" className="px-4 text-black">
