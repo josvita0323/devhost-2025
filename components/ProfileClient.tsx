@@ -123,7 +123,7 @@ export default function ProfileClient({ profile }: { profile: Profile }) {
       <div className="absolute top-6 right-3 z-50 sm:top-10 sm:right-10">
         <Button
           onClick={handleLogout}
-          className="font-orbitron relative flex cursor-pointer items-center gap-2 rounded-none bg-[red] px-4 py-2 text-xs font-bold tracking-widest text-white uppercase sm:px-5 sm:text-sm"
+          className="font-orbitron relative flex cursor-pointer items-center gap-2 rounded-none bg-[red] hover:bg-red-600 px-4 py-2 text-xs font-bold tracking-widest text-white uppercase sm:px-5 sm:text-sm"
           style={{
             clipPath:
               "polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)",
@@ -133,7 +133,7 @@ export default function ProfileClient({ profile }: { profile: Profile }) {
         </Button>
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-3xl px-5 py-5 sm:px-10 sm:py-16">
+      <div className="relative z-10 mx-auto w-full max-w-3xl px-5 py-5 sm:px-15 sm:py-16">
         {/* Header */}
         <div className="relative mt-20 mb-8 text-center sm:mt-0 sm:mb-8">
           <h1 className="text-3xl font-bold tracking-wider text-[#a3ff12] uppercase sm:text-4xl md:text-5xl">
