@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -165,11 +165,11 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
       <div className="absolute top-2 right-2 left-2 z-10 flex flex-col items-end sm:top-10 sm:right-auto sm:left-10">
         <button
           onClick={() => router.push("/")}
-          className="flex cursor-pointer items-center justify-center gap-2 bg-[#b4ff39] px-3 py-2 text-xs font-bold tracking-wider text-black uppercase transition-all hover:brightness-90 disabled:opacity-50 sm:px-4 sm:text-sm"
+          className="flex cursor-pointer items-center justify-center gap-2 bg-primary px-3 py-2 text-xs font-orbitron font-bold tracking-wider text-black uppercase transition-all hover:brightness-90 disabled:opacity-50 sm:px-4 sm:text-sm"
           style={{
             clipPath:
               "polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
-            border: "2px solid #b4ff39",
+            border: "2px solid var(--color-primary)",
           }}
         >
           Back
@@ -182,7 +182,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
           style={{
             clipPath:
               "polygon(20px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
-            backgroundColor: "#b4ff39",
+            backgroundColor: "var(--color-primary)",
             padding: "1px",
           }}
         >
@@ -208,7 +208,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                 trailSize={6}
                 flickerIntervalMs={50}
                 revealDelayMs={90}
-                className="text-foreground/80 font-orbitron"
+                className="text-primary font-orbitron"
               />
 
               {/* Profile Completion Progress */}
@@ -217,7 +217,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                   <p
                     className="font-orbitron text-sm font-bold tracking-wider uppercase"
                     style={{
-                      color: "var(--primary)",
+                      color: "white",
                     }}
                   >
                     Profile Completion
@@ -273,7 +273,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                   >
                     <User size={14} className="inline-block" /> Full Name *
                     {form.name && (
-                      <CheckCircle2 size={14} className="ml-1 text-[#9dff2c]" />
+                      <CheckCircle2 size={14} className="ml-1 text-primary" />
                     )}
                   </Label>
                   <Input
@@ -282,7 +282,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
                     placeholder="Enter your full name"
-                    className="w-full rounded-md bg-white/10 px-3 py-2 text-[#9dff2c] placeholder:text-[#9dff2c] hover:border-[#9dff2c]/90 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c] focus:outline-none"
+                    className="w-full rounded-md bg-white/10 px-3 py-2 text-primary placeholder:text-primary hover:border-primary focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none"
                     required
                   />
                 </div>
@@ -298,7 +298,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                       setForm({ ...form, email: e.target.value })
                     }
                     placeholder="Enter your email"
-                    className="form-field rounded-md px-3 py-2 text-[#9dff2c] transition-all duration-150 placeholder:text-[#9dff2c] hover:border-[#9dff2c]/70 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c]/50 focus:outline-none"
+                    className="form-field rounded-md px-3 py-2 text-primary transition-all duration-150 placeholder:text-primary hover:border-primary/70 focus:border-primary focus:ring-2 focus:ring-primary/50 focus:outline-none"
                     disabled
                   />
                 </div>
@@ -312,7 +312,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                   >
                     <Phone size={14} className="inline-block" /> Phone Number *
                     {form.phone && isValidPhone(form.phone) && (
-                      <CheckCircle2 size={14} className="ml-1 text-[#9dff2c]" />
+                      <CheckCircle2 size={14} className="ml-1 text-primary" />
                     )}
                   </Label>
                   <Input
@@ -323,7 +323,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                       setForm({ ...form, phone: e.target.value })
                     }
                     placeholder="Enter your phone number"
-                    className="form-field rounded-md px-3 py-2 transition-all duration-150 placeholder:text-[#9dff2c] hover:border-[#9dff2c]/70 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c]/50 focus:outline-none"
+                    className="form-field rounded-md px-3 py-2 transition-all duration-150 placeholder:text-primary hover:border-primary/70 focus:border-primary focus:ring-2 focus:ring-primary/50 focus:outline-none"
                     required
                   />
                 </div>
@@ -335,7 +335,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                     <School size={14} className="inline-block" />{" "}
                     College/University *
                     {form.college && (
-                      <CheckCircle2 size={14} className="ml-1 text-[#9dff2c]" />
+                      <CheckCircle2 size={14} className="ml-1 text-primary" />
                     )}
                   </Label>
                   <Select
@@ -344,22 +344,22 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                       setForm({ ...form, college: value })
                     }
                   >
-                    <SelectTrigger className="form-field w-full rounded-md px-3 py-2 text-[#9dff2c] transition-all duration-150 hover:border-[#9dff2c]/70 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c]/50 focus:outline-none active:border-[#9dff2c] data-[placeholder]:text-[#9dff2c]/70">
+                    <SelectTrigger className="form-field w-full rounded-md px-3 py-2 text-primary transition-all duration-150 hover:border-primary focus:border-primary focus:ring-2 focus:ring-primary/50 focus:outline-none active:border-primary data-[placeholder]:text-primary/70">
                       <SelectValue
-                        className="font-medium text-[#9dff2c] placeholder:text-[#9dff2c]/70"
+                        className="font-medium text-primary placeholder:text-primary"
                         placeholder="Select your college"
                       />
                     </SelectTrigger>
-                    <SelectContent className="border border-[#9dff2c] bg-black font-medium text-[#9dff2c]">
+                    <SelectContent className="border border-primary bg-black font-medium text-primary">
                       <div
-                        className="border-b border-[#9dff2c]/20 p-1 sm:p-2"
+                        className="border-b border-primary p-1 sm:p-2"
                         onClick={(e) => e.stopPropagation()}
                       >
                         <Input
                           placeholder="Search college..."
                           value={collegeSearch}
                           onChange={(e) => setCollegeSearch(e.target.value)}
-                          className="w-full rounded bg-black/40 px-2 py-1 text-xs text-[#9dff2c] placeholder:text-[#9dff2c]/50 focus:border-[#9dff2c] focus:ring-1 focus:ring-[#9dff2c] focus:outline-none sm:text-sm"
+                          className="w-full rounded bg-black/40 px-2 py-1 text-xs text-primary placeholder:text-primary focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none sm:text-sm"
                           autoFocus
                           onKeyDown={(e) => e.stopPropagation()}
                         />
@@ -373,7 +373,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                           <SelectItem
                             key={idx}
                             value={college}
-                            className="font-medium text-[#9dff2c] data-[highlighted]:bg-[#9dff2c]/10"
+                            className="font-medium text-primary data-[highlighted]:bg-primary"
                           >
                             {college}
                           </SelectItem>
@@ -402,7 +402,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                     <BookOpen size={14} className="inline-block" /> Branch/Major
                     *
                     {form.branch && (
-                      <CheckCircle2 size={14} className="ml-1 text-[#9dff2c]" />
+                      <CheckCircle2 size={14} className="ml-1 text-primary" />
                     )}
                   </Label>
                   <Input
@@ -413,7 +413,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                       setForm({ ...form, branch: e.target.value })
                     }
                     placeholder="e.g., Computer Science, Electronics"
-                    className="form-field rounded-md px-3 py-2 text-[#9dff2c] transition-all duration-150 placeholder:text-[#9dff2c] hover:border-[#9dff2c]/70 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c]/50 focus:outline-none"
+                    className="form-field rounded-md px-3 py-2 text-primary transition-all duration-150 placeholder:text-primary hover:border-primary focus:border-primary focus:ring-2 focus:ring-primary/50 focus:outline-none"
                     required
                   />
                 </div>
@@ -425,7 +425,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                     <Calendar size={14} className="inline-block" /> Academic
                     Year *
                     {form.year && (
-                      <CheckCircle2 size={14} className="ml-1 text-[#9dff2c]" />
+                      <CheckCircle2 size={14} className="ml-1 text-primary" />
                     )}
                   </Label>
                   <Select
@@ -434,34 +434,34 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                       setForm({ ...form, year: Number(value) })
                     }
                   >
-                    <SelectTrigger className="form-field w-full rounded-md px-3 py-2 text-[#9dff2c] transition-all duration-150 hover:border-[#9dff2c]/70 focus:border-[#9dff2c] focus:ring-2 focus:ring-[#9dff2c]/50 focus:outline-none active:border-[#9dff2c] data-[placeholder]:text-[#9dff2c]/70">
+                    <SelectTrigger className="form-field w-full rounded-md px-3 py-2 text-primary transition-all duration-150 hover:border-primary focus:border-primary focus:ring-2 focus:ring-primary/50 focus:outline-none active:border-primary data-[placeholder]:text-primary/70">
                       <SelectValue
-                        className="font-medium text-[#9dff2c]"
+                        className="font-medium text-primary"
                         placeholder="Select your year"
                       />
                     </SelectTrigger>
-                    <SelectContent className="border border-[#9dff2c] bg-black font-medium text-[#9dff2c]">
+                    <SelectContent className="border border-primary bg-black font-medium text-primary">
                       <SelectItem
                         value="1"
-                        className="font-medium text-[#9dff2c] data-[highlighted]:bg-[#9dff2c]/10"
+                        className="font-medium text-primary data-[highlighted]:bg-primary"
                       >
                         1st Year
                       </SelectItem>
                       <SelectItem
                         value="2"
-                        className="font-medium text-[#9dff2c] data-[highlighted]:bg-[#9dff2c]/10"
+                        className="font-medium text-primary data-[highlighted]:bg-primary"
                       >
                         2nd Year
                       </SelectItem>
                       <SelectItem
                         value="3"
-                        className="font-medium text-[#9dff2c] data-[highlighted]:bg-[#9dff2c]/10"
+                        className="font-medium text-primary data-[highlighted]:bg-primary"
                       >
                         3rd Year
                       </SelectItem>
                       <SelectItem
                         value="4"
-                        className="font-medium text-[#9dff2c] data-[highlighted]:bg-[#9dff2c]/10"
+                        className="font-medium text-primary data-[highlighted]:bg-primary"
                       >
                         4th Year
                       </SelectItem>
@@ -501,7 +501,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
               <div className="flex justify-center pt-4">
                 <Button
                   type="submit"
-                  className="cyberpunk-btn font-orbitron flex w-auto cursor-pointer items-center justify-center gap-2 px-6 py-3 text-center text-xs font-bold tracking-wider uppercase transition-all duration-200 hover:scale-[1.02] focus:ring-2 focus:ring-[#9dff2c]/50 focus:outline-none active:scale-[1.02] active:bg-[#9dff2c]/90 disabled:bg-gray-700 disabled:text-gray-400 disabled:opacity-50 disabled:shadow-none"
+                  className="cyberpunk-btn font-orbitron flex w-auto cursor-pointer items-center justify-center gap-2 px-6 py-3 text-center text-xs font-bold tracking-wider uppercase transition-all duration-200 hover:scale-[1.02] focus:ring-2 focus:ring-primary focus:outline-none active:scale-[1.02] active:bg-primary disabled:bg-gray-700 disabled:text-gray-400 disabled:opacity-50 disabled:shadow-none"
                   style={{
                     clipPath:
                       "polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
