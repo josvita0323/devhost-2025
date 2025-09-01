@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import DecryptText from "@/components/animated/TextAnimation";
+import { ClippedCard } from "@/components/ClippedCard";
 
 import {
   Select,
@@ -165,7 +166,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
       <div className="absolute top-2 right-2 left-2 z-10 flex flex-col items-end sm:top-10 sm:right-auto sm:left-10">
         <button
           onClick={() => router.push("/")}
-          className="flex cursor-pointer items-center justify-center gap-2 bg-primary px-3 py-2 text-xs font-orbitron font-bold tracking-wider text-black uppercase transition-all hover:brightness-90 disabled:opacity-50 sm:px-4 sm:text-sm"
+          className="bg-primary font-orbitron flex cursor-pointer items-center justify-center gap-2 px-3 py-2 text-xs font-bold tracking-wider text-black uppercase transition-all hover:brightness-90 disabled:opacity-50 sm:px-4 sm:text-sm"
           style={{
             clipPath:
               "polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
@@ -176,25 +177,10 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
         </button>
       </div>
 
-      <div className="mx-auto mt-20 w-full max-w-2xl px-4 sm:mt-28">
-        {/* Main clipped card */}
-        <div
-          style={{
-            clipPath:
-              "polygon(20px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
-            backgroundColor: "var(--color-primary)",
-            padding: "1px",
-          }}
-        >
-          {/* Inner content */}
-          <div
-            className="relative z-10 m-[2px] flex h-full flex-col p-6"
-            style={{
-              clipPath:
-                "polygon(20px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
-              backgroundColor: "rgba(0,0,0,0.9)",
-            }}
-          >
+<div className="mx-auto mt-20 w-full max-w-sm px-4 sm:mt-16 sm:max-w-md sm:px-6 md:mt-24 md:max-w-lg md:px-8 lg:mt-32 lg:max-w-xl lg:px-10 xl:max-w-2xl xl:px-12 flex justify-center items-center">
+  <ClippedCard innerBg="bg-[#101810]" className="w-full">
+    <div className="flex h-full flex-col p-2 sm:p-4 md:p-6 lg:p-8 xl:p-10">
+
             <div className="mb-6">
               <h1
                 className="font-orbitron mb-2 text-3xl font-bold tracking-wider uppercase"
@@ -273,7 +259,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                   >
                     <User size={14} className="inline-block" /> Full Name *
                     {form.name && (
-                      <CheckCircle2 size={14} className="ml-1 text-primary" />
+                      <CheckCircle2 size={14} className="text-primary ml-1" />
                     )}
                   </Label>
                   <Input
@@ -282,7 +268,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
                     placeholder="Enter your full name"
-                    className="w-full rounded-md bg-white/10 px-3 py-2 text-primary placeholder:text-primary hover:border-primary focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none"
+                    className="text-primary placeholder:text-primary hover:border-primary focus:border-primary focus:ring-primary w-full rounded-md bg-white/10 px-3 py-2 focus:ring-2 focus:outline-none"
                     required
                   />
                 </div>
@@ -298,7 +284,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                       setForm({ ...form, email: e.target.value })
                     }
                     placeholder="Enter your email"
-                    className="form-field rounded-md px-3 py-2 text-primary transition-all duration-150 placeholder:text-primary hover:border-primary/70 focus:border-primary focus:ring-2 focus:ring-primary/50 focus:outline-none"
+                    className="form-field text-primary placeholder:text-primary hover:border-primary/70 focus:border-primary focus:ring-primary/50 rounded-md px-3 py-2 transition-all duration-150 focus:ring-2 focus:outline-none"
                     disabled
                   />
                 </div>
@@ -312,7 +298,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                   >
                     <Phone size={14} className="inline-block" /> Phone Number *
                     {form.phone && isValidPhone(form.phone) && (
-                      <CheckCircle2 size={14} className="ml-1 text-primary" />
+                      <CheckCircle2 size={14} className="text-primary ml-1" />
                     )}
                   </Label>
                   <Input
@@ -323,7 +309,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                       setForm({ ...form, phone: e.target.value })
                     }
                     placeholder="Enter your phone number"
-                    className="form-field rounded-md px-3 py-2 transition-all duration-150 placeholder:text-primary hover:border-primary/70 focus:border-primary focus:ring-2 focus:ring-primary/50 focus:outline-none"
+                    className="form-field placeholder:text-primary hover:border-primary/70 focus:border-primary focus:ring-primary/50 rounded-md px-3 py-2 transition-all duration-150 focus:ring-2 focus:outline-none"
                     required
                   />
                 </div>
@@ -335,7 +321,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                     <School size={14} className="inline-block" />{" "}
                     College/University *
                     {form.college && (
-                      <CheckCircle2 size={14} className="ml-1 text-primary" />
+                      <CheckCircle2 size={14} className="text-primary ml-1" />
                     )}
                   </Label>
                   <Select
@@ -344,22 +330,22 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                       setForm({ ...form, college: value })
                     }
                   >
-                    <SelectTrigger className="form-field w-full rounded-md px-3 py-2 text-primary transition-all duration-150 hover:border-primary focus:border-primary focus:ring-2 focus:ring-primary/50 focus:outline-none active:border-primary data-[placeholder]:text-primary/70">
+                    <SelectTrigger className="form-field text-primary hover:border-primary focus:border-primary focus:ring-primary/50 active:border-primary data-[placeholder]:text-primary/70 w-full rounded-md px-3 py-2 transition-all duration-150 focus:ring-2 focus:outline-none">
                       <SelectValue
-                        className="font-medium text-primary placeholder:text-primary"
+                        className="text-primary placeholder:text-primary font-medium"
                         placeholder="Select your college"
                       />
                     </SelectTrigger>
-                    <SelectContent className="border border-primary bg-black font-medium text-primary">
+                    <SelectContent className="border-primary text-primary border bg-black font-medium">
                       <div
-                        className="border-b border-primary p-1 sm:p-2"
+                        className="border-primary border-b p-1 sm:p-2"
                         onClick={(e) => e.stopPropagation()}
                       >
                         <Input
                           placeholder="Search college..."
                           value={collegeSearch}
                           onChange={(e) => setCollegeSearch(e.target.value)}
-                          className="w-full rounded bg-black/40 px-2 py-1 text-xs text-primary placeholder:text-primary focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none sm:text-sm"
+                          className="text-primary placeholder:text-primary focus:border-primary focus:ring-primary w-full rounded bg-black/40 px-2 py-1 text-xs focus:ring-1 focus:outline-none sm:text-sm"
                           autoFocus
                           onKeyDown={(e) => e.stopPropagation()}
                         />
@@ -373,7 +359,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                           <SelectItem
                             key={idx}
                             value={college}
-                            className="font-medium text-primary data-[highlighted]:bg-primary"
+                            className="text-primary data-[highlighted]:bg-primary font-medium"
                           >
                             {college}
                           </SelectItem>
@@ -402,7 +388,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                     <BookOpen size={14} className="inline-block" /> Branch/Major
                     *
                     {form.branch && (
-                      <CheckCircle2 size={14} className="ml-1 text-primary" />
+                      <CheckCircle2 size={14} className="text-primary ml-1" />
                     )}
                   </Label>
                   <Input
@@ -413,7 +399,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                       setForm({ ...form, branch: e.target.value })
                     }
                     placeholder="e.g., Computer Science, Electronics"
-                    className="form-field rounded-md px-3 py-2 text-primary transition-all duration-150 placeholder:text-primary hover:border-primary focus:border-primary focus:ring-2 focus:ring-primary/50 focus:outline-none"
+                    className="form-field text-primary placeholder:text-primary hover:border-primary focus:border-primary focus:ring-primary/50 rounded-md px-3 py-2 transition-all duration-150 focus:ring-2 focus:outline-none"
                     required
                   />
                 </div>
@@ -425,7 +411,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                     <Calendar size={14} className="inline-block" /> Academic
                     Year *
                     {form.year && (
-                      <CheckCircle2 size={14} className="ml-1 text-primary" />
+                      <CheckCircle2 size={14} className="text-primary ml-1" />
                     )}
                   </Label>
                   <Select
@@ -434,34 +420,34 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
                       setForm({ ...form, year: Number(value) })
                     }
                   >
-                    <SelectTrigger className="form-field w-full rounded-md px-3 py-2 text-primary transition-all duration-150 hover:border-primary focus:border-primary focus:ring-2 focus:ring-primary/50 focus:outline-none active:border-primary data-[placeholder]:text-primary/70">
+                    <SelectTrigger className="form-field text-primary hover:border-primary focus:border-primary focus:ring-primary/50 active:border-primary data-[placeholder]:text-primary/70 w-full rounded-md px-3 py-2 transition-all duration-150 focus:ring-2 focus:outline-none">
                       <SelectValue
-                        className="font-medium text-primary"
+                        className="text-primary font-medium"
                         placeholder="Select your year"
                       />
                     </SelectTrigger>
-                    <SelectContent className="border border-primary bg-black font-medium text-primary">
+                    <SelectContent className="border-primary text-primary border bg-black font-medium">
                       <SelectItem
                         value="1"
-                        className="font-medium text-primary data-[highlighted]:bg-primary"
+                        className="text-primary data-[highlighted]:bg-primary font-medium"
                       >
                         1st Year
                       </SelectItem>
                       <SelectItem
                         value="2"
-                        className="font-medium text-primary data-[highlighted]:bg-primary"
+                        className="text-primary data-[highlighted]:bg-primary font-medium"
                       >
                         2nd Year
                       </SelectItem>
                       <SelectItem
                         value="3"
-                        className="font-medium text-primary data-[highlighted]:bg-primary"
+                        className="text-primary data-[highlighted]:bg-primary font-medium"
                       >
                         3rd Year
                       </SelectItem>
                       <SelectItem
                         value="4"
-                        className="font-medium text-primary data-[highlighted]:bg-primary"
+                        className="text-primary data-[highlighted]:bg-primary font-medium"
                       >
                         4th Year
                       </SelectItem>
@@ -501,7 +487,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
               <div className="flex justify-center pt-4">
                 <Button
                   type="submit"
-                  className="cyberpunk-btn font-orbitron flex w-auto cursor-pointer items-center justify-center gap-2 px-6 py-3 text-center text-xs font-bold tracking-wider uppercase transition-all duration-200 hover:scale-[1.02] focus:ring-2 focus:ring-primary focus:outline-none active:scale-[1.02] active:bg-primary disabled:bg-gray-700 disabled:text-gray-400 disabled:opacity-50 disabled:shadow-none"
+                  className="cyberpunk-btn font-orbitron focus:ring-primary active:bg-primary flex w-auto min-w-[180px] sm:min-w-[200px] md:min-w-[220px] cursor-pointer items-center justify-center gap-2 px-8 py-3 text-center text-xs font-bold tracking-wider uppercase transition-all duration-200 hover:scale-[1.02] focus:ring-2 focus:outline-none active:scale-[1.02] disabled:bg-gray-700 disabled:text-gray-400 disabled:opacity-50 disabled:shadow-none"
                   style={{
                     clipPath:
                       "polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)",
@@ -530,7 +516,7 @@ export default function DetailsClient({ profile }: { profile: Profile }) {
               </div>
             </form>
           </div>
-        </div>
+        </ClippedCard>
       </div>
     </div>
   );
